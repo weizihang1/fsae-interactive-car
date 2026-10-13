@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FSAE 整车数字模型</title>
+<style>
+  :root{
+    --bg:#0b0d12; --panel:rgba(18,22,31,.92); --line:#243044; --text:#dde4f0;
+    --dim:#8794ab; --accent:#4ea1ff; --accent2:#ff5c6e; --ok:#4bd99a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+    font:13px/1.5 "Segoe UI","Microsoft YaHei",system-ui,sans-serif}
+  #cv{position:fixed;inset:0;display:block}
+  .panel{position:fixed;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;backdrop-filter:blur(14px);box-shadow:0 10px 40px #0009}
+  #left{left:16px;top:16px;width:288px;max-height:calc(100vh - 32px);
+    display:flex;flex-direction:column;overflow:hidden}
+  #right{right:16px;top:16px;width:266px;max-height:calc(100vh - 32px);overflow:auto}
+  #bottom{left:50%;transform:translateX(-50%);bottom:18px;padding:10px 16px;
+    display:flex;gap:16px;align-items:center}
+  h1{margin:0;font-size:15px;font-weight:600;letter-spacing:.4px}
+  .sub{color:var(--dim);font-size:11px;margin-top:2px}
+  .head{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:4px;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .tab{flex:1;text-align:center;padding:7px 4px;border-radius:8px;cursor:pointer;
+    font-size:12px;color:var(--dim);border:1px solid transparent;user-select:none}
+  .tab:hover{color:var(--text);background:#ffffff0d}
+  .tab.on{color:#fff;background:linear-gradient(180deg,#2b6fd4,#2059ae);border-color:#4a8ae8}
+  .tab.soon{opacity:.45;cursor:not-allowed}
+  .body{overflow:auto;padding:10px 12px 14px;flex:1}
+  .sec{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.8px;
+    margin:12px 2px 7px}
+  .sys{border:1px solid var(--line);border-radius:9px;margin-bottom:6px;overflow:hidden}
+  .sys>.row{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer}
+  .sys>.row:hover{background:#ffffff0a}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .sysname{flex:1;font-size:12.5px}
+  .sysmass{color:var(--dim);font-size:11px;font-variant-numeric:tabular-nums}
+  .parts{display:none;border-top:1px solid var(--line);max-height:210px;overflow:auto}
+  .sys.open .parts{display:block}
+  .part{display:flex;gap:8px;align-items:center;padding:5px 10px 5px 24px;font-size:12px;
+    cursor:pointer;color:#c3cddd}
+  .part:hover{background:#ffffff0d;color:#fff}
+  .part.sel{background:#2b6fd440;color:#fff}
+  .part .m{margin-left:auto;color:var(--dim);font-size:11px;font-variant-numeric:tabular-nums}
+  .bar{height:3px;border-radius:2px;background:#ffffff1a;margin:6px 2px 0}
+  .bar>i{display:block;height:100%;border-radius:2px}
+  #card .name{font-size:14px;font-weight:600;margin-bottom:2px}
+  #card .sysname{color:var(--accent);font-size:11px;margin-bottom:10px}
+  .kv{display:flex;justify-content:space-between;gap:10px;padding:4px 0;
+    border-bottom:1px dashed #ffffff12;font-size:12px}
+  .kv span:first-child{color:var(--dim)}
+  .kv span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+  .btn{display:block;width:100%;margin-top:10px;padding:8px;border-radius:8px;cursor:pointer;
+    text-align:center;font-size:12px;border:1px solid #2c6ec9;background:#1b4a8c;color:#eaf2ff}
+  .btn:hover{background:#22589f}
+  .btn.ghost{background:transparent;border-color:var(--line);color:var(--dim)}
+  .btn.ghost:hover{color:var(--text);border-color:#3a4a66}
+  input[type=range]{width:230px;accent-color:var(--accent)}
+  .hint{position:fixed;left:50%;transform:translateX(-50%);bottom:76px;color:#5f6d85;
+    font-size:11px;pointer-events:none}
+  .tag{display:inline-block;padding:1px 6px;border-radius:5px;background:#ffffff14;
+    color:var(--dim);font-size:10.5px;margin-left:6px}
+  .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:12px;background:var(--bg);z-index:9;color:var(--dim)}
+  .spin{width:26px;height:26px;border:2px solid #ffffff22;border-top-color:var(--accent);
+    border-radius:50%;animation:sp 1s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<div id="loading" class="loading"><div class="spin"></div><div>正在装配整车…</div></div>
+
+<div class="panel" id="left">
+  <div class="head">
+    <h1>FSAE 整车数字模型</h1>
+    <div class="sub" id="sub"></div>
+  </div>
+  <div class="tabs">
+    <div class="tab on" data-mode="whole">整机</div>
+    <div class="tab" data-mode="explode">拆解</div>
+    <div class="tab" data-mode="tunnel">风洞</div>
+    <div class="tab" data-mode="drive">驾驶</div>
+  </div>
+  <div class="body" id="tree"></div>
+</div>
+
+<div class="panel" id="right">
+  <div class="head"><h1 style="font-size:13px">零件信息</h1>
+    <div class="sub">点击三维模型中的任意零件</div></div>
+  <div class="body" id="card"><div style="color:var(--dim);font-size:12px">
+    尚未选择零件。</div></div>
+</div>
+
+<div class="panel" id="bottom" style="display:none">
+  <span style="color:var(--dim);font-size:12px">拆解距离</span>
+  <input id="ex" type="range" min="0" max="100" value="0">
+  <span id="exv" style="color:var(--dim);font-size:12px;width:34px">0%</span>
+</div>
+
+<div class="hint">左键拖动旋转 · 滚轮缩放 · 右键平移 · 点击零件查看信息</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://unpkg.com/three@0.169.0/build/three.module.js",
+  "three/addons/":"https://unpkg.com/three@0.169.0/examples/jsm/"
+}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const MANIFEST = __PARTS_JSON__;
+const GLB_BASE64 = "__CAR_GLB_BASE64__";
+
+const SYSTEM_COLORS = {
+  frame:'#7f8ea6', susp_front:'#4ea1ff', susp_rear:'#38d0c0', wheels:'#c8a24a',
+  steering:'#b07cff', brakes:'#ff7043', powertrain:'#4bd99a', aero:'#ff5c6e',
+  cockpit:'#e0e6f0'
+};
+
+document.getElementById('sub').textContent =
+  `${MANIFEST.totals.parts} 个零件 · ${MANIFEST.totals.mass_kg} kg · ` +
+  `长 ${MANIFEST.totals.length_m} m`;
+
+// ---------------------------------------------------------------- 场景
+const canvas = document.getElementById('cv');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0d12);
+scene.fog = new THREE.Fog(0x0b0d12, 9, 22);
+
+const camera = new THREE.PerspectiveCamera(38, innerWidth/innerHeight, 0.05, 120);
+camera.position.set(2.9, 1.85, 2.6);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.075;
+controls.target.set(0, 0, 0.42);
+controls.minDistance = 0.9;
+controls.maxDistance = 12;
+controls.maxPolarAngle = Math.PI * 0.495;
+
+scene.add(new THREE.HemisphereLight(0x9fc0ff, 0x141a24, 0.85));
+const key = new THREE.DirectionalLight(0xffffff, 2.1); key.position.set(4, 6, 5); scene.add(key);
+const fill = new THREE.DirectionalLight(0x88aaff, 0.7); fill.position.set(-5, 3, -4); scene.add(fill);
+const rim = new THREE.DirectionalLight(0xff9aa5, 0.5); rim.position.set(-3, 1.5, 6); scene.add(rim);
+
+const grid = new THREE.GridHelper(12, 48, 0x2b3a55, 0x151d2b);
+grid.material.transparent = true; grid.material.opacity = 0.55;
+scene.add(grid);
+
+// ---------------------------------------------------------------- 载入模型
+const partNodes = new Map();   // partId -> Object3D
+const systemGroups = new Map(); // systemId -> Object3D
+const selected = { mesh:null, orig:null };
+const hidden = new Set();
+let model = null;
+let explode = 0;
+let mode = 'whole';
+
+const HIGHLIGHT = new THREE.MeshStandardMaterial({
+  color:0xffd166, emissive:0x8a5a00, emissiveIntensity:0.9,
+  metalness:0.3, roughness:0.35
+});
+
+function decodeBase64(b64){
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+
+new GLTFLoader().parse(decodeBase64(GLB_BASE64), '', (gltf) => {
+  model = gltf.scene;
+  scene.add(model);
+  model.traverse((o) => {
+    if (!o.isMesh) return;
+    const id = o.name;
+    if (!id) return;
+    // glTF 中每个零件节点只含一个网格，three.js 会把它直接实例化为 Mesh，
+    // 所以零件节点就是网格本身，位移量直接取该网格的初始位置。
+    o.userData.partId = id;
+    o.userData.base = o.position.clone();
+    o.userData.system = (o.parent && o.parent.name) ? o.parent.name : '';
+    partNodes.set(id, o);
+  });
+  model.traverse((o) => { if (o.isGroup && o.name && !systemGroups.has(o.name)) {
+    if (MANIFEST.systems.some(s => s.id === o.name)) systemGroups.set(o.name, o);
+  }});
+  renderTree();
+  document.getElementById('loading').style.display = 'none';
+}, (err) => {
+  document.getElementById('loading').innerHTML =
+    '<div style="color:#ff8a8a">模型载入失败：' + err + '</div>';
+});
+
+// ---------------------------------------------------------------- 交互
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let downPos = null;
+
+canvas.addEventListener('pointerdown', (e) => { downPos = {x:e.clientX, y:e.clientY}; });
+canvas.addEventListener('pointerup', (e) => {
+  if (!downPos) return;
+  const moved = Math.hypot(e.clientX-downPos.x, e.clientY-downPos.y);
+  downPos = null;
+  if (moved > 4 || !model) return;
+  pointer.x = (e.clientX / innerWidth) * 2 - 1;
+  pointer.y = -(e.clientY / innerHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObject(model, true)
+    .filter(h => h.object.visible && h.object.isMesh);
+  if (hits.length) select(hits[0].object); else select(null);
+});
+
+function select(mesh){
+  if (selected.mesh){ selected.mesh.material = selected.orig; }
+  selected.mesh = null; selected.orig = null;
+  if (!mesh){ renderCard(null); return; }
+  selected.mesh = mesh;
+  selected.orig = mesh.material;
+  mesh.material = HIGHLIGHT;
+  renderCard(mesh.userData.partId);
+}
+
+window.__selectPart = (id) => {
+  const mesh = partNodes.get(id);
+  if (mesh) select(mesh);
+};
+
+// ---------------------------------------------------------------- 面板
+const tree = document.getElementById('tree');
+let openSystems = new Set([MANIFEST.systems[0].id]);
+
+function renderTree(){
+  const max = Math.max(...MANIFEST.systems.map(s => s.mass_kg));
+  let html = '';
+  for (const sys of MANIFEST.systems){
+    const color = SYSTEM_COLORS[sys.id] || '#8aa';
+    const open = openSystems.has(sys.id) ? ' open' : '';
+    const off = hidden.has(sys.id) ? ' style="opacity:.4"' : '';
+    html += `<div class="sys${open}"${off} data-sys="${sys.id}">
+      <div class="row" data-toggle="${sys.id}">
+        <span class="dot" style="background:${color}"></span>
+        <span class="sysname">${sys.label}</span>
+        <span class="sysmass">${sys.mass_kg} kg · ${sys.count}件</span>
+      </div>
+      <div class="bar"><i style="width:${(sys.mass_kg/max*100).toFixed(1)}%;background:${color}"></i></div>
+      <div class="parts">`;
+    for (const p of sys.parts){
+      html += `<div class="part" data-part="${p.id}">${p.name}<span class="m">${p.mass_kg} kg</span></div>`;
+    }
+    html += `</div></div>`;
+  }
+  tree.innerHTML = html;
+
+  tree.querySelectorAll('[data-toggle]').forEach(el => {
+    el.addEventListener('click', (ev) => {
+      const id = el.dataset.toggle;
+      if (ev.altKey || ev.shiftKey){ toggleVisibility(id); return; }
+      if (openSystems.has(id)) openSystems.delete(id); else openSystems.add(id);
+      renderTree();
+    });
+    el.addEventListener('contextmenu', (ev) => {
+      ev.preventDefault(); toggleVisibility(el.dataset.toggle);
+    });
+  });
+  tree.querySelectorAll('[data-part]').forEach(el => {
+    el.addEventListener('click', () => window.__selectPart(el.dataset.part));
+  });
+}
+
+function toggleVisibility(systemId){
+  if (hidden.has(systemId)) hidden.delete(systemId); else hidden.add(systemId);
+  applyVisibility();
+  renderTree();
+}
+
+function applyVisibility(){
+  systemGroups.forEach((group, id) => { group.visible = !hidden.has(id); });
+}
+
+function renderCard(partId){
+  const card = document.getElementById('card');
+  if (!partId){
+    card.innerHTML = '<div style="color:var(--dim);font-size:12px">尚未选择零件。</div>';
+    return;
+  }
+  let found = null, sys = null;
+  for (const s of MANIFEST.systems){
+    const p = s.parts.find(x => x.id === partId);
+    if (p){ found = p; sys = s; break; }
+  }
+  if (!found){ card.innerHTML = '<div style="color:var(--dim)">未找到该零件。</div>'; return; }
+  const c = found.center, z = found.size;
+  card.innerHTML = `
+    <div class="name">${found.name}</div>
+    <div class="sysname">${sys.label}</div>
+    <div class="kv"><span>材料</span><span>${found.material_label}</span></div>
+    <div class="kv"><span>估算质量</span><span>${found.mass_kg} kg</span></div>
+    <div class="kv"><span>几何体积</span><span>${(found.volume_m3*1e6).toFixed(1)} cm³</span></div>
+    <div class="kv"><span>结构填充系数</span><span>${(found.fill*100).toFixed(0)}%</span></div>
+    <div class="kv"><span>外形尺寸</span><span>${(z[0]*1000).toFixed(0)}×${(z[1]*1000).toFixed(0)}×${(z[2]*1000).toFixed(0)} mm</span></div>
+    <div class="kv"><span>位置 (X,Y,Z)</span><span>${c.map(v=>(v*1000).toFixed(0)).join(', ')} mm</span></div>
+    <a class="btn" href="stl/${found.id}.stl" download>下载该零件 STL</a>
+    <div class="btn ghost" id="isolate">单独显示此零件</div>`;
+  document.getElementById('isolate').addEventListener('click', () => {
+    systemGroups.forEach((g, id) => { g.visible = (id === sys.id); });
+    hidden.clear(); hidden.add(sys.id);
+    for (const s of MANIFEST.systems) if (s.id !== sys.id) hidden.add(s.id);
+    applyVisibility();
+    renderTree();
+  });
+}
+
+// ---------------------------------------------------------------- 模式
+document.querySelectorAll('.tab').forEach(tab => {
+  if (tab.dataset.mode === 'tunnel' || tab.dataset.mode === 'drive'){
+    tab.classList.add('soon');
+    tab.addEventListener('click', () => {
+      document.getElementById('card').innerHTML =
+        `<div class="name">${tab.dataset.mode === 'tunnel' ? '风洞可视化' : '场景驾驶'}</div>
+         <div style="color:var(--dim);font-size:12px;margin-top:8px">
+         此模式尚未接入。流水线已打通，下一步接入 ${tab.dataset.mode === 'tunnel'
+           ? 'CFD 流场数据（流线、压力云图、粒子示踪）' : '车辆物理与赛道场景'}。
+         </div>`;
+    });
+    return;
+  }
+  tab.addEventListener('click', () => setMode(tab.dataset.mode));
+});
+
+function setMode(next){
+  mode = next;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.mode === next));
+  document.getElementById('bottom').style.display = next === 'explode' ? 'flex' : 'none';
+  if (next !== 'explode'){ explode = 0; applyExplode(); }
+}
+
+const exSlider = document.getElementById('ex');
+exSlider.addEventListener('input', () => { explode = exSlider.value / 100; applyExplode(); });
+
+function applyExplode(){
+  document.getElementById('exv').textContent = Math.round(explode*100) + '%';
+  const k = 1 + explode * 2.4;
+  partNodes.forEach((mesh) => {
+    const base = mesh.userData.base;
+    if (!base) return;
+    mesh.position.set(base.x*k, base.y*k, base.z*k);
+  });
+}
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+(function loop(){
+  requestAnimationFrame(loop);
+  controls.update();
+  renderer.render(scene, camera);
+})();
+</script>
+</body>
+</html>

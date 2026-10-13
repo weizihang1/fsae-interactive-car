@@ -1,0 +1,3444 @@
+{
+ "generated": "2026-10-13T10:50:52",
+ "source": "car.json",
+ "systems": [
+  {
+   "id": "frame",
+   "label": "车架",
+   "count": 68,
+   "mass_kg": 23.88,
+   "center": [
+    0.0701,
+    0.0,
+    0.3974
+   ],
+   "parts": [
+    {
+     "id": "frame.mh_bl_l.mh_tl_l",
+     "name": "主环立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.845,
+     "volume_m3": 0.000108,
+     "fill": 1.0,
+     "center": [
+      -0.44,
+      0.26,
+      0.5625
+     ],
+     "size": [
+      0.025,
+      0.055,
+      0.9158
+     ],
+     "node": 12
+    },
+    {
+     "id": "frame.mh_bl_r.mh_tl_r",
+     "name": "主环立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.845,
+     "volume_m3": 0.000108,
+     "fill": 1.0,
+     "center": [
+      -0.44,
+      -0.26,
+      0.5625
+     ],
+     "size": [
+      0.025,
+      0.055,
+      0.9158
+     ],
+     "node": 13
+    },
+    {
+     "id": "frame.fh_tl_l.mh_tl_l",
+     "name": "座舱上纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.745,
+     "volume_m3": 9.5e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      0.225,
+      0.86
+     ],
+     "size": [
+      0.7499,
+      0.065,
+      0.343
+     ],
+     "node": 6
+    },
+    {
+     "id": "frame.fh_tl_r.mh_tl_r",
+     "name": "座舱上纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.745,
+     "volume_m3": 9.5e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      -0.225,
+      0.86
+     ],
+     "size": [
+      0.7499,
+      0.065,
+      0.343
+     ],
+     "node": 7
+    },
+    {
+     "id": "frame.fh_bl_l.mh_bl_l",
+     "name": "座舱下纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.684,
+     "volume_m3": 8.7e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      0.26,
+      0.105
+     ],
+     "size": [
+      0.741,
+      0.055,
+      0.025
+     ],
+     "node": 2
+    },
+    {
+     "id": "frame.fh_bl_r.mh_bl_r",
+     "name": "座舱下纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.684,
+     "volume_m3": 8.7e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      -0.26,
+      0.105
+     ],
+     "size": [
+      0.741,
+      0.055,
+      0.025
+     ],
+     "node": 3
+    },
+    {
+     "id": "frame.fh_bl_l.mh_tl_l",
+     "name": "座舱侧斜撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.655,
+     "volume_m3": 8.3e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      0.245,
+      0.5625
+     ],
+     "size": [
+      0.7556,
+      0.02,
+      0.9276
+     ],
+     "node": 16
+    },
+    {
+     "id": "frame.fh_bl_r.mh_tl_r",
+     "name": "座舱侧斜撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.655,
+     "volume_m3": 8.3e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      -0.245,
+      0.5625
+     ],
+     "size": [
+      0.7556,
+      0.02,
+      0.9276
+     ],
+     "node": 17
+    },
+    {
+     "id": "frame.ds_bl_l.mh_bl_l",
+     "name": "座舱上侧纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.564,
+     "volume_m3": 7.2e-05,
+     "fill": 1.0,
+     "center": [
+      -0.005,
+      0.24,
+      0.3625
+     ],
+     "size": [
+      0.8801,
+      0.0899,
+      0.5322
+     ],
+     "node": 22
+    },
+    {
+     "id": "frame.ds_bl_r.mh_bl_r",
+     "name": "座舱上侧纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.564,
+     "volume_m3": 7.2e-05,
+     "fill": 1.0,
+     "center": [
+      -0.005,
+      -0.24,
+      0.3625
+     ],
+     "size": [
+      0.8801,
+      0.0899,
+      0.5322
+     ],
+     "node": 23
+    },
+    {
+     "id": "frame.fh_bl_l.fh_tl_l",
+     "name": "前环立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.551,
+     "volume_m3": 7e-05,
+     "fill": 1.0,
+     "center": [
+      0.3,
+      0.225,
+      0.4025
+     ],
+     "size": [
+      0.025,
+      0.0649,
+      0.5967
+     ],
+     "node": 10
+    },
+    {
+     "id": "frame.fh_bl_r.fh_tl_r",
+     "name": "前环立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.551,
+     "volume_m3": 7e-05,
+     "fill": 1.0,
+     "center": [
+      0.3,
+      -0.225,
+      0.4025
+     ],
+     "size": [
+      0.025,
+      0.0649,
+      0.5967
+     ],
+     "node": 11
+    },
+    {
+     "id": "frame.mh_tl_l.rm_tl_l",
+     "name": "后部上纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.543,
+     "volume_m3": 6.9e-05,
+     "fill": 1.0,
+     "center": [
+      -0.62,
+      0.21,
+      0.79
+     ],
+     "size": [
+      0.3792,
+      0.0945,
+      0.4756
+     ],
+     "node": 38
+    },
+    {
+     "id": "frame.mh_tl_r.rm_tl_r",
+     "name": "后部上纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.543,
+     "volume_m3": 6.9e-05,
+     "fill": 1.0,
+     "center": [
+      -0.62,
+      -0.21,
+      0.79
+     ],
+     "size": [
+      0.3792,
+      0.0945,
+      0.4756
+     ],
+     "node": 39
+    },
+    {
+     "id": "frame.mh_tl_l.rm_bl_l",
+     "name": "主环后长斜撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.523,
+     "volume_m3": 6.7e-05,
+     "fill": 1.0,
+     "center": [
+      -0.65,
+      0.23,
+      0.6
+     ],
+     "size": [
+      0.4378,
+      0.0499,
+      0.849
+     ],
+     "node": 42
+    },
+    {
+     "id": "frame.mh_tl_r.rm_bl_r",
+     "name": "主环后长斜撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.523,
+     "volume_m3": 6.7e-05,
+     "fill": 1.0,
+     "center": [
+      -0.65,
+      -0.23,
+      0.6
+     ],
+     "size": [
+      0.4378,
+      0.0499,
+      0.849
+     ],
+     "node": 43
+    },
+    {
+     "id": "frame.mh_tl.cross",
+     "name": "主环上横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.452,
+     "volume_m3": 5.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.44,
+      0.0,
+      1.02
+     ],
+     "size": [
+      0.025,
+      0.49,
+      0.025
+     ],
+     "node": 62
+    },
+    {
+     "id": "frame.fh_tl_l.mh_mid_l",
+     "name": "座舱上缘纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.42,
+     "volume_m3": 5.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      0.2365,
+      0.63
+     ],
+     "size": [
+      0.7438,
+      0.0829,
+      0.1597
+     ],
+     "node": 34
+    },
+    {
+     "id": "frame.fh_tl_r.mh_mid_r",
+     "name": "座舱上缘纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.42,
+     "volume_m3": 5.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.07,
+      -0.2365,
+      0.63
+     ],
+     "size": [
+      0.7438,
+      0.0829,
+      0.1597
+     ],
+     "node": 35
+    },
+    {
+     "id": "frame.mh_bl_l.rm_bl_l",
+     "name": "后部下纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.398,
+     "volume_m3": 5.1e-05,
+     "fill": 1.0,
+     "center": [
+      -0.65,
+      0.245,
+      0.1425
+     ],
+     "size": [
+      0.4255,
+      0.0847,
+      0.0996
+     ],
+     "node": 36
+    },
+    {
+     "id": "frame.mh_bl_r.rm_bl_r",
+     "name": "后部下纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.398,
+     "volume_m3": 5.1e-05,
+     "fill": 1.0,
+     "center": [
+      -0.65,
+      -0.245,
+      0.1425
+     ],
+     "size": [
+      0.4255,
+      0.0847,
+      0.0996
+     ],
+     "node": 37
+    },
+    {
+     "id": "frame.fb_tl_l.fh_tl_l",
+     "name": "前舱上纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.392,
+     "volume_m3": 5e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      0.1975,
+      0.55
+     ],
+     "size": [
+      0.3176,
+      0.04,
+      0.3177
+     ],
+     "node": 4
+    },
+    {
+     "id": "frame.fb_tl_r.fh_tl_r",
+     "name": "前舱上纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.392,
+     "volume_m3": 5e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      -0.1975,
+      0.55
+     ],
+     "size": [
+      0.3176,
+      0.04,
+      0.3177
+     ],
+     "node": 5
+    },
+    {
+     "id": "frame.si_top.cross",
+     "name": "侧碰结构上横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.373,
+     "volume_m3": 4.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.02,
+      0.0,
+      0.48
+     ],
+     "size": [
+      0.02,
+      0.67,
+      0.02
+     ],
+     "node": 64
+    },
+    {
+     "id": "frame.fb_bl_l.fh_tl_l",
+     "name": "前舱斜撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.371,
+     "volume_m3": 4.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      0.21,
+      0.4025
+     ],
+     "size": [
+      0.3178,
+      0.03,
+      0.604
+     ],
+     "node": 14
+    },
+    {
+     "id": "frame.fb_bl_r.fh_tl_r",
+     "name": "前舱斜撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.371,
+     "volume_m3": 4.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      -0.21,
+      0.4025
+     ],
+     "size": [
+      0.3178,
+      0.03,
+      0.604
+     ],
+     "node": 15
+    },
+    {
+     "id": "frame.rm_bl_l.rm_tl_l",
+     "name": "后安装立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.357,
+     "volume_m3": 4.5e-05,
+     "fill": 1.0,
+     "center": [
+      -0.83,
+      0.195,
+      0.37
+     ],
+     "size": [
+      0.0847,
+      0.0649,
+      0.3846
+     ],
+     "node": 44
+    },
+    {
+     "id": "frame.rm_bl_r.rm_tl_r",
+     "name": "后安装立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.357,
+     "volume_m3": 4.5e-05,
+     "fill": 1.0,
+     "center": [
+      -0.83,
+      -0.195,
+      0.37
+     ],
+     "size": [
+      0.0847,
+      0.0649,
+      0.3846
+     ],
+     "node": 45
+    },
+    {
+     "id": "frame.fb_tl_l.si_top_l",
+     "name": "侧碰结构前斜撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.336,
+     "volume_m3": 4.3e-05,
+     "fill": 1.0,
+     "center": [
+      0.31,
+      0.2625,
+      0.44
+     ],
+     "size": [
+      0.5852,
+      0.1644,
+      0.0998
+     ],
+     "node": 32
+    },
+    {
+     "id": "frame.fb_tl_r.si_top_r",
+     "name": "侧碰结构前斜撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.336,
+     "volume_m3": 4.3e-05,
+     "fill": 1.0,
+     "center": [
+      0.31,
+      -0.2625,
+      0.44
+     ],
+     "size": [
+      0.5852,
+      0.1644,
+      0.0998
+     ],
+     "node": 33
+    },
+    {
+     "id": "frame.si_out_l.fb_bl_l",
+     "name": "侧碰结构前撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.33,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.31,
+      0.275,
+      0.1275
+     ],
+     "size": [
+      0.5841,
+      0.1396,
+      0.0649
+     ],
+     "node": 24
+    },
+    {
+     "id": "frame.si_out_r.fb_bl_r",
+     "name": "侧碰结构前撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.33,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.31,
+      -0.275,
+      0.1275
+     ],
+     "size": [
+      0.5841,
+      0.1396,
+      0.0649
+     ],
+     "node": 25
+    },
+    {
+     "id": "frame.mh_bl.cross",
+     "name": "主环下横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.306,
+     "volume_m3": 3.9e-05,
+     "fill": 1.0,
+     "center": [
+      -0.44,
+      0.0,
+      0.105
+     ],
+     "size": [
+      0.02,
+      0.55,
+      0.02
+     ],
+     "node": 60
+    },
+    {
+     "id": "frame.rk_mnt_l.fh_bl_l",
+     "name": "摇臂支座立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.299,
+     "volume_m3": 3.8e-05,
+     "fill": 1.0,
+     "center": [
+      0.51,
+      0.2425,
+      0.2725
+     ],
+     "size": [
+      0.4325,
+      0.025,
+      0.3506
+     ],
+     "node": 54
+    },
+    {
+     "id": "frame.rk_mnt_r.fh_bl_r",
+     "name": "摇臂支座立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.299,
+     "volume_m3": 3.8e-05,
+     "fill": 1.0,
+     "center": [
+      0.51,
+      -0.2425,
+      0.2725
+     ],
+     "size": [
+      0.4325,
+      0.025,
+      0.3506
+     ],
+     "node": 55
+    },
+    {
+     "id": "frame.mh_mid.cross",
+     "name": "主环中横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.298,
+     "volume_m3": 3.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.44,
+      0.0,
+      0.56
+     ],
+     "size": [
+      0.02,
+      0.536,
+      0.02
+     ],
+     "node": 61
+    },
+    {
+     "id": "frame.fb_bl_l.fh_bl_l",
+     "name": "前舱下纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.278,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      0.23,
+      0.105
+     ],
+     "size": [
+      0.3025,
+      0.0549,
+      0.025
+     ],
+     "node": 0
+    },
+    {
+     "id": "frame.fb_bl_r.fh_bl_r",
+     "name": "前舱下纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.278,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      -0.23,
+      0.105
+     ],
+     "size": [
+      0.3025,
+      0.0549,
+      0.025
+     ],
+     "node": 1
+    },
+    {
+     "id": "frame.rk_mnt_l.fh_tl_l",
+     "name": "摇臂支座支撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.276,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.51,
+      0.2225,
+      0.57
+     ],
+     "size": [
+      0.4305,
+      0.0549,
+      0.277
+     ],
+     "node": 52
+    },
+    {
+     "id": "frame.rk_mnt_r.fh_tl_r",
+     "name": "摇臂支座支撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.276,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.51,
+      -0.2225,
+      0.57
+     ],
+     "size": [
+      0.4305,
+      0.0549,
+      0.277
+     ],
+     "node": 53
+    },
+    {
+     "id": "frame.fb_bl_l.fb_tl_l",
+     "name": "前舱壁立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.273,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.6,
+      0.2025,
+      0.2525
+     ],
+     "size": [
+      0.025,
+      0.0499,
+      0.2971
+     ],
+     "node": 8
+    },
+    {
+     "id": "frame.fb_bl_r.fb_tl_r",
+     "name": "前舱壁立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.273,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.6,
+      -0.2025,
+      0.2525
+     ],
+     "size": [
+      0.025,
+      0.0499,
+      0.2971
+     ],
+     "node": 9
+    },
+    {
+     "id": "frame.fh_bl.cross",
+     "name": "前环下横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.273,
+     "volume_m3": 3.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.3,
+      0.0,
+      0.105
+     ],
+     "size": [
+      0.02,
+      0.49,
+      0.02
+     ],
+     "node": 58
+    },
+    {
+     "id": "frame.rk_mnt.cross",
+     "name": "摇臂支座横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.267,
+     "volume_m3": 3.4e-05,
+     "fill": 1.0,
+     "center": [
+      0.72,
+      0.0,
+      0.44
+     ],
+     "size": [
+      0.02,
+      0.48,
+      0.02
+     ],
+     "node": 67
+    },
+    {
+     "id": "frame.fb_bl.cross",
+     "name": "前舱壁下横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.239,
+     "volume_m3": 3e-05,
+     "fill": 1.0,
+     "center": [
+      0.6,
+      0.0,
+      0.105
+     ],
+     "size": [
+      0.02,
+      0.43,
+      0.02
+     ],
+     "node": 56
+    },
+    {
+     "id": "frame.rm_bl.cross",
+     "name": "后安装下横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.239,
+     "volume_m3": 3e-05,
+     "fill": 1.0,
+     "center": [
+      -0.86,
+      0.0,
+      0.18
+     ],
+     "size": [
+      0.02,
+      0.43,
+      0.02
+     ],
+     "node": 65
+    },
+    {
+     "id": "frame.fb_tl_l.fh_bl_l",
+     "name": "前舱壁对角撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.236,
+     "volume_m3": 3e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      0.2175,
+      0.2525
+     ],
+     "size": [
+      0.3137,
+      0.0747,
+      0.3094
+     ],
+     "node": 18
+    },
+    {
+     "id": "frame.fb_tl_r.fh_bl_r",
+     "name": "前舱壁对角撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.236,
+     "volume_m3": 3e-05,
+     "fill": 1.0,
+     "center": [
+      0.45,
+      -0.2175,
+      0.2525
+     ],
+     "size": [
+      0.3137,
+      0.0747,
+      0.3094
+     ],
+     "node": 19
+    },
+    {
+     "id": "frame.fh_tl.cross",
+     "name": "前环上横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.228,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.3,
+      0.0,
+      0.7
+     ],
+     "size": [
+      0.02,
+      0.41,
+      0.02
+     ],
+     "node": 59
+    },
+    {
+     "id": "frame.ds_bl.cross",
+     "name": "仪表板横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.228,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.43,
+      0.0,
+      0.62
+     ],
+     "size": [
+      0.02,
+      0.41,
+      0.02
+     ],
+     "node": 63
+    },
+    {
+     "id": "frame.fb_tl.cross",
+     "name": "前舱壁上横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.211,
+     "volume_m3": 2.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.6,
+      0.0,
+      0.4
+     ],
+     "size": [
+      0.02,
+      0.38,
+      0.02
+     ],
+     "node": 57
+    },
+    {
+     "id": "frame.si_top_l.fh_tl_l",
+     "name": "侧碰结构上撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.211,
+     "volume_m3": 2.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.16,
+      0.27,
+      0.59
+     ],
+     "size": [
+      0.2934,
+      0.1481,
+      0.2363
+     ],
+     "node": 28
+    },
+    {
+     "id": "frame.si_top_r.fh_tl_r",
+     "name": "侧碰结构上撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.211,
+     "volume_m3": 2.7e-05,
+     "fill": 1.0,
+     "center": [
+      0.16,
+      -0.27,
+      0.59
+     ],
+     "size": [
+      0.2934,
+      0.1481,
+      0.2363
+     ],
+     "node": 29
+    },
+    {
+     "id": "frame.mh_mid_l.rm_tl_l",
+     "name": "后部斜撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.207,
+     "volume_m3": 2.6e-05,
+     "fill": 1.0,
+     "center": [
+      -0.62,
+      0.2215,
+      0.56
+     ],
+     "size": [
+      0.365,
+      0.1124,
+      0.02
+     ],
+     "node": 40
+    },
+    {
+     "id": "frame.mh_mid_r.rm_tl_r",
+     "name": "后部斜撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.207,
+     "volume_m3": 2.6e-05,
+     "fill": 1.0,
+     "center": [
+      -0.62,
+      -0.2215,
+      0.56
+     ],
+     "size": [
+      0.365,
+      0.1124,
+      0.02
+     ],
+     "node": 41
+    },
+    {
+     "id": "frame.rm_tl.cross",
+     "name": "后安装上横杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.195,
+     "volume_m3": 2.5e-05,
+     "fill": 1.0,
+     "center": [
+      -0.8,
+      0.0,
+      0.56
+     ],
+     "size": [
+      0.02,
+      0.35,
+      0.02
+     ],
+     "node": 66
+    },
+    {
+     "id": "frame.si_out_l.si_top_l",
+     "name": "侧碰结构外立柱（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.184,
+     "volume_m3": 2.3e-05,
+     "fill": 1.0,
+     "center": [
+      0.02,
+      0.335,
+      0.315
+     ],
+     "size": [
+      0.02,
+      0.02,
+      0.33
+     ],
+     "node": 30
+    },
+    {
+     "id": "frame.si_out_r.si_top_r",
+     "name": "侧碰结构外立柱（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.184,
+     "volume_m3": 2.3e-05,
+     "fill": 1.0,
+     "center": [
+      0.02,
+      -0.335,
+      0.315
+     ],
+     "size": [
+      0.02,
+      0.02,
+      0.33
+     ],
+     "node": 31
+    },
+    {
+     "id": "frame.si_out_l.fh_bl_l",
+     "name": "侧碰结构后撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.166,
+     "volume_m3": 2.1e-05,
+     "fill": 1.0,
+     "center": [
+      0.16,
+      0.29,
+      0.1275
+     ],
+     "size": [
+      0.2864,
+      0.109,
+      0.0648
+     ],
+     "node": 26
+    },
+    {
+     "id": "frame.si_out_r.fh_bl_r",
+     "name": "侧碰结构后撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.166,
+     "volume_m3": 2.1e-05,
+     "fill": 1.0,
+     "center": [
+      0.16,
+      -0.29,
+      0.1275
+     ],
+     "size": [
+      0.2864,
+      0.109,
+      0.0648
+     ],
+     "node": 27
+    },
+    {
+     "id": "frame.fl_f_l.fh_bl_l",
+     "name": "中底板纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.155,
+     "volume_m3": 2e-05,
+     "fill": 1.0,
+     "center": [
+      0.43,
+      0.1975,
+      0.0875
+     ],
+     "size": [
+      0.2669,
+      0.1138,
+      0.0548
+     ],
+     "node": 48
+    },
+    {
+     "id": "frame.fl_f_r.fh_bl_r",
+     "name": "中底板纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.155,
+     "volume_m3": 2e-05,
+     "fill": 1.0,
+     "center": [
+      0.43,
+      -0.1975,
+      0.0875
+     ],
+     "size": [
+      0.2669,
+      0.1138,
+      0.0548
+     ],
+     "node": 49
+    },
+    {
+     "id": "frame.fh_bl_l.fl_f_l",
+     "name": "底板支撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.155,
+     "volume_m3": 2e-05,
+     "fill": 1.0,
+     "center": [
+      0.43,
+      0.1975,
+      0.0875
+     ],
+     "size": [
+      0.2669,
+      0.1138,
+      0.0548
+     ],
+     "node": 50
+    },
+    {
+     "id": "frame.fh_bl_r.fl_f_r",
+     "name": "底板支撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.155,
+     "volume_m3": 2e-05,
+     "fill": 1.0,
+     "center": [
+      0.43,
+      -0.1975,
+      0.0875
+     ],
+     "size": [
+      0.2669,
+      0.1138,
+      0.0548
+     ],
+     "node": 51
+    },
+    {
+     "id": "frame.ds_bl_l.fh_tl_l",
+     "name": "仪表板支撑（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.085,
+     "volume_m3": 1.1e-05,
+     "fill": 1.0,
+     "center": [
+      0.365,
+      0.205,
+      0.66
+     ],
+     "size": [
+      0.1405,
+      0.02,
+      0.097
+     ],
+     "node": 20
+    },
+    {
+     "id": "frame.ds_bl_r.fh_tl_r",
+     "name": "仪表板支撑（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.085,
+     "volume_m3": 1.1e-05,
+     "fill": 1.0,
+     "center": [
+      0.365,
+      -0.205,
+      0.66
+     ],
+     "size": [
+      0.1405,
+      0.02,
+      0.097
+     ],
+     "node": 21
+    },
+    {
+     "id": "frame.fl_f_l.fb_bl_l",
+     "name": "前底板纵梁（左）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.047,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "center": [
+      0.58,
+      0.1825,
+      0.0875
+     ],
+     "size": [
+      0.057,
+      0.0774,
+      0.0532
+     ],
+     "node": 46
+    },
+    {
+     "id": "frame.fl_f_r.fb_bl_r",
+     "name": "前底板纵梁（右）",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.047,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "center": [
+      0.58,
+      -0.1825,
+      0.0875
+     ],
+     "size": [
+      0.057,
+      0.0774,
+      0.0532
+     ],
+     "node": 47
+    }
+   ]
+  },
+  {
+   "id": "susp_front",
+   "label": "前悬架",
+   "count": 18,
+   "mass_kg": 18.32,
+   "center": [
+    0.7162,
+    0.0013,
+    0.2775
+   ],
+   "parts": [
+    {
+     "id": "susp.front.right.upright",
+     "name": "前右立柱",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 5.855,
+     "volume_m3": 0.002169,
+     "fill": 1.0,
+     "center": [
+      0.775,
+      -0.6035,
+      0.2275
+     ],
+     "size": [
+      0.1,
+      0.123,
+      0.205
+     ],
+     "node": 106
+    },
+    {
+     "id": "susp.front.left.upright",
+     "name": "前左立柱",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 5.855,
+     "volume_m3": 0.002169,
+     "fill": 1.0,
+     "center": [
+      0.775,
+      0.6035,
+      0.2275
+     ],
+     "size": [
+      0.1,
+      0.123,
+      0.205
+     ],
+     "node": 97
+    },
+    {
+     "id": "susp.front.left.spring",
+     "name": "前左减震弹簧",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 1.371,
+     "volume_m3": 0.000175,
+     "fill": 1.0,
+     "center": [
+      0.57,
+      0.18,
+      0.32
+     ],
+     "size": [
+      0.1448,
+      0.182,
+      0.2209
+     ],
+     "node": 101
+    },
+    {
+     "id": "susp.front.right.spring",
+     "name": "前右减震弹簧",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 1.371,
+     "volume_m3": 0.000175,
+     "fill": 1.0,
+     "center": [
+      0.57,
+      -0.18,
+      0.32
+     ],
+     "size": [
+      0.1448,
+      0.182,
+      0.2209
+     ],
+     "node": 110
+    },
+    {
+     "id": "susp.front.left.damper_body",
+     "name": "前左减震器筒",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.734,
+     "volume_m3": 0.000272,
+     "fill": 1.0,
+     "center": [
+      0.57,
+      0.18,
+      0.32
+     ],
+     "size": [
+      0.1236,
+      0.1619,
+      0.2051
+     ],
+     "node": 100
+    },
+    {
+     "id": "susp.front.right.damper_body",
+     "name": "前右减震器筒",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.734,
+     "volume_m3": 0.000272,
+     "fill": 1.0,
+     "center": [
+      0.57,
+      -0.18,
+      0.32
+     ],
+     "size": [
+      0.1236,
+      0.1619,
+      0.2051
+     ],
+     "node": 109
+    },
+    {
+     "id": "susp.front.left.lca_front",
+     "name": "前左下叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.231,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.6925,
+      0.4135,
+      0.12
+     ],
+     "size": [
+      0.1848,
+      0.3467,
+      0.032
+     ],
+     "node": 95
+    },
+    {
+     "id": "susp.front.left.lca_rear",
+     "name": "前左下叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.231,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.8575,
+      0.4135,
+      0.12
+     ],
+     "size": [
+      0.1848,
+      0.3467,
+      0.032
+     ],
+     "node": 96
+    },
+    {
+     "id": "susp.front.right.lca_front",
+     "name": "前右下叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.231,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.6925,
+      -0.4135,
+      0.12
+     ],
+     "size": [
+      0.1848,
+      0.3467,
+      0.032
+     ],
+     "node": 104
+    },
+    {
+     "id": "susp.front.right.lca_rear",
+     "name": "前右下叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.231,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.8575,
+      -0.4135,
+      0.12
+     ],
+     "size": [
+      0.1848,
+      0.3467,
+      0.032
+     ],
+     "node": 105
+    },
+    {
+     "id": "susp.front.left.pushrod",
+     "name": "前左推杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.23,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.751,
+      0.3635,
+      0.305
+     ],
+     "size": [
+      0.0667,
+      0.2971,
+      0.3425
+     ],
+     "node": 98
+    },
+    {
+     "id": "susp.front.right.pushrod",
+     "name": "前右推杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.23,
+     "volume_m3": 2.9e-05,
+     "fill": 1.0,
+     "center": [
+      0.751,
+      -0.3635,
+      0.305
+     ],
+     "size": [
+      0.0667,
+      0.2971,
+      0.3425
+     ],
+     "node": 107
+    },
+    {
+     "id": "susp.front.left.uca_front",
+     "name": "前左上叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.197,
+     "volume_m3": 2.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.7075,
+      0.434,
+      0.315
+     ],
+     "size": [
+      0.1549,
+      0.2973,
+      0.0519
+     ],
+     "node": 93
+    },
+    {
+     "id": "susp.front.left.uca_rear",
+     "name": "前左上叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.197,
+     "volume_m3": 2.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.8425,
+      0.434,
+      0.315
+     ],
+     "size": [
+      0.1549,
+      0.2973,
+      0.0519
+     ],
+     "node": 94
+    },
+    {
+     "id": "susp.front.right.uca_front",
+     "name": "前右上叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.197,
+     "volume_m3": 2.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.7075,
+      -0.434,
+      0.315
+     ],
+     "size": [
+      0.1549,
+      0.2973,
+      0.0519
+     ],
+     "node": 102
+    },
+    {
+     "id": "susp.front.right.uca_rear",
+     "name": "前右上叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.197,
+     "volume_m3": 2.5e-05,
+     "fill": 1.0,
+     "center": [
+      0.8425,
+      -0.434,
+      0.315
+     ],
+     "size": [
+      0.1549,
+      0.2973,
+      0.0519
+     ],
+     "node": 103
+    },
+    {
+     "id": "susp.front.right.rocker",
+     "name": "前右摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.114,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.68,
+      -0.223,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 108
+    },
+    {
+     "id": "susp.front.left.rocker",
+     "name": "前左摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.114,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.68,
+      0.247,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 99
+    }
+   ]
+  },
+  {
+   "id": "susp_rear",
+   "label": "后悬架",
+   "count": 18,
+   "mass_kg": 18.22,
+   "center": [
+    -0.8338,
+    0.0013,
+    0.2775
+   ],
+   "parts": [
+    {
+     "id": "susp.rear.right.upright",
+     "name": "后右立柱",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 5.855,
+     "volume_m3": 0.002169,
+     "fill": 1.0,
+     "center": [
+      -0.775,
+      -0.5835,
+      0.2275
+     ],
+     "size": [
+      0.1,
+      0.123,
+      0.205
+     ],
+     "node": 124
+    },
+    {
+     "id": "susp.rear.left.upright",
+     "name": "后左立柱",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 5.855,
+     "volume_m3": 0.002169,
+     "fill": 1.0,
+     "center": [
+      -0.775,
+      0.5835,
+      0.2275
+     ],
+     "size": [
+      0.1,
+      0.123,
+      0.205
+     ],
+     "node": 115
+    },
+    {
+     "id": "susp.rear.left.spring",
+     "name": "后左减震弹簧",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 1.371,
+     "volume_m3": 0.000175,
+     "fill": 1.0,
+     "center": [
+      -0.98,
+      0.18,
+      0.32
+     ],
+     "size": [
+      0.1448,
+      0.182,
+      0.2209
+     ],
+     "node": 119
+    },
+    {
+     "id": "susp.rear.right.spring",
+     "name": "后右减震弹簧",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 1.371,
+     "volume_m3": 0.000175,
+     "fill": 1.0,
+     "center": [
+      -0.98,
+      -0.18,
+      0.32
+     ],
+     "size": [
+      0.1448,
+      0.182,
+      0.2209
+     ],
+     "node": 128
+    },
+    {
+     "id": "susp.rear.left.damper_body",
+     "name": "后左减震器筒",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.734,
+     "volume_m3": 0.000272,
+     "fill": 1.0,
+     "center": [
+      -0.98,
+      0.18,
+      0.32
+     ],
+     "size": [
+      0.1236,
+      0.1619,
+      0.2051
+     ],
+     "node": 118
+    },
+    {
+     "id": "susp.rear.right.damper_body",
+     "name": "后右减震器筒",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.734,
+     "volume_m3": 0.000272,
+     "fill": 1.0,
+     "center": [
+      -0.98,
+      -0.18,
+      0.32
+     ],
+     "size": [
+      0.1236,
+      0.1619,
+      0.2051
+     ],
+     "node": 127
+    },
+    {
+     "id": "susp.rear.left.pushrod",
+     "name": "后左推杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.224,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.799,
+      0.3535,
+      0.305
+     ],
+     "size": [
+      0.0667,
+      0.2775,
+      0.342
+     ],
+     "node": 116
+    },
+    {
+     "id": "susp.rear.right.pushrod",
+     "name": "后右推杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.224,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.799,
+      -0.3535,
+      0.305
+     ],
+     "size": [
+      0.0667,
+      0.2775,
+      0.342
+     ],
+     "node": 125
+    },
+    {
+     "id": "susp.rear.left.lca_front",
+     "name": "后左下叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.22,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.8575,
+      0.4035,
+      0.12
+     ],
+     "size": [
+      0.1845,
+      0.3272,
+      0.032
+     ],
+     "node": 113
+    },
+    {
+     "id": "susp.rear.left.lca_rear",
+     "name": "后左下叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.22,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.6925,
+      0.4035,
+      0.12
+     ],
+     "size": [
+      0.1845,
+      0.3272,
+      0.032
+     ],
+     "node": 114
+    },
+    {
+     "id": "susp.rear.right.lca_front",
+     "name": "后右下叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.22,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.8575,
+      -0.4035,
+      0.12
+     ],
+     "size": [
+      0.1845,
+      0.3272,
+      0.032
+     ],
+     "node": 122
+    },
+    {
+     "id": "susp.rear.right.lca_rear",
+     "name": "后右下叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.22,
+     "volume_m3": 2.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.6925,
+      -0.4035,
+      0.12
+     ],
+     "size": [
+      0.1845,
+      0.3272,
+      0.032
+     ],
+     "node": 123
+    },
+    {
+     "id": "susp.rear.left.uca_front",
+     "name": "后左上叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.186,
+     "volume_m3": 2.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.8425,
+      0.424,
+      0.315
+     ],
+     "size": [
+      0.1546,
+      0.2779,
+      0.0519
+     ],
+     "node": 111
+    },
+    {
+     "id": "susp.rear.left.uca_rear",
+     "name": "后左上叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.186,
+     "volume_m3": 2.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.7075,
+      0.424,
+      0.315
+     ],
+     "size": [
+      0.1546,
+      0.2779,
+      0.0519
+     ],
+     "node": 112
+    },
+    {
+     "id": "susp.rear.right.uca_front",
+     "name": "后右上叉臂前支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.186,
+     "volume_m3": 2.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.8425,
+      -0.424,
+      0.315
+     ],
+     "size": [
+      0.1546,
+      0.2779,
+      0.0519
+     ],
+     "node": 120
+    },
+    {
+     "id": "susp.rear.right.uca_rear",
+     "name": "后右上叉臂后支",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.186,
+     "volume_m3": 2.4e-05,
+     "fill": 1.0,
+     "center": [
+      -0.7075,
+      -0.424,
+      0.315
+     ],
+     "size": [
+      0.1546,
+      0.2779,
+      0.0519
+     ],
+     "node": 121
+    },
+    {
+     "id": "susp.rear.left.rocker",
+     "name": "后左摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.114,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      -0.87,
+      0.247,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 117
+    },
+    {
+     "id": "susp.rear.right.rocker",
+     "name": "后右摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.114,
+     "volume_m3": 4.2e-05,
+     "fill": 1.0,
+     "center": [
+      -0.87,
+      -0.223,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 126
+    }
+   ]
+  },
+  {
+   "id": "wheels",
+   "label": "轮胎与轮辋",
+   "count": 12,
+   "mass_kg": 47.44,
+   "center": [
+    0.0,
+    0.0,
+    0.26
+   ],
+   "parts": [
+    {
+     "id": "wheel.tire.后左",
+     "name": "后左轮胎",
+     "material": "rubber",
+     "material_label": "橡胶",
+     "mass_kg": 7.291,
+     "volume_m3": 0.023671,
+     "fill": 0.28,
+     "center": [
+      -0.775,
+      0.59,
+      0.26
+     ],
+     "size": [
+      0.52,
+      0.212,
+      0.5147
+     ],
+     "node": 78
+    },
+    {
+     "id": "wheel.tire.前右",
+     "name": "前右轮胎",
+     "material": "rubber",
+     "material_label": "橡胶",
+     "mass_kg": 7.291,
+     "volume_m3": 0.023671,
+     "fill": 0.28,
+     "center": [
+      0.775,
+      -0.61,
+      0.26
+     ],
+     "size": [
+      0.52,
+      0.212,
+      0.5147
+     ],
+     "node": 83
+    },
+    {
+     "id": "wheel.tire.后右",
+     "name": "后右轮胎",
+     "material": "rubber",
+     "material_label": "橡胶",
+     "mass_kg": 7.291,
+     "volume_m3": 0.023671,
+     "fill": 0.28,
+     "center": [
+      -0.775,
+      -0.59,
+      0.26
+     ],
+     "size": [
+      0.52,
+      0.212,
+      0.5147
+     ],
+     "node": 88
+    },
+    {
+     "id": "wheel.tire.前左",
+     "name": "前左轮胎",
+     "material": "rubber",
+     "material_label": "橡胶",
+     "mass_kg": 7.291,
+     "volume_m3": 0.023671,
+     "fill": 0.28,
+     "center": [
+      0.775,
+      0.61,
+      0.26
+     ],
+     "size": [
+      0.52,
+      0.212,
+      0.5147
+     ],
+     "node": 73
+    },
+    {
+     "id": "wheel.rim.前左",
+     "name": "前左轮辋",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 3.341,
+     "volume_m3": 0.012375,
+     "fill": 0.1,
+     "center": [
+      0.775,
+      0.61,
+      0.26
+     ],
+     "size": [
+      0.33,
+      0.165,
+      0.3266
+     ],
+     "node": 74
+    },
+    {
+     "id": "wheel.rim.前右",
+     "name": "前右轮辋",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 3.341,
+     "volume_m3": 0.012375,
+     "fill": 0.1,
+     "center": [
+      0.775,
+      -0.61,
+      0.26
+     ],
+     "size": [
+      0.33,
+      0.165,
+      0.3266
+     ],
+     "node": 84
+    },
+    {
+     "id": "wheel.rim.后右",
+     "name": "后右轮辋",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 3.341,
+     "volume_m3": 0.012375,
+     "fill": 0.1,
+     "center": [
+      -0.775,
+      -0.59,
+      0.26
+     ],
+     "size": [
+      0.33,
+      0.165,
+      0.3266
+     ],
+     "node": 89
+    },
+    {
+     "id": "wheel.rim.后左",
+     "name": "后左轮辋",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 3.341,
+     "volume_m3": 0.012375,
+     "fill": 0.1,
+     "center": [
+      -0.775,
+      0.59,
+      0.26
+     ],
+     "size": [
+      0.33,
+      0.165,
+      0.3266
+     ],
+     "node": 79
+    },
+    {
+     "id": "wheel.hub.后左",
+     "name": "后左轮毂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 1.228,
+     "volume_m3": 0.000827,
+     "fill": 0.55,
+     "center": [
+      -0.775,
+      0.59,
+      0.26
+     ],
+     "size": [
+      0.11,
+      0.09,
+      0.1072
+     ],
+     "node": 80
+    },
+    {
+     "id": "wheel.hub.后右",
+     "name": "后右轮毂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 1.228,
+     "volume_m3": 0.000827,
+     "fill": 0.55,
+     "center": [
+      -0.775,
+      -0.59,
+      0.26
+     ],
+     "size": [
+      0.11,
+      0.09,
+      0.1072
+     ],
+     "node": 90
+    },
+    {
+     "id": "wheel.hub.前左",
+     "name": "前左轮毂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 1.228,
+     "volume_m3": 0.000827,
+     "fill": 0.55,
+     "center": [
+      0.775,
+      0.61,
+      0.26
+     ],
+     "size": [
+      0.11,
+      0.09,
+      0.1072
+     ],
+     "node": 75
+    },
+    {
+     "id": "wheel.hub.前右",
+     "name": "前右轮毂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 1.228,
+     "volume_m3": 0.000827,
+     "fill": 0.55,
+     "center": [
+      0.775,
+      -0.61,
+      0.26
+     ],
+     "size": [
+      0.11,
+      0.09,
+      0.1072
+     ],
+     "node": 85
+    }
+   ]
+  },
+  {
+   "id": "steering",
+   "label": "转向系统",
+   "count": 6,
+   "mass_kg": 7.45,
+   "center": [
+    0.5667,
+    0.0,
+    0.2792
+   ],
+   "parts": [
+    {
+     "id": "steering.column",
+     "name": "转向柱",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 2.409,
+     "volume_m3": 0.000307,
+     "fill": 1.0,
+     "center": [
+      0.455,
+      0.0,
+      0.39
+     ],
+     "size": [
+      0.3707,
+      0.026,
+      0.4757
+     ],
+     "node": 131
+    },
+    {
+     "id": "steering.rack_housing",
+     "name": "转向齿条壳",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 2.247,
+     "volume_m3": 0.000832,
+     "fill": 1.0,
+     "center": [
+      0.63,
+      0.0,
+      0.16
+     ],
+     "size": [
+      0.048,
+      0.46,
+      0.048
+     ],
+     "node": 129
+    },
+    {
+     "id": "steering.rack",
+     "name": "转向齿条",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 1.776,
+     "volume_m3": 0.000226,
+     "fill": 1.0,
+     "center": [
+      0.63,
+      0.0,
+      0.16
+     ],
+     "size": [
+      0.024,
+      0.5,
+      0.024
+     ],
+     "node": 130
+    },
+    {
+     "id": "steering.wheel",
+     "name": "方向盘",
+     "material": "body_dark",
+     "material_label": "工程塑料",
+     "mass_kg": 0.671,
+     "volume_m3": 0.000419,
+     "fill": 1.0,
+     "center": [
+      0.28,
+      0.0,
+      0.62
+     ],
+     "size": [
+      0.2105,
+      0.258,
+      0.1673
+     ],
+     "node": 132
+    },
+    {
+     "id": "steering.tie_rod.left",
+     "name": "左转向拉杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.173,
+     "volume_m3": 2.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.7025,
+      0.385,
+      0.1725
+     ],
+     "size": [
+      0.1606,
+      0.3467,
+      0.042
+     ],
+     "node": 133
+    },
+    {
+     "id": "steering.tie_rod.right",
+     "name": "右转向拉杆",
+     "material": "steel_tube",
+     "material_label": "钢管（车架）",
+     "mass_kg": 0.173,
+     "volume_m3": 2.2e-05,
+     "fill": 1.0,
+     "center": [
+      0.7025,
+      -0.385,
+      0.1725
+     ],
+     "size": [
+      0.1606,
+      0.3467,
+      0.042
+     ],
+     "node": 134
+    }
+   ]
+  },
+  {
+   "id": "brakes",
+   "label": "制动系统",
+   "count": 10,
+   "mass_kg": 13.98,
+   "center": [
+    0.064,
+    0.0,
+    0.247
+   ],
+   "parts": [
+    {
+     "id": "brake.master_cyl",
+     "name": "制动主缸",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 2.43,
+     "volume_m3": 0.0009,
+     "fill": 1.0,
+     "center": [
+      0.56,
+      0.0,
+      0.24
+     ],
+     "size": [
+      0.16,
+      0.075,
+      0.075
+     ],
+     "node": 135
+    },
+    {
+     "id": "brake.pedal",
+     "name": "制动踏板",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 2.261,
+     "volume_m3": 0.000288,
+     "fill": 1.0,
+     "center": [
+      0.48,
+      0.0,
+      0.23
+     ],
+     "size": [
+      0.02,
+      0.09,
+      0.16
+     ],
+     "node": 136
+    },
+    {
+     "id": "brake.disc.前左",
+     "name": "前左制动盘",
+     "material": "brake_disc",
+     "material_label": "铸铁制动盘",
+     "mass_kg": 1.542,
+     "volume_m3": 0.000286,
+     "fill": 0.75,
+     "center": [
+      0.775,
+      0.535,
+      0.26
+     ],
+     "size": [
+      0.29,
+      0.006,
+      0.29
+     ],
+     "node": 76
+    },
+    {
+     "id": "brake.disc.后左",
+     "name": "后左制动盘",
+     "material": "brake_disc",
+     "material_label": "铸铁制动盘",
+     "mass_kg": 1.542,
+     "volume_m3": 0.000286,
+     "fill": 0.75,
+     "center": [
+      -0.775,
+      0.515,
+      0.26
+     ],
+     "size": [
+      0.29,
+      0.006,
+      0.29
+     ],
+     "node": 81
+    },
+    {
+     "id": "brake.disc.前右",
+     "name": "前右制动盘",
+     "material": "brake_disc",
+     "material_label": "铸铁制动盘",
+     "mass_kg": 1.542,
+     "volume_m3": 0.000286,
+     "fill": 0.75,
+     "center": [
+      0.775,
+      -0.535,
+      0.26
+     ],
+     "size": [
+      0.29,
+      0.006,
+      0.29
+     ],
+     "node": 86
+    },
+    {
+     "id": "brake.disc.后右",
+     "name": "后右制动盘",
+     "material": "brake_disc",
+     "material_label": "铸铁制动盘",
+     "mass_kg": 1.542,
+     "volume_m3": 0.000286,
+     "fill": 0.75,
+     "center": [
+      -0.775,
+      -0.515,
+      0.26
+     ],
+     "size": [
+      0.29,
+      0.006,
+      0.29
+     ],
+     "node": 91
+    },
+    {
+     "id": "brake.caliper.前左",
+     "name": "前左制动卡钳",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.78,
+     "volume_m3": 0.000289,
+     "fill": 1.0,
+     "center": [
+      0.675,
+      0.535,
+      0.24
+     ],
+     "size": [
+      0.075,
+      0.035,
+      0.11
+     ],
+     "node": 77
+    },
+    {
+     "id": "brake.caliper.后左",
+     "name": "后左制动卡钳",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.78,
+     "volume_m3": 0.000289,
+     "fill": 1.0,
+     "center": [
+      -0.875,
+      0.515,
+      0.24
+     ],
+     "size": [
+      0.075,
+      0.035,
+      0.11
+     ],
+     "node": 82
+    },
+    {
+     "id": "brake.caliper.前右",
+     "name": "前右制动卡钳",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.78,
+     "volume_m3": 0.000289,
+     "fill": 1.0,
+     "center": [
+      0.675,
+      -0.535,
+      0.24
+     ],
+     "size": [
+      0.075,
+      0.035,
+      0.11
+     ],
+     "node": 87
+    },
+    {
+     "id": "brake.caliper.后右",
+     "name": "后右制动卡钳",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.78,
+     "volume_m3": 0.000289,
+     "fill": 1.0,
+     "center": [
+      -0.875,
+      -0.515,
+      0.24
+     ],
+     "size": [
+      0.075,
+      0.035,
+      0.11
+     ],
+     "node": 92
+    }
+   ]
+  },
+  {
+   "id": "powertrain",
+   "label": "动力总成",
+   "count": 8,
+   "mass_kg": 106.32,
+   "center": [
+    -0.5719,
+    0.0,
+    0.3094
+   ],
+   "parts": [
+    {
+     "id": "powertrain.battery",
+     "name": "动力电池模组",
+     "material": "battery",
+     "material_label": "动力电池模组",
+     "mass_kg": 60.694,
+     "volume_m3": 0.042592,
+     "fill": 0.75,
+     "center": [
+      -0.3,
+      0.0,
+      0.29
+     ],
+     "size": [
+      0.44,
+      0.44,
+      0.22
+     ],
+     "node": 139
+    },
+    {
+     "id": "powertrain.mount",
+     "name": "电机安装座",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 12.246,
+     "volume_m3": 0.00156,
+     "fill": 1.0,
+     "center": [
+      -0.59,
+      0.0,
+      0.185
+     ],
+     "size": [
+      0.26,
+      0.3,
+      0.02
+     ],
+     "node": 144
+    },
+    {
+     "id": "powertrain.motor",
+     "name": "驱动电机",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 11.494,
+     "volume_m3": 0.007095,
+     "fill": 0.6,
+     "center": [
+      -0.59,
+      0.0,
+      0.29
+     ],
+     "size": [
+      0.24,
+      0.196,
+      0.193
+     ],
+     "node": 137
+    },
+    {
+     "id": "powertrain.diff",
+     "name": "差速器",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 6.226,
+     "volume_m3": 0.002713,
+     "fill": 0.85,
+     "center": [
+      -0.775,
+      0.0,
+      0.26
+     ],
+     "size": [
+      0.144,
+      0.17,
+      0.1418
+     ],
+     "node": 141
+    },
+    {
+     "id": "powertrain.battery_lid",
+     "name": "电池箱上盖",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 5.756,
+     "volume_m3": 0.004232,
+     "fill": 0.85,
+     "center": [
+      -0.3,
+      0.0,
+      0.41
+     ],
+     "size": [
+      0.46,
+      0.46,
+      0.02
+     ],
+     "node": 140
+    },
+    {
+     "id": "powertrain.inverter",
+     "name": "电机控制器",
+     "material": "body_dark",
+     "material_label": "工程塑料",
+     "mass_kg": 4.16,
+     "volume_m3": 0.0052,
+     "fill": 0.5,
+     "center": [
+      -0.47,
+      0.0,
+      0.52
+     ],
+     "size": [
+      0.2,
+      0.26,
+      0.1
+     ],
+     "node": 138
+    },
+    {
+     "id": "powertrain.driveshaft.left",
+     "name": "左半轴",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 2.873,
+     "volume_m3": 0.000366,
+     "fill": 1.0,
+     "center": [
+      -0.775,
+      0.3025,
+      0.26
+     ],
+     "size": [
+      0.032,
+      0.455,
+      0.032
+     ],
+     "node": 142
+    },
+    {
+     "id": "powertrain.driveshaft.right",
+     "name": "右半轴",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 2.873,
+     "volume_m3": 0.000366,
+     "fill": 1.0,
+     "center": [
+      -0.775,
+      -0.3025,
+      0.26
+     ],
+     "size": [
+      0.032,
+      0.455,
+      0.032
+     ],
+     "node": 143
+    }
+   ]
+  },
+  {
+   "id": "aero",
+   "label": "空气动力学套件",
+   "count": 18,
+   "mass_kg": 42.63,
+   "center": [
+    -0.015,
+    0.0,
+    0.4878
+   ],
+   "parts": [
+    {
+     "id": "aero.sidepod.right",
+     "name": "右侧箱",
+     "material": "body_red",
+     "material_label": "车身覆盖件（红）",
+     "mass_kg": 11.93,
+     "volume_m3": 0.062135,
+     "fill": 0.12,
+     "center": [
+      -0.005,
+      -0.3025,
+      0.25
+     ],
+     "size": [
+      0.85,
+      0.265,
+      0.34
+     ],
+     "node": 160
+    },
+    {
+     "id": "aero.sidepod.left",
+     "name": "左侧箱",
+     "material": "body_red",
+     "material_label": "车身覆盖件（红）",
+     "mass_kg": 11.93,
+     "volume_m3": 0.062135,
+     "fill": 0.12,
+     "center": [
+      -0.005,
+      0.3025,
+      0.25
+     ],
+     "size": [
+      0.85,
+      0.265,
+      0.34
+     ],
+     "node": 159
+    },
+    {
+     "id": "aero.nose",
+     "name": "鼻锥",
+     "material": "body_red",
+     "material_label": "车身覆盖件（红）",
+     "mass_kg": 5.78,
+     "volume_m3": 0.018064,
+     "fill": 0.2,
+     "center": [
+      0.98,
+      0.0,
+      0.28
+     ],
+     "size": [
+      0.24,
+      0.43,
+      0.32
+     ],
+     "node": 151
+    },
+    {
+     "id": "aero.diffuser",
+     "name": "扩散器",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 5.42,
+     "volume_m3": 0.045171,
+     "fill": 0.25,
+     "center": [
+      -0.76,
+      0.0,
+      0.185
+     ],
+     "size": [
+      0.52,
+      0.68,
+      0.25
+     ],
+     "node": 162
+    },
+    {
+     "id": "aero.floor",
+     "name": "空气动力学底板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 4.285,
+     "volume_m3": 0.008928,
+     "fill": 1.0,
+     "center": [
+      0.05,
+      0.0,
+      0.055
+     ],
+     "size": [
+      1.55,
+      0.72,
+      0.008
+     ],
+     "node": 161
+    },
+    {
+     "id": "aero.rear_wing.main",
+     "name": "后翼主翼",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.605,
+     "volume_m3": 0.002801,
+     "fill": 0.45,
+     "center": [
+      -0.89,
+      0.0,
+      0.9631
+     ],
+     "size": [
+      0.32,
+      1.1,
+      0.0398
+     ],
+     "node": 152
+    },
+    {
+     "id": "aero.front_wing.main",
+     "name": "前翼主翼",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.571,
+     "volume_m3": 0.002645,
+     "fill": 0.45,
+     "center": [
+      1.17,
+      0.0,
+      0.1429
+     ],
+     "size": [
+      0.3,
+      1.3,
+      0.036
+     ],
+     "node": 145
+    },
+    {
+     "id": "aero.rear_wing.support.left",
+     "name": "后翼左支撑",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 0.484,
+     "volume_m3": 0.000303,
+     "fill": 1.0,
+     "center": [
+      -0.875,
+      0.19,
+      0.715
+     ],
+     "size": [
+      0.2537,
+      0.0871,
+      0.4435
+     ],
+     "node": 157
+    },
+    {
+     "id": "aero.rear_wing.support.right",
+     "name": "后翼右支撑",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 0.484,
+     "volume_m3": 0.000303,
+     "fill": 1.0,
+     "center": [
+      -0.875,
+      -0.19,
+      0.715
+     ],
+     "size": [
+      0.2537,
+      0.0871,
+      0.4435
+     ],
+     "node": 158
+    },
+    {
+     "id": "aero.front_wing.support.left",
+     "name": "前翼左支撑",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 0.347,
+     "volume_m3": 0.000217,
+     "fill": 1.0,
+     "center": [
+      0.845,
+      0.16,
+      0.23
+     ],
+     "size": [
+      0.458,
+      0.0639,
+      0.1826
+     ],
+     "node": 149
+    },
+    {
+     "id": "aero.front_wing.support.right",
+     "name": "前翼右支撑",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 0.347,
+     "volume_m3": 0.000217,
+     "fill": 1.0,
+     "center": [
+      0.845,
+      -0.16,
+      0.23
+     ],
+     "size": [
+      0.458,
+      0.0639,
+      0.1826
+     ],
+     "node": 150
+    },
+    {
+     "id": "aero.front_wing.flap",
+     "name": "前翼襟翼",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.104,
+     "volume_m3": 0.000482,
+     "fill": 0.45,
+     "center": [
+      0.9342,
+      0.0,
+      0.1659
+     ],
+     "size": [
+      0.1283,
+      1.3,
+      0.0456
+     ],
+     "node": 146
+    },
+    {
+     "id": "aero.rear_wing.flap1",
+     "name": "后翼襟翼1",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.097,
+     "volume_m3": 0.000449,
+     "fill": 0.45,
+     "center": [
+      -1.1288,
+      0.0,
+      1.0113
+     ],
+     "size": [
+      0.1303,
+      1.1,
+      0.038
+     ],
+     "node": 153
+    },
+    {
+     "id": "aero.rear_wing.endplate.left",
+     "name": "后翼左端板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.066,
+     "volume_m3": 0.000342,
+     "fill": 0.4,
+     "center": [
+      -0.855,
+      0.554,
+      1.045
+     ],
+     "size": [
+      0.51,
+      0.008,
+      0.29
+     ],
+     "node": 155
+    },
+    {
+     "id": "aero.rear_wing.endplate.right",
+     "name": "后翼右端板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.066,
+     "volume_m3": 0.000342,
+     "fill": 0.4,
+     "center": [
+      -0.855,
+      -0.554,
+      1.045
+     ],
+     "size": [
+      0.51,
+      0.008,
+      0.29
+     ],
+     "node": 156
+    },
+    {
+     "id": "aero.rear_wing.flap2",
+     "name": "后翼襟翼2",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.049,
+     "volume_m3": 0.000229,
+     "fill": 0.45,
+     "center": [
+      -1.2295,
+      0.0,
+      1.0679
+     ],
+     "size": [
+      0.0889,
+      1.1,
+      0.0381
+     ],
+     "node": 154
+    },
+    {
+     "id": "aero.front_wing.endplate.left",
+     "name": "前翼左端板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.033,
+     "volume_m3": 0.000172,
+     "fill": 0.4,
+     "center": [
+      1.1925,
+      0.653,
+      0.215
+     ],
+     "size": [
+      0.425,
+      0.006,
+      0.23
+     ],
+     "node": 147
+    },
+    {
+     "id": "aero.front_wing.endplate.right",
+     "name": "前翼右端板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.033,
+     "volume_m3": 0.000172,
+     "fill": 0.4,
+     "center": [
+      1.1925,
+      -0.653,
+      0.215
+     ],
+     "size": [
+      0.425,
+      0.006,
+      0.23
+     ],
+     "node": 148
+    }
+   ]
+  },
+  {
+   "id": "cockpit",
+   "label": "座舱与安全",
+   "count": 5,
+   "mass_kg": 8.61,
+   "center": [
+    -0.224,
+    0.0,
+    0.511
+   ],
+   "parts": [
+    {
+     "id": "cockpit.firewall",
+     "name": "防火墙",
+     "material": "carbon",
+     "material_label": "碳纤维复合材料",
+     "mass_kg": 4.107,
+     "volume_m3": 0.002852,
+     "fill": 0.9,
+     "center": [
+      -0.4,
+      0.0,
+      0.42
+     ],
+     "size": [
+      0.01,
+      0.46,
+      0.62
+     ],
+     "node": 69
+    },
+    {
+     "id": "cockpit.floor",
+     "name": "座舱底板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 3.548,
+     "volume_m3": 0.007392,
+     "fill": 1.0,
+     "center": [
+      0.08,
+      0.0,
+      0.075
+     ],
+     "size": [
+      1.05,
+      0.44,
+      0.016
+     ],
+     "node": 68
+    },
+    {
+     "id": "cockpit.harness_bar",
+     "name": "安全带横杆",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.614,
+     "volume_m3": 7.8e-05,
+     "fill": 1.0,
+     "center": [
+      -0.34,
+      0.0,
+      0.86
+     ],
+     "size": [
+      0.034,
+      0.48,
+      0.0323
+     ],
+     "node": 70
+    },
+    {
+     "id": "cockpit.headrest",
+     "name": "头枕",
+     "material": "foam",
+     "material_label": "座椅泡沫",
+     "mass_kg": 0.346,
+     "volume_m3": 0.00384,
+     "fill": 1.0,
+     "center": [
+      -0.4,
+      0.0,
+      0.74
+     ],
+     "size": [
+      0.1,
+      0.24,
+      0.16
+     ],
+     "node": 72
+    },
+    {
+     "id": "cockpit.seat",
+     "name": "座椅",
+     "material": "foam",
+     "material_label": "座椅泡沫",
+     "mass_kg": 0.0,
+     "volume_m3": 0.0,
+     "fill": 1.0,
+     "center": [
+      -0.06,
+      0.0,
+      0.46
+     ],
+     "size": [
+      0.56,
+      0.42,
+      0.32
+     ],
+     "node": 71
+    }
+   ]
+  }
+ ],
+ "totals": {
+  "parts": 163,
+  "mass_kg": 286.8,
+  "triangles": 8392,
+  "bbox_min": [
+   -1.274,
+   -0.716,
+   0.003
+  ],
+  "bbox_max": [
+   1.405,
+   0.716,
+   1.19
+  ],
+  "length_m": 2.679,
+  "width_m": 1.432,
+  "height_m": 1.187
+ },
+ "geometry_params": {
+  "_note": "原型车参数（非车队真实数据）。所有数值可直接修改，改完重跑 tools/build.py 即重新生成全部产物。坐标系：X 向前，Y 向左，Z 向上，原点在轴距中点地面处。单位：米。",
+  "_version": "0.1.0-prototype",
+  "general": {
+   "wheelbase": 1.55,
+   "drive": "ev",
+   "cg_height": 0.3,
+   "mass_target_kg": 250
+  },
+  "wheel": {
+   "track_front": 1.22,
+   "track_rear": 1.18,
+   "tire_od": 0.52,
+   "tire_width": 0.2,
+   "rim_dia": 0.33,
+   "rim_width": 0.165
+  },
+  "frame": {
+   "tube_main_r": 0.0125,
+   "tube_main_wall": 0.0016,
+   "tube_sec_r": 0.01,
+   "tube_sec_wall": 0.0012,
+   "_note": "主受力杆 25×1.6、次级杆 20×1.2（外径×壁厚），符合 FSAE 规则的常见选择"
+  },
+  "cockpit": {
+   "floor_thick": 0.016
+  },
+  "aero": {
+   "wing_chord": 0.3,
+   "wing_aoa_deg": 6.0,
+   "front_wing_span": 1.3,
+   "front_wing_x": 1.02,
+   "front_wing_z": 0.13,
+   "rear_wing_span": 1.1,
+   "rear_wing_chord": 0.32,
+   "rear_wing_x": -1.05,
+   "rear_wing_z": 0.95
+  },
+  "suspension": {
+   "_note": "硬点目前由 car_model.py 依据轮距与轮胎尺寸推导，后续可在此逐个改为显式坐标"
+  }
+ },
+ "disclaimer": "参数为原型占位值，非车队实测数据；质量由几何体积与材料密度估算，不含紧固件与线束。"
+}

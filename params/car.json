@@ -1,0 +1,42 @@
+{
+  "_note": "原型车参数（非车队真实数据）。所有数值可直接修改，改完重跑 tools/build.py 即重新生成全部产物。坐标系：X 向前，Y 向左，Z 向上，原点在轴距中点地面处。单位：米。",
+  "_version": "0.1.0-prototype",
+  "general": {
+    "wheelbase": 1.55,
+    "drive": "ev",
+    "cg_height": 0.30,
+    "mass_target_kg": 250
+  },
+  "wheel": {
+    "track_front": 1.22,
+    "track_rear": 1.18,
+    "tire_od": 0.520,
+    "tire_width": 0.200,
+    "rim_dia": 0.330,
+    "rim_width": 0.165
+  },
+  "frame": {
+    "tube_main_r": 0.0125,
+    "tube_main_wall": 0.0016,
+    "tube_sec_r": 0.0100,
+    "tube_sec_wall": 0.0012,
+    "_note": "主受力杆 25×1.6、次级杆 20×1.2（外径×壁厚），符合 FSAE 规则的常见选择"
+  },
+  "cockpit": {
+    "floor_thick": 0.016
+  },
+  "aero": {
+    "wing_chord": 0.300,
+    "wing_aoa_deg": 6.0,
+    "front_wing_span": 1.300,
+    "front_wing_x": 1.020,
+    "front_wing_z": 0.130,
+    "rear_wing_span": 1.100,
+    "rear_wing_chord": 0.320,
+    "rear_wing_x": -1.050,
+    "rear_wing_z": 0.950
+  },
+  "suspension": {
+    "_note": "硬点目前由 car_model.py 依据轮距与轮胎尺寸推导，后续可在此逐个改为显式坐标"
+  }
+}

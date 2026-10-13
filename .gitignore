@@ -1,0 +1,7 @@
+# 本地便携工具（GitHub CLI 等），不入库
+.tooling/
+__pycache__/
+*.pyc
+
+# 自检产物
+outputs/_selftest.*

@@ -1,0 +1,62 @@
+name: build
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 构建整车模型
+        run: python3 tools/build.py
+
+      - name: 校验网页脚本
+        run: node tools/check_site.js
+
+      - name: 展示构建结果
+        run: |
+          echo "零件数：$(python3 -c "import json;print(json.load(open('outputs/parts.json'))['totals']['parts'])")"
+          echo "整车质量：$(python3 -c "import json;print(json.load(open('outputs/parts.json'))['totals']['mass_kg'])") kg"
+          ls -la outputs/ site/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: car-model
+          path: |
+            outputs/car.glb
+            outputs/parts.json
+            outputs/preview_*.png
+          retention-days: 30
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
