@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13T13:36:33",
+ "generated": "2026-10-13T16:35:24",
  "source": "car.json",
  "systems": [
   {
@@ -1674,38 +1674,14 @@
   {
    "id": "susp_front",
    "label": "前悬架",
-   "count": 26,
-   "mass_kg": 19.37,
+   "count": 30,
+   "mass_kg": 13.08,
    "center": [
-    0.7343,
-    0.0009,
-    0.2557
+    0.7353,
+    -0.0001,
+    0.2612
    ],
    "parts": [
-    {
-     "id": "susp.front.right.upright",
-     "name": "前右立柱",
-     "part_no": "26B-SUF-022",
-     "std": false,
-     "spec": "",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 5.855,
-     "volume_m3": 0.002169,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.775,
-      -0.6035,
-      0.2275
-     ],
-     "size": [
-      0.1,
-      0.123,
-      0.205
-     ],
-     "node": 123
-    },
     {
      "id": "susp.front.left.upright",
      "name": "前左立柱",
@@ -1714,21 +1690,45 @@
      "spec": "",
      "material": "aluminum",
      "material_label": "铝合金",
-     "mass_kg": 5.855,
-     "volume_m3": 0.002169,
+     "mass_kg": 2.831,
+     "volume_m3": 0.001048,
      "fill": 1.0,
-     "note": "",
+     "note": "整车载荷最集中的自制件。上下球头凸台承受叉臂力，轴承座承受轮荷，转向臂承受转向力；非受力区全部铣空，做成凸台＋腹板结构。",
      "center": [
-      0.775,
-      0.6035,
-      0.2275
+      0.766,
+      0.5985,
+      0.227
      ],
      "size": [
-      0.1,
-      0.123,
-      0.205
+      0.126,
+      0.111,
+      0.2367
      ],
-     "node": 110
+     "node": 118
+    },
+    {
+     "id": "susp.front.right.upright",
+     "name": "前右立柱",
+     "part_no": "26B-SUF-024",
+     "std": false,
+     "spec": "",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 2.831,
+     "volume_m3": 0.001048,
+     "fill": 1.0,
+     "note": "整车载荷最集中的自制件。上下球头凸台承受叉臂力，轴承座承受轮荷，转向臂承受转向力；非受力区全部铣空，做成凸台＋腹板结构。",
+     "center": [
+      0.766,
+      -0.6025,
+      0.227
+     ],
+     "size": [
+      0.126,
+      0.119,
+      0.2367
+     ],
+     "node": 133
     },
     {
      "id": "susp.front.left.spring",
@@ -1752,12 +1752,12 @@
       0.182,
       0.2209
      ],
-     "node": 114
+     "node": 122
     },
     {
      "id": "susp.front.right.spring",
      "name": "前右减震弹簧",
-     "part_no": "26B-SUF-026",
+     "part_no": "26B-SUF-028",
      "std": false,
      "spec": "",
      "material": "chrome",
@@ -1776,7 +1776,7 @@
       0.182,
       0.2209
      ],
-     "node": 127
+     "node": 137
     },
     {
      "id": "susp.front.left.damper_body",
@@ -1800,12 +1800,12 @@
       0.1619,
       0.2051
      ],
-     "node": 113
+     "node": 121
     },
     {
      "id": "susp.front.right.damper_body",
      "name": "前右减震器筒",
-     "part_no": "26B-SUF-025",
+     "part_no": "26B-SUF-027",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -1824,55 +1824,7 @@
       0.1619,
       0.2051
      ],
-     "node": 126
-    },
-    {
-     "id": "susp.front.right.rocker",
-     "name": "前右摇臂",
-     "part_no": "26B-SUF-024",
-     "std": false,
-     "spec": "",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.342,
-     "volume_m3": 0.000127,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.68,
-      -0.223,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 125
-    },
-    {
-     "id": "susp.front.left.rocker",
-     "name": "前左摇臂",
-     "part_no": "26B-SUF-011",
-     "std": false,
-     "spec": "",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.342,
-     "volume_m3": 0.000127,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.68,
-      0.247,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 112
+     "node": 136
     },
     {
      "id": "susp.front.left.lca_front",
@@ -1896,7 +1848,7 @@
       0.3454,
       0.0319
      ],
-     "node": 106
+     "node": 114
     },
     {
      "id": "susp.front.left.lca_rear",
@@ -1920,12 +1872,12 @@
       0.3454,
       0.0319
      ],
-     "node": 108
+     "node": 116
     },
     {
      "id": "susp.front.right.lca_front",
      "name": "前右下叉臂前支",
-     "part_no": "26B-SUF-018",
+     "part_no": "26B-SUF-020",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -1944,12 +1896,12 @@
       0.3454,
       0.0319
      ],
-     "node": 119
+     "node": 129
     },
     {
      "id": "susp.front.right.lca_rear",
      "name": "前右下叉臂后支",
-     "part_no": "26B-SUF-020",
+     "part_no": "26B-SUF-022",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -1968,7 +1920,7 @@
       0.3454,
       0.0319
      ],
-     "node": 121
+     "node": 131
     },
     {
      "id": "susp.front.left.pushrod",
@@ -1992,12 +1944,12 @@
       0.2971,
       0.3425
      ],
-     "node": 111
+     "node": 119
     },
     {
      "id": "susp.front.right.pushrod",
      "name": "前右推杆",
-     "part_no": "26B-SUF-023",
+     "part_no": "26B-SUF-025",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2016,7 +1968,7 @@
       0.2971,
       0.3425
      ],
-     "node": 124
+     "node": 134
     },
     {
      "id": "susp.front.left.uca_front",
@@ -2040,7 +1992,7 @@
       0.2961,
       0.0516
      ],
-     "node": 102
+     "node": 110
     },
     {
      "id": "susp.front.left.uca_rear",
@@ -2064,12 +2016,12 @@
       0.2961,
       0.0516
      ],
-     "node": 104
+     "node": 112
     },
     {
      "id": "susp.front.right.uca_front",
      "name": "前右上叉臂前支",
-     "part_no": "26B-SUF-014",
+     "part_no": "26B-SUF-016",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2088,12 +2040,12 @@
       0.2961,
       0.0516
      ],
-     "node": 115
+     "node": 125
     },
     {
      "id": "susp.front.right.uca_rear",
      "name": "前右上叉臂后支",
-     "part_no": "26B-SUF-016",
+     "part_no": "26B-SUF-018",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2112,12 +2064,60 @@
       0.2961,
       0.0516
      ],
-     "node": 117
+     "node": 127
+    },
+    {
+     "id": "susp.front.left.rocker",
+     "name": "前左摇臂",
+     "part_no": "26B-SUF-011",
+     "std": false,
+     "spec": "",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.123,
+     "volume_m3": 4.6e-05,
+     "fill": 1.0,
+     "note": "三凸台机加摇臂：枢轴、推杆、减震器三处留料，中间用腹板连接，改变凸台相对角度即可调整运动比。",
+     "center": [
+      0.671,
+      0.2335,
+      0.44
+     ],
+     "size": [
+      0.134,
+      0.035,
+      0.0814
+     ],
+     "node": 120
+    },
+    {
+     "id": "susp.front.right.rocker",
+     "name": "前右摇臂",
+     "part_no": "26B-SUF-026",
+     "std": false,
+     "spec": "",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.123,
+     "volume_m3": 4.6e-05,
+     "fill": 1.0,
+     "note": "三凸台机加摇臂：枢轴、推杆、减震器三处留料，中间用腹板连接，改变凸台相对角度即可调整运动比。",
+     "center": [
+      0.671,
+      -0.2335,
+      0.44
+     ],
+     "size": [
+      0.134,
+      0.035,
+      0.0814
+     ],
+     "node": 135
     },
     {
      "id": "susp.front.right.uca_rear.rodend",
      "name": "前右上叉臂后支关节轴承",
-     "part_no": "26B-SUF-017",
+     "part_no": "26B-SUF-019",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2136,7 +2136,7 @@
       0.073,
       0.0242
      ],
-     "node": 118
+     "node": 128
     },
     {
      "id": "susp.front.left.uca_rear.rodend",
@@ -2160,7 +2160,7 @@
       0.073,
       0.0242
      ],
-     "node": 105
+     "node": 113
     },
     {
      "id": "susp.front.left.uca_front.rodend",
@@ -2184,12 +2184,12 @@
       0.073,
       0.0242
      ],
-     "node": 103
+     "node": 111
     },
     {
      "id": "susp.front.right.uca_front.rodend",
      "name": "前右上叉臂前支关节轴承",
-     "part_no": "26B-SUF-015",
+     "part_no": "26B-SUF-017",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2208,7 +2208,7 @@
       0.073,
       0.0242
      ],
-     "node": 116
+     "node": 126
     },
     {
      "id": "susp.front.left.lca_rear.rodend",
@@ -2232,7 +2232,7 @@
       0.0728,
       0.0211
      ],
-     "node": 109
+     "node": 117
     },
     {
      "id": "susp.front.left.lca_front.rodend",
@@ -2256,12 +2256,12 @@
       0.0728,
       0.0211
      ],
-     "node": 107
+     "node": 115
     },
     {
      "id": "susp.front.right.lca_front.rodend",
      "name": "前右下叉臂前支关节轴承",
-     "part_no": "26B-SUF-019",
+     "part_no": "26B-SUF-021",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2280,12 +2280,12 @@
       0.0728,
       0.0211
      ],
-     "node": 120
+     "node": 130
     },
     {
      "id": "susp.front.right.lca_rear.rodend",
      "name": "前右下叉臂后支关节轴承",
-     "part_no": "26B-SUF-021",
+     "part_no": "26B-SUF-023",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2304,44 +2304,140 @@
       0.0728,
       0.0211
      ],
-     "node": 122
+     "node": 132
+    },
+    {
+     "id": "susp.front.right.pushrod_rodend.upper",
+     "name": "前右推杆上端关节轴承",
+     "part_no": "26B-SUF-030",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      0.7245,
+      -0.2087,
+      0.4863
+     ],
+     "size": [
+      0.0192,
+      0.0489,
+      0.0537
+     ],
+     "node": 139
+    },
+    {
+     "id": "susp.front.right.pushrod_rodend.lower",
+     "name": "前右推杆下端关节轴承",
+     "part_no": "26B-SUF-029",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      0.7775,
+      -0.5183,
+      0.1237
+     ],
+     "size": [
+      0.0191,
+      0.0489,
+      0.0537
+     ],
+     "node": 138
+    },
+    {
+     "id": "susp.front.left.pushrod_rodend.lower",
+     "name": "前左推杆下端关节轴承",
+     "part_no": "26B-SUF-014",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      0.7775,
+      0.5183,
+      0.1237
+     ],
+     "size": [
+      0.0192,
+      0.0489,
+      0.0537
+     ],
+     "node": 123
+    },
+    {
+     "id": "susp.front.left.pushrod_rodend.upper",
+     "name": "前左推杆上端关节轴承",
+     "part_no": "26B-SUF-015",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      0.7245,
+      0.2087,
+      0.4863
+     ],
+     "size": [
+      0.0191,
+      0.0489,
+      0.0537
+     ],
+     "node": 124
     }
    ]
   },
   {
    "id": "susp_rear",
    "label": "后悬架",
-   "count": 26,
-   "mass_kg": 19.27,
+   "count": 30,
+   "mass_kg": 12.56,
    "center": [
-    -0.8157,
-    0.0009,
-    0.2557
+    -0.8147,
+    -0.0001,
+    0.2612
    ],
    "parts": [
     {
      "id": "susp.rear.right.upright",
      "name": "后右立柱",
-     "part_no": "26B-SUR-022",
+     "part_no": "26B-SUR-024",
      "std": false,
      "spec": "",
      "material": "aluminum",
      "material_label": "铝合金",
-     "mass_kg": 5.855,
-     "volume_m3": 0.002169,
+     "mass_kg": 2.617,
+     "volume_m3": 0.000969,
      "fill": 1.0,
-     "note": "",
+     "note": "整车载荷最集中的自制件。上下球头凸台承受叉臂力，轴承座承受轮荷，转向臂承受转向力；非受力区全部铣空，做成凸台＋腹板结构。",
      "center": [
-      -0.775,
-      -0.5835,
-      0.2275
+      -0.784,
+      -0.59,
+      0.227
      ],
      "size": [
-      0.1,
-      0.123,
-      0.205
+      0.126,
+      0.104,
+      0.2367
      ],
-     "node": 149
+     "node": 163
     },
     {
      "id": "susp.rear.left.upright",
@@ -2351,21 +2447,21 @@
      "spec": "",
      "material": "aluminum",
      "material_label": "铝合金",
-     "mass_kg": 5.855,
-     "volume_m3": 0.002169,
+     "mass_kg": 2.617,
+     "volume_m3": 0.000969,
      "fill": 1.0,
-     "note": "",
+     "note": "整车载荷最集中的自制件。上下球头凸台承受叉臂力，轴承座承受轮荷，转向臂承受转向力；非受力区全部铣空，做成凸台＋腹板结构。",
      "center": [
-      -0.775,
-      0.5835,
-      0.2275
+      -0.784,
+      0.586,
+      0.227
      ],
      "size": [
-      0.1,
-      0.123,
-      0.205
+      0.126,
+      0.096,
+      0.2367
      ],
-     "node": 136
+     "node": 148
     },
     {
      "id": "susp.rear.left.spring",
@@ -2389,12 +2485,12 @@
       0.182,
       0.2209
      ],
-     "node": 140
+     "node": 152
     },
     {
      "id": "susp.rear.right.spring",
      "name": "后右减震弹簧",
-     "part_no": "26B-SUR-026",
+     "part_no": "26B-SUR-028",
      "std": false,
      "spec": "",
      "material": "chrome",
@@ -2413,7 +2509,7 @@
       0.182,
       0.2209
      ],
-     "node": 153
+     "node": 167
     },
     {
      "id": "susp.rear.left.damper_body",
@@ -2437,12 +2533,12 @@
       0.1619,
       0.2051
      ],
-     "node": 139
+     "node": 151
     },
     {
      "id": "susp.rear.right.damper_body",
      "name": "后右减震器筒",
-     "part_no": "26B-SUR-025",
+     "part_no": "26B-SUR-027",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -2461,55 +2557,7 @@
       0.1619,
       0.2051
      ],
-     "node": 152
-    },
-    {
-     "id": "susp.rear.right.rocker",
-     "name": "后右摇臂",
-     "part_no": "26B-SUR-024",
-     "std": false,
-     "spec": "",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.342,
-     "volume_m3": 0.000127,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      -0.87,
-      -0.223,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 151
-    },
-    {
-     "id": "susp.rear.left.rocker",
-     "name": "后左摇臂",
-     "part_no": "26B-SUR-011",
-     "std": false,
-     "spec": "",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.342,
-     "volume_m3": 0.000127,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      -0.87,
-      0.247,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 138
+     "node": 166
     },
     {
      "id": "susp.rear.left.lca_front",
@@ -2533,7 +2581,7 @@
       0.3258,
       0.0319
      ],
-     "node": 132
+     "node": 144
     },
     {
      "id": "susp.rear.left.lca_rear",
@@ -2557,12 +2605,12 @@
       0.3258,
       0.0319
      ],
-     "node": 134
+     "node": 146
     },
     {
      "id": "susp.rear.right.lca_front",
      "name": "后右下叉臂前支",
-     "part_no": "26B-SUR-018",
+     "part_no": "26B-SUR-020",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2581,12 +2629,12 @@
       0.3258,
       0.0319
      ],
-     "node": 145
+     "node": 159
     },
     {
      "id": "susp.rear.right.lca_rear",
      "name": "后右下叉臂后支",
-     "part_no": "26B-SUR-020",
+     "part_no": "26B-SUR-022",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2605,7 +2653,7 @@
       0.3258,
       0.0319
      ],
-     "node": 147
+     "node": 161
     },
     {
      "id": "susp.rear.left.pushrod",
@@ -2629,12 +2677,12 @@
       0.2775,
       0.342
      ],
-     "node": 137
+     "node": 149
     },
     {
      "id": "susp.rear.right.pushrod",
      "name": "后右推杆",
-     "part_no": "26B-SUR-023",
+     "part_no": "26B-SUR-025",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2653,7 +2701,7 @@
       0.2775,
       0.342
      ],
-     "node": 150
+     "node": 164
     },
     {
      "id": "susp.rear.left.uca_front",
@@ -2677,7 +2725,7 @@
       0.2765,
       0.0516
      ],
-     "node": 128
+     "node": 140
     },
     {
      "id": "susp.rear.left.uca_rear",
@@ -2701,12 +2749,12 @@
       0.2765,
       0.0516
      ],
-     "node": 130
+     "node": 142
     },
     {
      "id": "susp.rear.right.uca_front",
      "name": "后右上叉臂前支",
-     "part_no": "26B-SUR-014",
+     "part_no": "26B-SUR-016",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2725,12 +2773,12 @@
       0.2765,
       0.0516
      ],
-     "node": 141
+     "node": 155
     },
     {
      "id": "susp.rear.right.uca_rear",
      "name": "后右上叉臂后支",
-     "part_no": "26B-SUR-016",
+     "part_no": "26B-SUR-018",
      "std": false,
      "spec": "",
      "material": "steel_tube",
@@ -2749,7 +2797,55 @@
       0.2765,
       0.0516
      ],
-     "node": 143
+     "node": 157
+    },
+    {
+     "id": "susp.rear.right.rocker",
+     "name": "后右摇臂",
+     "part_no": "26B-SUR-026",
+     "std": false,
+     "spec": "",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.123,
+     "volume_m3": 4.6e-05,
+     "fill": 1.0,
+     "note": "三凸台机加摇臂：枢轴、推杆、减震器三处留料，中间用腹板连接，改变凸台相对角度即可调整运动比。",
+     "center": [
+      -0.879,
+      -0.2335,
+      0.44
+     ],
+     "size": [
+      0.134,
+      0.035,
+      0.0814
+     ],
+     "node": 165
+    },
+    {
+     "id": "susp.rear.left.rocker",
+     "name": "后左摇臂",
+     "part_no": "26B-SUR-011",
+     "std": false,
+     "spec": "",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.123,
+     "volume_m3": 4.6e-05,
+     "fill": 1.0,
+     "note": "三凸台机加摇臂：枢轴、推杆、减震器三处留料，中间用腹板连接，改变凸台相对角度即可调整运动比。",
+     "center": [
+      -0.879,
+      0.2335,
+      0.44
+     ],
+     "size": [
+      0.134,
+      0.035,
+      0.0814
+     ],
+     "node": 150
     },
     {
      "id": "susp.rear.left.uca_front.rodend",
@@ -2773,12 +2869,12 @@
       0.0722,
       0.0245
      ],
-     "node": 129
+     "node": 141
     },
     {
      "id": "susp.rear.right.uca_rear.rodend",
      "name": "后右上叉臂后支关节轴承",
-     "part_no": "26B-SUR-017",
+     "part_no": "26B-SUR-019",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2797,12 +2893,12 @@
       0.0722,
       0.0245
      ],
-     "node": 144
+     "node": 158
     },
     {
      "id": "susp.rear.right.uca_front.rodend",
      "name": "后右上叉臂前支关节轴承",
-     "part_no": "26B-SUR-015",
+     "part_no": "26B-SUR-017",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2821,12 +2917,12 @@
       0.0722,
       0.0245
      ],
-     "node": 142
+     "node": 156
     },
     {
      "id": "susp.rear.right.lca_rear.rodend",
      "name": "后右下叉臂后支关节轴承",
-     "part_no": "26B-SUR-021",
+     "part_no": "26B-SUR-023",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2845,7 +2941,7 @@
       0.0721,
       0.0211
      ],
-     "node": 148
+     "node": 162
     },
     {
      "id": "susp.rear.left.lca_rear.rodend",
@@ -2869,12 +2965,12 @@
       0.0721,
       0.0211
      ],
-     "node": 135
+     "node": 147
     },
     {
      "id": "susp.rear.right.lca_front.rodend",
      "name": "后右下叉臂前支关节轴承",
-     "part_no": "26B-SUR-019",
+     "part_no": "26B-SUR-021",
      "std": true,
      "spec": "GE8DO 关节轴承 + M10 锁紧螺母",
      "material": "chrome",
@@ -2893,7 +2989,7 @@
       0.0721,
       0.0211
      ],
-     "node": 146
+     "node": 160
     },
     {
      "id": "susp.rear.left.lca_front.rodend",
@@ -2917,7 +3013,7 @@
       0.0721,
       0.0211
      ],
-     "node": 133
+     "node": 145
     },
     {
      "id": "susp.rear.left.uca_rear.rodend",
@@ -2941,7 +3037,103 @@
       0.0722,
       0.0245
      ],
-     "node": 131
+     "node": 143
+    },
+    {
+     "id": "susp.rear.right.pushrod_rodend.upper",
+     "name": "后右推杆上端关节轴承",
+     "part_no": "26B-SUR-030",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      -0.8256,
+      -0.2094,
+      0.4869
+     ],
+     "size": [
+      0.0193,
+      0.0475,
+      0.0548
+     ],
+     "node": 169
+    },
+    {
+     "id": "susp.rear.left.pushrod_rodend.lower",
+     "name": "后左推杆下端关节轴承",
+     "part_no": "26B-SUR-014",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      -0.7724,
+      0.4976,
+      0.1231
+     ],
+     "size": [
+      0.0193,
+      0.0475,
+      0.0548
+     ],
+     "node": 153
+    },
+    {
+     "id": "susp.rear.left.pushrod_rodend.upper",
+     "name": "后左推杆上端关节轴承",
+     "part_no": "26B-SUR-015",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      -0.8256,
+      0.2094,
+      0.4869
+     ],
+     "size": [
+      0.0192,
+      0.0475,
+      0.0548
+     ],
+     "node": 154
+    },
+    {
+     "id": "susp.rear.right.pushrod_rodend.lower",
+     "name": "后右推杆下端关节轴承",
+     "part_no": "26B-SUR-029",
+     "std": true,
+     "spec": "GE6DO 关节轴承 + M8 锁紧螺母",
+     "material": "chrome",
+     "material_label": "镀铬钢",
+     "mass_kg": 0.051,
+     "volume_m3": 6e-06,
+     "fill": 1.0,
+     "note": "推杆两端都用关节轴承，消除弯曲约束；螺纹段用于调整预载与行程。",
+     "center": [
+      -0.7724,
+      -0.4976,
+      0.1231
+     ],
+     "size": [
+      0.0192,
+      0.0475,
+      0.0548
+     ],
+     "node": 168
     }
    ]
   },
@@ -2978,7 +3170,7 @@
       0.212,
       0.5147
      ],
-     "node": 81
+     "node": 83
     },
     {
      "id": "wheel.tire.前右",
@@ -3002,7 +3194,7 @@
       0.212,
       0.5147
      ],
-     "node": 88
+     "node": 92
     },
     {
      "id": "wheel.tire.后右",
@@ -3026,7 +3218,7 @@
       0.212,
       0.5147
      ],
-     "node": 95
+     "node": 101
     },
     {
      "id": "wheel.tire.前左",
@@ -3098,7 +3290,7 @@
       0.165,
       0.3266
      ],
-     "node": 89
+     "node": 93
     },
     {
      "id": "wheel.rim.后右",
@@ -3122,7 +3314,7 @@
       0.165,
       0.3266
      ],
-     "node": 96
+     "node": 102
     },
     {
      "id": "wheel.rim.后左",
@@ -3146,7 +3338,7 @@
       0.165,
       0.3266
      ],
-     "node": 82
+     "node": 84
     },
     {
      "id": "wheel.hub.后左",
@@ -3170,7 +3362,7 @@
       0.09,
       0.1072
      ],
-     "node": 83
+     "node": 85
     },
     {
      "id": "wheel.hub.后右",
@@ -3194,7 +3386,7 @@
       0.09,
       0.1072
      ],
-     "node": 97
+     "node": 103
     },
     {
      "id": "wheel.hub.前左",
@@ -3242,7 +3434,7 @@
       0.09,
       0.1072
      ],
-     "node": 90
+     "node": 94
     },
     {
      "id": "wheel.washer.后右",
@@ -3266,7 +3458,7 @@
       0.004,
       0.104
      ],
-     "node": 101
+     "node": 109
     },
     {
      "id": "wheel.washer.前右",
@@ -3290,7 +3482,7 @@
       0.004,
       0.104
      ],
-     "node": 94
+     "node": 100
     },
     {
      "id": "wheel.washer.前左",
@@ -3314,7 +3506,7 @@
       0.004,
       0.104
      ],
-     "node": 80
+     "node": 82
     },
     {
      "id": "wheel.washer.后左",
@@ -3338,7 +3530,7 @@
       0.004,
       0.104
      ],
-     "node": 87
+     "node": 91
     },
     {
      "id": "wheel.nut.前左",
@@ -3362,7 +3554,7 @@
       0.022,
       0.0498
      ],
-     "node": 79
+     "node": 81
     },
     {
      "id": "wheel.nut.后右",
@@ -3386,7 +3578,7 @@
       0.022,
       0.0498
      ],
-     "node": 100
+     "node": 108
     },
     {
      "id": "wheel.nut.后左",
@@ -3410,7 +3602,7 @@
       0.022,
       0.0498
      ],
-     "node": 86
+     "node": 90
     },
     {
      "id": "wheel.nut.前右",
@@ -3434,19 +3626,19 @@
       0.022,
       0.0498
      ],
-     "node": 93
+     "node": 99
     }
    ]
   },
   {
    "id": "steering",
    "label": "转向系统",
-   "count": 13,
-   "mass_kg": 8.2,
+   "count": 15,
+   "mass_kg": 8.23,
    "center": [
-    0.6001,
+    0.5998,
     0.0,
-    0.2538
+    0.2435
    ],
    "parts": [
     {
@@ -3471,7 +3663,7 @@
       0.026,
       0.4757
      ],
-     "node": 156
+     "node": 172
     },
     {
      "id": "steering.rack_housing",
@@ -3495,7 +3687,7 @@
       0.46,
       0.048
      ],
-     "node": 154
+     "node": 170
     },
     {
      "id": "steering.rack",
@@ -3519,7 +3711,7 @@
       0.5,
       0.024
      ],
-     "node": 155
+     "node": 171
     },
     {
      "id": "steering.wheel",
@@ -3543,7 +3735,7 @@
       0.258,
       0.1673
      ],
-     "node": 157
+     "node": 173
     },
     {
      "id": "steering.quick_release",
@@ -3567,7 +3759,7 @@
       0.06,
       0.0573
      ],
-     "node": 166
+     "node": 182
     },
     {
      "id": "steering.tie_rod.left",
@@ -3591,7 +3783,7 @@
       0.3455,
       0.0418
      ],
-     "node": 158
+     "node": 174
     },
     {
      "id": "steering.tie_rod.right",
@@ -3615,7 +3807,7 @@
       0.3455,
       0.0418
      ],
-     "node": 161
+     "node": 177
     },
     {
      "id": "steering.tie_rod_rodend.right",
@@ -3639,7 +3831,7 @@
       0.0721,
       0.023
      ],
-     "node": 162
+     "node": 178
     },
     {
      "id": "steering.tie_rod_rodend.left",
@@ -3663,7 +3855,7 @@
       0.0721,
       0.023
      ],
-     "node": 159
+     "node": 175
     },
     {
      "id": "steering.rack_stop.right",
@@ -3687,7 +3879,7 @@
       0.01,
       0.038
      ],
-     "node": 165
+     "node": 181
     },
     {
      "id": "steering.rack_stop.left",
@@ -3711,7 +3903,55 @@
       0.01,
       0.038
      ],
-     "node": 164
+     "node": 180
+    },
+    {
+     "id": "steering.rack_bolt.right",
+     "name": "齿条右安装螺栓",
+     "part_no": "26B-STR-015",
+     "std": true,
+     "spec": "M8 六角头螺栓 ISO 4017",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.016,
+     "volume_m3": 2e-06,
+     "fill": 1.0,
+     "note": "T 2.8.9：齿条必须机械连接到主结构，且所有固定件须在翻滚保护包络内。",
+     "center": [
+      0.598,
+      -0.17,
+      0.1766
+     ],
+     "size": [
+      0.0148,
+      0.0128,
+      0.0372
+     ],
+     "node": 184
+    },
+    {
+     "id": "steering.rack_bolt.left",
+     "name": "齿条左安装螺栓",
+     "part_no": "26B-STR-014",
+     "std": true,
+     "spec": "M8 六角头螺栓 ISO 4017",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.016,
+     "volume_m3": 2e-06,
+     "fill": 1.0,
+     "note": "T 2.8.9：齿条必须机械连接到主结构，且所有固定件须在翻滚保护包络内。",
+     "center": [
+      0.598,
+      0.17,
+      0.1766
+     ],
+     "size": [
+      0.0148,
+      0.0128,
+      0.0372
+     ],
+     "node": 183
     },
     {
      "id": "steering.tie_rod_nut.left",
@@ -3735,7 +3975,7 @@
       0.0124,
       0.0145
      ],
-     "node": 160
+     "node": 176
     },
     {
      "id": "steering.tie_rod_nut.right",
@@ -3759,19 +3999,19 @@
       0.0125,
       0.0145
      ],
-     "node": 163
+     "node": 179
     }
    ]
   },
   {
    "id": "brakes",
    "label": "制动系统",
-   "count": 25,
-   "mass_kg": 10.83,
+   "count": 33,
+   "mass_kg": 10.88,
    "center": [
-    0.3372,
-    0.0001,
-    0.2781
+    0.2312,
+    0.0,
+    0.2688
    ],
    "parts": [
     {
@@ -3801,7 +4041,7 @@
     {
      "id": "brake.disc.后左",
      "name": "后左制动盘",
-     "part_no": "26B-BRK-003",
+     "part_no": "26B-BRK-005",
      "std": false,
      "spec": "",
      "material": "brake_disc",
@@ -3820,12 +4060,12 @@
       0.006,
       0.29
      ],
-     "node": 84
+     "node": 86
     },
     {
      "id": "brake.disc.前右",
      "name": "前右制动盘",
-     "part_no": "26B-BRK-005",
+     "part_no": "26B-BRK-009",
      "std": false,
      "spec": "",
      "material": "brake_disc",
@@ -3844,12 +4084,12 @@
       0.006,
       0.29
      ],
-     "node": 91
+     "node": 95
     },
     {
      "id": "brake.disc.后右",
      "name": "后右制动盘",
-     "part_no": "26B-BRK-007",
+     "part_no": "26B-BRK-013",
      "std": false,
      "spec": "",
      "material": "brake_disc",
@@ -3868,7 +4108,7 @@
       0.006,
       0.29
      ],
-     "node": 98
+     "node": 104
     },
     {
      "id": "brake.caliper.前左",
@@ -3897,7 +4137,7 @@
     {
      "id": "brake.caliper.后左",
      "name": "后左制动卡钳",
-     "part_no": "26B-BRK-004",
+     "part_no": "26B-BRK-006",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -3916,12 +4156,12 @@
       0.035,
       0.11
      ],
-     "node": 85
+     "node": 87
     },
     {
      "id": "brake.caliper.前右",
      "name": "前右制动卡钳",
-     "part_no": "26B-BRK-006",
+     "part_no": "26B-BRK-010",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -3940,12 +4180,12 @@
       0.035,
       0.11
      ],
-     "node": 92
+     "node": 96
     },
     {
      "id": "brake.caliper.后右",
      "name": "后右制动卡钳",
-     "part_no": "26B-BRK-008",
+     "part_no": "26B-BRK-014",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -3964,12 +4204,12 @@
       0.035,
       0.11
      ],
-     "node": 99
+     "node": 105
     },
     {
      "id": "brake.pedal_arm",
      "name": "制动踏板臂",
-     "part_no": "26B-BRK-023",
+     "part_no": "26B-BRK-031",
      "std": false,
      "spec": "",
      "material": "steel",
@@ -3988,12 +4228,12 @@
       0.008,
       0.15
      ],
-     "node": 181
+     "node": 199
     },
     {
      "id": "brake.mc_body.left",
      "name": "左制动主缸",
-     "part_no": "26B-BRK-009",
+     "part_no": "26B-BRK-017",
      "std": true,
      "spec": "Ø19 串联主缸",
      "material": "aluminum",
@@ -4012,12 +4252,12 @@
       0.038,
       0.0374
      ],
-     "node": 167
+     "node": 185
     },
     {
      "id": "brake.mc_body.right",
      "name": "右制动主缸",
-     "part_no": "26B-BRK-015",
+     "part_no": "26B-BRK-023",
      "std": true,
      "spec": "Ø19 串联主缸",
      "material": "aluminum",
@@ -4036,12 +4276,12 @@
       0.038,
       0.0374
      ],
-     "node": 173
+     "node": 191
     },
     {
      "id": "brake.pedal_face",
      "name": "制动踏板面",
-     "part_no": "26B-BRK-024",
+     "part_no": "26B-BRK-032",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -4060,12 +4300,12 @@
       0.09,
       0.072
      ],
-     "node": 182
+     "node": 200
     },
     {
      "id": "brake.pedal_pivot",
      "name": "踏板枢轴",
-     "part_no": "26B-BRK-025",
+     "part_no": "26B-BRK-033",
      "std": true,
      "spec": "M12 枢轴螺栓 ISO 4017",
      "material": "chrome",
@@ -4084,12 +4324,12 @@
       0.11,
       0.0114
      ],
-     "node": 183
+     "node": 201
     },
     {
      "id": "brake.clevis.left",
      "name": "左主缸推杆叉头",
-     "part_no": "26B-BRK-012",
+     "part_no": "26B-BRK-020",
      "std": true,
      "spec": "CNC 叉头 + M8 锁紧螺母",
      "material": "steel",
@@ -4108,12 +4348,12 @@
       0.019,
       0.0218
      ],
-     "node": 170
+     "node": 188
     },
     {
      "id": "brake.clevis.right",
      "name": "右主缸推杆叉头",
-     "part_no": "26B-BRK-018",
+     "part_no": "26B-BRK-026",
      "std": true,
      "spec": "CNC 叉头 + M8 锁紧螺母",
      "material": "steel",
@@ -4132,12 +4372,12 @@
       0.019,
       0.0218
      ],
-     "node": 176
+     "node": 194
     },
     {
      "id": "brake.balance_bar",
      "name": "平衡杆",
-     "part_no": "26B-BRK-021",
+     "part_no": "26B-BRK-029",
      "std": true,
      "spec": "M8 螺纹平衡杆",
      "material": "chrome",
@@ -4156,12 +4396,12 @@
       0.17,
       0.0078
      ],
-     "node": 179
+     "node": 197
     },
     {
      "id": "brake.balance_pivot",
      "name": "平衡杆球面支点",
-     "part_no": "26B-BRK-022",
+     "part_no": "26B-BRK-030",
      "std": true,
      "spec": "GE8DO 关节轴承",
      "material": "chrome",
@@ -4180,12 +4420,12 @@
       0.021,
       0.0164
      ],
-     "node": 180
+     "node": 198
     },
     {
      "id": "brake.reservoir.left",
      "name": "左制动油壶",
-     "part_no": "26B-BRK-011",
+     "part_no": "26B-BRK-019",
      "std": true,
      "spec": "独立油壶",
      "material": "body_dark",
@@ -4204,12 +4444,12 @@
       0.026,
       0.03
      ],
-     "node": 169
+     "node": 187
     },
     {
      "id": "brake.reservoir.right",
      "name": "右制动油壶",
-     "part_no": "26B-BRK-017",
+     "part_no": "26B-BRK-025",
      "std": true,
      "spec": "独立油壶",
      "material": "body_dark",
@@ -4228,12 +4468,12 @@
       0.026,
       0.03
      ],
-     "node": 175
+     "node": 193
     },
     {
      "id": "brake.mc_port.left",
      "name": "左主缸出油口",
-     "part_no": "26B-BRK-010",
+     "part_no": "26B-BRK-018",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -4252,12 +4492,12 @@
       0.011,
       0.026
      ],
-     "node": 168
+     "node": 186
     },
     {
      "id": "brake.mc_port.right",
      "name": "右主缸出油口",
-     "part_no": "26B-BRK-016",
+     "part_no": "26B-BRK-024",
      "std": false,
      "spec": "",
      "material": "aluminum",
@@ -4276,12 +4516,204 @@
       0.011,
       0.026
      ],
-     "node": 174
+     "node": 192
+    },
+    {
+     "id": "brake.caliper_bolt.前左.a",
+     "name": "前左卡钳安装螺栓 下",
+     "part_no": "26B-BRK-003",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      0.675,
+      0.545,
+      0.214
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 79
+    },
+    {
+     "id": "brake.caliper_bolt.前右.a",
+     "name": "前右卡钳安装螺栓 下",
+     "part_no": "26B-BRK-011",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      0.675,
+      -0.545,
+      0.214
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 97
+    },
+    {
+     "id": "brake.caliper_bolt.后左.b",
+     "name": "后左卡钳安装螺栓 上",
+     "part_no": "26B-BRK-008",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      -0.875,
+      0.525,
+      0.266
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 89
+    },
+    {
+     "id": "brake.caliper_bolt.后右.b",
+     "name": "后右卡钳安装螺栓 上",
+     "part_no": "26B-BRK-016",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      -0.875,
+      -0.525,
+      0.266
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 107
+    },
+    {
+     "id": "brake.caliper_bolt.后左.a",
+     "name": "后左卡钳安装螺栓 下",
+     "part_no": "26B-BRK-007",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      -0.875,
+      0.525,
+      0.214
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 88
+    },
+    {
+     "id": "brake.caliper_bolt.前左.b",
+     "name": "前左卡钳安装螺栓 上",
+     "part_no": "26B-BRK-004",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      0.675,
+      0.545,
+      0.266
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 80
+    },
+    {
+     "id": "brake.caliper_bolt.后右.a",
+     "name": "后右卡钳安装螺栓 下",
+     "part_no": "26B-BRK-015",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      -0.875,
+      -0.525,
+      0.214
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 106
+    },
+    {
+     "id": "brake.caliper_bolt.前右.b",
+     "name": "前右卡钳安装螺栓 上",
+     "part_no": "26B-BRK-012",
+     "std": true,
+     "spec": "M6 内六角圆柱头螺钉 ISO 4762",
+     "material": "steel",
+     "material_label": "钢件",
+     "mass_kg": 0.006,
+     "volume_m3": 1e-06,
+     "fill": 1.0,
+     "note": "T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，且只允许六角头螺栓或内六角圆柱头螺钉。",
+     "center": [
+      0.675,
+      -0.545,
+      0.266
+     ],
+     "size": [
+      0.0096,
+      0.02,
+      0.0096
+     ],
+     "node": 98
     },
     {
      "id": "brake.balance_washer.right",
      "name": "右平衡杆垫圈",
-     "part_no": "26B-BRK-020",
+     "part_no": "26B-BRK-028",
      "std": true,
      "spec": "平垫圈 DIN 125",
      "material": "chrome",
@@ -4300,12 +4732,12 @@
       0.0016,
       0.022
      ],
-     "node": 178
+     "node": 196
     },
     {
      "id": "brake.balance_washer.left",
      "name": "左平衡杆垫圈",
-     "part_no": "26B-BRK-014",
+     "part_no": "26B-BRK-022",
      "std": true,
      "spec": "平垫圈 DIN 125",
      "material": "chrome",
@@ -4324,12 +4756,12 @@
       0.0016,
       0.022
      ],
-     "node": 172
+     "node": 190
     },
     {
      "id": "brake.balance_nut.left",
      "name": "左平衡杆锁紧螺母",
-     "part_no": "26B-BRK-013",
+     "part_no": "26B-BRK-021",
      "std": true,
      "spec": "M8 尼龙锁紧螺母 ISO 7040",
      "material": "steel",
@@ -4348,12 +4780,12 @@
       0.0078,
       0.0141
      ],
-     "node": 171
+     "node": 189
     },
     {
      "id": "brake.balance_nut.right",
      "name": "右平衡杆锁紧螺母",
-     "part_no": "26B-BRK-019",
+     "part_no": "26B-BRK-027",
      "std": true,
      "spec": "M8 尼龙锁紧螺母 ISO 7040",
      "material": "steel",
@@ -4372,7 +4804,7 @@
       0.0078,
       0.0141
      ],
-     "node": 177
+     "node": 195
     }
    ]
   },
@@ -4409,7 +4841,7 @@
       0.44,
       0.22
      ],
-     "node": 186
+     "node": 204
     },
     {
      "id": "powertrain.mount",
@@ -4433,7 +4865,7 @@
       0.3,
       0.02
      ],
-     "node": 191
+     "node": 209
     },
     {
      "id": "powertrain.motor",
@@ -4457,7 +4889,7 @@
       0.196,
       0.193
      ],
-     "node": 184
+     "node": 202
     },
     {
      "id": "powertrain.diff",
@@ -4481,7 +4913,7 @@
       0.17,
       0.1418
      ],
-     "node": 188
+     "node": 206
     },
     {
      "id": "powertrain.battery_lid",
@@ -4505,7 +4937,7 @@
       0.46,
       0.02
      ],
-     "node": 187
+     "node": 205
     },
     {
      "id": "powertrain.inverter",
@@ -4529,7 +4961,7 @@
       0.26,
       0.1
      ],
-     "node": 185
+     "node": 203
     },
     {
      "id": "powertrain.driveshaft.left",
@@ -4553,7 +4985,7 @@
       0.455,
       0.032
      ],
-     "node": 189
+     "node": 207
     },
     {
      "id": "powertrain.driveshaft.right",
@@ -4577,7 +5009,7 @@
       0.455,
       0.032
      ],
-     "node": 190
+     "node": 208
     }
    ]
   },
@@ -4614,7 +5046,7 @@
       1.1,
       0.0398
      ],
-     "node": 198
+     "node": 216
     },
     {
      "id": "aero.front_wing.main",
@@ -4638,7 +5070,7 @@
       1.3,
       0.036
      ],
-     "node": 192
+     "node": 210
     },
     {
      "id": "aero.rear_wing.support.left",
@@ -4662,7 +5094,7 @@
       0.0871,
       0.4435
      ],
-     "node": 203
+     "node": 221
     },
     {
      "id": "aero.rear_wing.support.right",
@@ -4686,7 +5118,7 @@
       0.0871,
       0.4435
      ],
-     "node": 204
+     "node": 222
     },
     {
      "id": "aero.front_wing.support.left",
@@ -4710,7 +5142,7 @@
       0.0639,
       0.1826
      ],
-     "node": 196
+     "node": 214
     },
     {
      "id": "aero.front_wing.support.right",
@@ -4734,7 +5166,7 @@
       0.0639,
       0.1826
      ],
-     "node": 197
+     "node": 215
     },
     {
      "id": "aero.front_wing.flap",
@@ -4758,7 +5190,7 @@
       1.3,
       0.0456
      ],
-     "node": 193
+     "node": 211
     },
     {
      "id": "aero.rear_wing.flap1",
@@ -4782,7 +5214,7 @@
       1.1,
       0.038
      ],
-     "node": 199
+     "node": 217
     },
     {
      "id": "aero.rear_wing.endplate.left",
@@ -4806,7 +5238,7 @@
       0.008,
       0.29
      ],
-     "node": 201
+     "node": 219
     },
     {
      "id": "aero.rear_wing.endplate.right",
@@ -4830,7 +5262,7 @@
       0.008,
       0.29
      ],
-     "node": 202
+     "node": 220
     },
     {
      "id": "aero.rear_wing.flap2",
@@ -4854,7 +5286,7 @@
       1.1,
       0.0381
      ],
-     "node": 200
+     "node": 218
     },
     {
      "id": "aero.front_wing.endplate.left",
@@ -4878,7 +5310,7 @@
       0.006,
       0.23
      ],
-     "node": 194
+     "node": 212
     },
     {
      "id": "aero.front_wing.endplate.right",
@@ -4902,7 +5334,7 @@
       0.006,
       0.23
      ],
-     "node": 195
+     "node": 213
     },
     {
      "id": "aero.front_wing.strake.left",
@@ -4926,7 +5358,7 @@
       0.042,
       0.052
      ],
-     "node": 206
+     "node": 224
     },
     {
      "id": "aero.front_wing.strake.right",
@@ -4950,7 +5382,7 @@
       0.042,
       0.052
      ],
-     "node": 208
+     "node": 226
     },
     {
      "id": "aero.front_wing.vortex_gen.right",
@@ -4974,7 +5406,7 @@
       0.362,
       0.042
      ],
-     "node": 209
+     "node": 227
     },
     {
      "id": "aero.front_wing.vortex_gen.left",
@@ -4998,7 +5430,7 @@
       0.362,
       0.042
      ],
-     "node": 207
+     "node": 225
     },
     {
      "id": "aero.front_wing.gurney",
@@ -5022,7 +5454,7 @@
       1.3,
       0.018
      ],
-     "node": 205
+     "node": 223
     }
    ]
   },
@@ -5059,7 +5491,7 @@
       0.34,
       0.286
      ],
-     "node": 214
+     "node": 232
     },
     {
      "id": "aero_ground.underbody.left",
@@ -5083,7 +5515,7 @@
       0.34,
       0.286
      ],
-     "node": 211
+     "node": 229
     },
     {
      "id": "aero_ground.keel",
@@ -5107,7 +5539,7 @@
       0.032,
       0.306
      ],
-     "node": 210
+     "node": 228
     },
     {
      "id": "aero_ground.nose_duct",
@@ -5131,7 +5563,7 @@
       0.6,
       0.109
      ],
-     "node": 221
+     "node": 239
     },
     {
      "id": "aero_ground.tunnel_wall.right",
@@ -5155,7 +5587,7 @@
       0.012,
       0.306
      ],
-     "node": 215
+     "node": 233
     },
     {
      "id": "aero_ground.tunnel_wall.left",
@@ -5179,7 +5611,7 @@
       0.012,
       0.306
      ],
-     "node": 212
+     "node": 230
     },
     {
      "id": "aero_ground.diffuser_fence.-30",
@@ -5203,7 +5635,7 @@
       0.016,
       0.306
      ],
-     "node": 217
+     "node": 235
     },
     {
      "id": "aero_ground.diffuser_fence.10",
@@ -5227,7 +5659,7 @@
       0.016,
       0.306
      ],
-     "node": 219
+     "node": 237
     },
     {
      "id": "aero_ground.diffuser_fence.30",
@@ -5251,7 +5683,7 @@
       0.016,
       0.306
      ],
-     "node": 220
+     "node": 238
     },
     {
      "id": "aero_ground.diffuser_fence.-10",
@@ -5275,7 +5707,7 @@
       0.016,
       0.306
      ],
-     "node": 218
+     "node": 236
     },
     {
      "id": "aero_ground.splitter_lip",
@@ -5299,7 +5731,7 @@
       0.8,
       0.026
      ],
-     "node": 222
+     "node": 240
     },
     {
      "id": "aero_ground.vortex_generator.left",
@@ -5323,7 +5755,7 @@
       0.205,
       0.056
      ],
-     "node": 213
+     "node": 231
     },
     {
      "id": "aero_ground.vortex_generator.right",
@@ -5347,7 +5779,7 @@
       0.205,
       0.056
      ],
-     "node": 216
+     "node": 234
     }
    ]
   },
@@ -5384,7 +5816,7 @@
       0.47,
       0.34
      ],
-     "node": 223
+     "node": 241
     },
     {
      "id": "body.engine_cover",
@@ -5408,7 +5840,7 @@
       0.476,
       0.415
      ],
-     "node": 228
+     "node": 246
     },
     {
      "id": "body.helmet_fairing",
@@ -5432,7 +5864,7 @@
       0.484,
       0.335
      ],
-     "node": 227
+     "node": 245
     },
     {
      "id": "body.sidepod.right",
@@ -5456,7 +5888,7 @@
       0.235,
       0.3
      ],
-     "node": 230
+     "node": 248
     },
     {
      "id": "body.sidepod.left",
@@ -5480,7 +5912,7 @@
       0.235,
       0.3
      ],
-     "node": 229
+     "node": 247
     },
     {
      "id": "body.cockpit_panel.right",
@@ -5504,7 +5936,7 @@
       0.012,
       0.36
      ],
-     "node": 225
+     "node": 243
     },
     {
      "id": "body.cockpit_panel.left",
@@ -5528,7 +5960,7 @@
       0.012,
       0.36
      ],
-     "node": 224
+     "node": 242
     },
     {
      "id": "body.dash_cover",
@@ -5552,7 +5984,7 @@
       0.46,
       0.095
      ],
-     "node": 226
+     "node": 244
     },
     {
      "id": "body.side_skirt.right",
@@ -5576,7 +6008,7 @@
       0.016,
       0.096
      ],
-     "node": 234
+     "node": 252
     },
     {
      "id": "body.side_skirt.left",
@@ -5600,7 +6032,7 @@
       0.016,
       0.096
      ],
-     "node": 233
+     "node": 251
     },
     {
      "id": "body.wheel_deflector.right",
@@ -5624,7 +6056,7 @@
       0.016,
       0.29
      ],
-     "node": 232
+     "node": 250
     },
     {
      "id": "body.wheel_deflector.left",
@@ -5648,7 +6080,7 @@
       0.016,
       0.29
      ],
-     "node": 231
+     "node": 249
     }
    ]
   },
@@ -5787,9 +6219,9 @@
   }
  ],
  "totals": {
-  "parts": 235,
-  "mass_kg": 280.7,
-  "triangles": 33528,
+  "parts": 253,
+  "mass_kg": 267.8,
+  "triangles": 44968,
   "bbox_min": [
    -1.274,
    -0.716,

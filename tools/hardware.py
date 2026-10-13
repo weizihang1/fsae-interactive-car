@@ -26,9 +26,9 @@ def prism(profile, origin, u, v, w, length):
         for (a, b) in profile:
             m.verts.append(g.vadd(g.vadd(origin, g.vmul(w, s)),
                                   g.vadd(g.vmul(u, a), g.vmul(v, b))))
-    for i in range(1, n - 1):
-        m.tris.append((0, i, i + 1))
-        m.tris.append((n, n + i + 1, n + i))
+    for (a, b, c) in g.triangulate_polygon(profile):
+        m.tris.append((a, b, c))
+        m.tris.append((n + a, n + c, n + b))
     for i in range(n):
         j = (i + 1) % n
         m.tris.append((i, n + i, n + j))

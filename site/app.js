@@ -57,7 +57,7 @@ const rimLight = new THREE.DirectionalLight(0xff9aa5, 0.5);
 rimLight.position.set(-3, 1.5, 6);
 scene.add(rimLight);
 // 车底补光：否则从下方看底盘时一片死黑，看不出结构
-const underLight = new THREE.DirectionalLight(0xbcd4ff, 1.25);
+const underLight = new THREE.DirectionalLight(0xbcd4ff, 0.85);
 underLight.position.set(0.6, -4.2, 1.6);
 scene.add(underLight);
 

@@ -78,10 +78,6 @@
   #legend .row{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px}
   #legend .txt{color:#9fb0c8;font-size:11px;margin-top:10px;line-height:1.5}
   .chk{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:12px;cursor:pointer}
-  .vb{padding:5px 10px;border-radius:7px;border:1px solid var(--line);color:var(--dim);
-    font-size:12px;cursor:pointer;user-select:none;white-space:nowrap}
-  .vb:hover{color:var(--text);background:#ffffff0d}
-  .vb.on{color:#fff;background:#1d2f4d;border-color:#3a5a8c}
 </style>
 </head>
 <body>
@@ -130,15 +126,8 @@
     <span class="val" id="yawv">0.0°</span>
     <label class="chk"><input id="cp" type="checkbox">压力云图</label>
   </div>
-  <div id="barBase" style="align-items:center;gap:10px">
-    <span class="lbl">视角</span>
-    <span class="vb on" data-view="iso">等轴</span>
-    <span class="vb" data-view="front">前</span>
-    <span class="vb" data-view="side">侧</span>
-    <span class="vb" data-view="top">顶</span>
-    <span class="vb" data-view="bottom">底</span>
-    <span class="vb" data-view="chassis">底盘气动</span>
-    <span class="lbl">左键拖动可 360° 环绕（含车底）</span>
+  <div id="barBase" style="align-items:center">
+    <span class="lbl" id="baseTip">左键旋转 · 滚轮缩放 · 点击零件查看信息</span>
   </div>
 </div>
 

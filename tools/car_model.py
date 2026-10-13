@@ -328,6 +328,16 @@ class Builder:
                 self.add("brake.caliper.%s%s" % (atag, tag), "%s%s制动卡钳" % (atag, tag),
                          "brakes", "aluminum",
                          g.box(caliper_center, (0.075, 0.035, 0.11)))
+                # 卡钳安装螺栓（内六角圆柱头，轴沿轮轴方向）
+                for k, off in (("a", -0.026), ("b", 0.026)):
+                    self.add("brake.caliper_bolt.%s%s.%s" % (atag, tag, k),
+                             "%s%s卡钳安装螺栓 %s" % (atag, tag, "上" if off > 0 else "下"),
+                             "brakes", "steel",
+                             hw.socket_screw((caliper_center[0], caliper_center[1], caliper_center[2] + off),
+                                             (0.0, side, 0.0), 0.006, 0.020, seg=12),
+                             std=True, std_spec="M6 内六角圆柱头螺钉 ISO 4762",
+                             note="T 10.1.2/10.1.3：关键紧固件须钢制、≥M4、8.8 级以上，"
+                                  "且只允许六角头螺栓或内六角圆柱头螺钉。")
                 hub_y = side * (half_track + p["tire_width"] / 2.0 - 0.022)
                 naxis = (0.0, side, 0.0)
                 self.add("wheel.nut.%s%s" % (atag, tag), "%s%s中心锁紧螺母" % (atag, tag),
@@ -399,22 +409,74 @@ class Builder:
                              note="下叉臂内端铰接点。关节轴承允许叉臂在跳动中自由转动，"
                                   "同时通过螺纹调整长度来设定倾角与前束。")
 
-                upright = g.loft_rect(lca_out, (0.050, 0.0, 0.0), (0.0, 0.040, 0.0),
-                                      uca_out, (0.042, 0.0, 0.0), (0.0, 0.034, 0.0))
-                upright.add(g.revolve([(0.0, -0.055), (0.048, -0.055),
-                                       (0.048, 0.055), (0.0, 0.055)],
-                                      wc, (0.0, 1.0, 0.0), seg=14))
-                self.add("%s.upright" % pid, "%s立柱" % lab, system, "aluminum", upright)
+                # 立柱：机加件。做成"凸台 + 腹板"结构，而不是一整块实体 ——
+                # 这正是铝坯机加立柱的真实形态：只在受力处留料，其余全部铣掉。
+                upright = g.Mesh()
+                kp = g.vnorm(g.vsub(uca_out, lca_out))          # 主销方向
+                # 上下球头安装凸台
+                upright.add(g.revolve([(0.0, -0.016), (0.019, -0.016),
+                                       (0.019, 0.016), (0.0, 0.016)], lca_out, kp, seg=16))
+                upright.add(g.revolve([(0.0, -0.015), (0.018, -0.015),
+                                       (0.018, 0.015), (0.0, 0.015)], uca_out, kp, seg=16))
+                # 中间腹板（收窄，两端与凸台相接）
+                upright.add(g.loft_rect(lca_out, (0.030, 0.0, 0.0), (0.0, 0.024, 0.0),
+                                        uca_out, (0.026, 0.0, 0.0), (0.0, 0.020, 0.0)))
+                # 轮毂轴承座：带外圈法兰的阶梯套，中心是轴承内孔
+                upright.add(g.revolve(
+                    [(0.021, -0.052), (0.050, -0.052), (0.050, -0.038), (0.036, -0.038),
+                     (0.036, 0.028), (0.054, 0.028), (0.054, 0.044), (0.021, 0.044),
+                     (0.021, -0.052)], wc, (0.0, 1.0, 0.0), seg=20))
+                # 卡钳安装凸台（两处，带沉台）
+                for off in (-0.026, 0.026):
+                    upright.add(g.revolve(
+                        [(0.0, 0.0), (0.010, 0.0), (0.010, 0.020), (0.0, 0.020)],
+                        (wc[0] - 0.062, wc[1] - side * 0.012, wc[2] + off),
+                        (0.0, side, 0.0), seg=12))
+                # 转向臂（仅前悬架）：从轴承座伸向转向拉杆外点
+                if axle > 0:
+                    tie_out = (wb / 2.0, side * (wheel["track_front"] / 2.0 - 0.055), 0.185)
+                    arm_root = (wc[0] - 0.020, wc[1] - side * 0.030, wc[2] + 0.010)
+                    upright.add(g.loft_rect(arm_root, (0.022, 0.0, 0.0), (0.0, 0.012, 0.0),
+                                            tie_out, (0.013, 0.0, 0.0), (0.0, 0.011, 0.0)))
+                    upright.add(g.revolve([(0.0, -0.012), (0.012, -0.012),
+                                           (0.012, 0.012), (0.0, 0.012)],
+                                          tie_out, (0.0, 1.0, 0.0), seg=14))
+                self.add("%s.upright" % pid, "%s立柱" % lab, system, "aluminum", upright,
+                         note="整车载荷最集中的自制件。上下球头凸台承受叉臂力，"
+                              "轴承座承受轮荷，转向臂承受转向力；"
+                              "非受力区全部铣空，做成凸台＋腹板结构。")
 
                 self.add("%s.pushrod" % pid, "%s推杆" % lab, system, "steel_tube",
                          g.tube(push_lo, push_hi, 0.0095, seg=seg, wall=0.0012))
-                rocker_outline = [(0.060, 0.0), (-0.050, 0.048), (-0.050, -0.048)]
-                self.add("%s.rocker" % pid, "%s摇臂" % lab, system, "aluminum",
-                         g.extrude_dir(rocker_outline, rocker, (1.0, 0.0, 0.0), (0.0, 1.0, 0.0), 0.024))
+                # 摇臂：同样做成三凸台 + 腹板，枢轴/推杆/减震器三处留料，其余铣掉
+                rk = g.Mesh()
+                rk.add(g.revolve([(0.0, -0.008), (0.017, -0.008), (0.017, 0.008), (0.0, 0.008)],
+                                 rocker, (0.0, 1.0, 0.0), seg=16))
+                for tip, rr in ((push_hi, 0.011), (damp_lo, 0.011)):
+                    rk.add(g.revolve([(0.0, -0.006), (rr, -0.006), (rr, 0.006), (0.0, 0.006)],
+                                     tip, (0.0, 1.0, 0.0), seg=14))
+                    rk.add(g.loft_rect(rocker, (0.018, 0.0, 0.0), (0.0, 0.007, 0.0),
+                                       tip, (rr, 0.0, 0.0), (0.0, 0.006, 0.0)))
+                self.add("%s.rocker" % pid, "%s摇臂" % lab, system, "aluminum", rk,
+                         note="三凸台机加摇臂：枢轴、推杆、减震器三处留料，中间用腹板连接，"
+                              "改变凸台相对角度即可调整运动比。")
                 self.add("%s.damper_body" % pid, "%s减震器筒" % lab, system, "aluminum",
                          g.tube(damp_lo, damp_hi, 0.019, seg=seg))
                 self.add("%s.spring" % pid, "%s减震弹簧" % lab, system, "chrome",
                          g.tube(damp_lo, damp_hi, 0.031, seg=seg, wall=0.004))
+                # 推杆两端关节轴承
+                dp = g.vsub(push_hi, push_lo)
+                for nm, pt, dsgn in (("lower", push_lo, 1.0), ("upper", push_hi, -1.0)):
+                    self.add("%s.pushrod_rodend.%s" % (pid, nm),
+                             "%s推杆%s关节轴承" % (lab, "下端" if nm == "lower" else "上端"),
+                             system, "chrome",
+                             hw.rod_end(pt, g.vmul(g.vnorm(dp), dsgn),
+                                        g.vnorm(g.vcross(dp, (0.0, 0.0, 1.0))),
+                                        bore_r=0.0035, thread_d=0.008, shank_len=0.030,
+                                        nut_af=0.014, seg=12),
+                             std=True, std_spec="GE6DO 关节轴承 + M8 锁紧螺母",
+                             note="推杆两端都用关节轴承，消除弯曲约束；"
+                                  "螺纹段用于调整预载与行程。")
 
     # ---------------- 转向 ----------------
 
@@ -479,6 +541,15 @@ class Builder:
                            g.vadd(hub, g.vmul(hub_dir, -0.030)), hub_dir, seg=18),
                  std=True, std_spec="方向盘快拆连接器",
                  note="T 2.8.5：方向盘必须用快拆连接转向柱，驾驶员戴手套在正常坐姿下可操作。")
+        # 齿条安装螺栓
+        for side, stag in ((1, "左"), (-1, "右")):
+            self.add("steering.rack_bolt.%s" % ("left" if side > 0 else "right"),
+                     "齿条%s安装螺栓" % stag, "steering", "steel",
+                     hw.hex_bolt((rack_x - 0.032, side * 0.170, rack_z + 0.030),
+                                 (0.0, 0.0, -1.0), 0.008, 0.032, seg=12),
+                     std=True, std_spec="M8 六角头螺栓 ISO 4017",
+                     note="T 2.8.9：齿条必须机械连接到主结构，且所有固定件须在"
+                          "翻滚保护包络内。")
 
     # ---------------- 制动踏板箱总成 ----------------
 

@@ -162,6 +162,87 @@ def merge(meshes):
 
 
 # --------------------------------------------------------------------------
+# 多边形三角化（耳切法）
+# --------------------------------------------------------------------------
+
+def _point_in_triangle(p, a, b, c):
+    d1 = (p[0] - b[0]) * (a[1] - b[1]) - (a[0] - b[0]) * (p[1] - b[1])
+    d2 = (p[0] - c[0]) * (b[1] - c[1]) - (b[0] - c[0]) * (p[1] - c[1])
+    d3 = (p[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (p[1] - a[1])
+    eps = 1e-8 * _EPS_SCALE
+    neg = (d1 < -eps) or (d2 < -eps) or (d3 < -eps)
+    pos = (d1 > eps) or (d2 > eps) or (d3 > eps)
+    return not (neg and pos)
+
+
+_EPS_SCALE = 1.0
+
+
+def _ear_clip(points):
+    """耳切法主体。容差按多边形尺度取相对值，否则薄长轮廓会误判。"""
+    global _EPS_SCALE
+    n = len(points)
+    xs = [p[0] for p in points]
+    ys = [p[1] for p in points]
+    scale = max(max(xs) - min(xs), max(ys) - min(ys)) or 1.0
+    _EPS_SCALE = scale * scale
+    area = 0.0
+    for i in range(n):
+        x1, y1 = points[i]
+        x2, y2 = points[(i + 1) % n]
+        area += x1 * y2 - x2 * y1
+    idx = list(range(n))
+    if area < 0.0:
+        idx.reverse()
+    tris = []
+    guard = 0
+    while len(idx) > 3 and guard < 4 * n * n:
+        guard += 1
+        m = len(idx)
+        clipped = False
+        for i in range(m):
+            i0, i1, i2 = idx[(i - 1) % m], idx[i], idx[(i + 1) % m]
+            a, b, c = points[i0], points[i1], points[i2]
+            cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+            if cross <= 1e-9 * _EPS_SCALE:
+                continue
+            blocked = False
+            for j in idx:
+                if j == i0 or j == i1 or j == i2:
+                    continue
+                if _point_in_triangle(points[j], a, b, c):
+                    blocked = True
+                    break
+            if not blocked:
+                tris.append((i0, i1, i2))
+                idx.pop(i)
+                clipped = True
+                break
+        if not clipped:
+            break
+    if len(idx) == 3:
+        tris.append((idx[0], idx[1], idx[2]))
+    return tris
+
+
+def triangulate_polygon(points):
+    """三角化简单多边形，返回索引三元组。
+
+    端面若用"从 0 号点扇形展开"，一旦轮廓是凹的（减重腔、摇臂外形、
+    支架之类）就会自交，体积与渲染都会出错，因此优先用耳切。
+    但薄长轮廓（例如翼型上下表面近乎共线）会让耳切误判而提前停下，
+    此时回退到扇形——扇形对近凸轮廓本来就是正确的。
+    """
+    n = len(points)
+    if n < 3:
+        return []
+    tris = _ear_clip(points)
+    if len(tris) == n - 2:
+        return tris
+    return [(0, i, i + 1) for i in range(1, n - 1)]
+
+
+# --------------------------------------------------------------------------
 # 图元
 # --------------------------------------------------------------------------
 
@@ -336,9 +417,10 @@ def extrude_dir(outline, origin, dir_x, dir_y, depth):
         for (a, b) in outline:
             m.verts.append(vadd(vadd(origin, vmul(dy, s)),
                                 vadd(vmul(dx, a), vmul(dz, b))))
-    for i in range(1, n - 1):
-        m.tris.append((0, i, i + 1))
-        m.tris.append((n, n + i + 1, n + i))
+    # 端面用耳切三角化，允许凹多边形（减重腔、摇臂外形等）
+    for (a, b, c) in triangulate_polygon(outline):
+        m.tris.append((a, b, c))
+        m.tris.append((n + a, n + c, n + b))
     for i in range(n):
         j = (i + 1) % n
         # 侧面绕向必须与端面一致（都朝外）。原先写成 (i, j, n+j) 会让侧面朝内，
