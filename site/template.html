@@ -77,6 +77,23 @@
     background:linear-gradient(90deg,#0d1760,#1480db,#2edb9e,#f5db38,#f23d2e)}
   #legend .row{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px}
   #legend .txt{color:#9fb0c8;font-size:11px;margin-top:10px;line-height:1.5}
+  #hud{left:16px;bottom:96px;width:292px;padding:12px 14px;display:none}
+  .hudtitle{font-size:12.5px;font-weight:600;margin-bottom:8px}
+  .hudrow{display:flex;align-items:baseline;gap:8px;font-size:12px;padding:2px 0}
+  .hudrow span{color:var(--dim);flex:1}
+  .hudrow b{font-size:15px;font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .hudrow i{color:var(--dim);font-size:11px;font-style:normal;width:28px}
+  .hudsep{color:var(--dim);font-size:11px;margin:10px 0 6px;
+    border-top:1px solid var(--line);padding-top:8px}
+  .trav{display:flex;align-items:center;gap:8px;font-size:11.5px;padding:3px 0}
+  .trav>span{color:var(--dim);width:34px}
+  .trav>.bar{position:relative;flex:1;height:6px;background:#ffffff14;
+    border-radius:3px;overflow:hidden}
+  .trav>.bar>b{position:absolute;top:0;height:100%;left:50%;width:0;
+    border-radius:3px;background:#4ea1ff}
+  .trav>em{font-style:normal;color:var(--dim);width:46px;text-align:right;
+    font-variant-numeric:tabular-nums}
+  .hudtip{margin-top:9px;color:#5f6d85;font-size:10.5px;line-height:1.5}
   .chk{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:12px;cursor:pointer}
 </style>
 </head>
@@ -136,6 +153,24 @@
   <div class="grad"></div>
   <div class="row"><span>低速 / 高压</span><span>高速 / 低压</span></div>
   <div class="txt" id="legendTxt"></div>
+</div>
+
+<div class="panel" id="hud">
+  <div class="hudtitle">车辆遥测</div>
+  <div class="hudrow"><span>车速</span><b id="hSpeed">0</b><i>km/h</i></div>
+  <div class="hudrow"><span>纵向加速度</span><b id="hAx">0.00</b><i>g</i></div>
+  <div class="hudrow"><span>横向加速度</span><b id="hAy">0.00</b><i>g</i></div>
+  <div class="hudrow"><span>前轮转角</span><b id="hSteer">0.0</b><i>°</i></div>
+  <div class="hudrow"><span>圈速</span><b id="hLap">0.0</b><i>s</i></div>
+  <div class="hudrow"><span>最快圈</span><b id="hBest">—</b><i>s</i></div>
+  <div class="hudrow"><span>已跑圈数</span><b id="hLaps">0</b><i></i></div>
+  <div class="hudsep">四角悬架行程（正为压缩）</div>
+  <div class="trav"><span>左前</span><i class="bar"><b id="tFl"></b></i><em id="nFl">0</em></div>
+  <div class="trav"><span>右前</span><i class="bar"><b id="tFr"></b></i><em id="nFr">0</em></div>
+  <div class="trav"><span>左后</span><i class="bar"><b id="tRl"></b></i><em id="nRl">0</em></div>
+  <div class="trav"><span>右后</span><i class="bar"><b id="tRr"></b></i><em id="nRr">0</em></div>
+  <div class="hudtip">W/S/A/D 或方向键驾驶 · R 重置 · C 切换追车/自由视角<br>
+    简化模型（自行车模型 + 线性轮胎带摩擦圆饱和），非圈速仿真工具。</div>
 </div>
 
 <script>

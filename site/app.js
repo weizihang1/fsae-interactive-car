@@ -5,6 +5,7 @@ import {
   createFlow, buildStreamlines, createParticles, recolorStreamlines,
   surfacePressure, clearSurfacePressure,
 } from './tunnel.js';
+import { createDrive } from './drive.js';
 
 const MANIFEST = window.__CAR_MANIFEST__;
 const GLB_BASE64 = window.__CAR_GLB__;
@@ -89,6 +90,7 @@ const partMeshes = new Map();
 const systemGroups = new Map();
 const bodyMeshes = [];
 let model = null;
+let drive = null;
 const CAR_CENTER = new THREE.Vector3(0, 0, 0.45);
 
 const tun = {
@@ -138,6 +140,9 @@ new GLTFLoader().parse(decodeBase64(GLB_BASE64), '', function (gltf) {
   });
   buildTunnel();
   renderTree();
+  drive = createDrive({
+    manifest: MANIFEST, model: model, partMeshes: partMeshes, world: world,
+  });
   applyDeepLink();
   document.getElementById('loading').style.display = 'none';
 }, function (err) {
@@ -350,9 +355,10 @@ function setMode(next) {
     document.getElementById('card').innerHTML =
       '<div class="name">场景驾驶</div>' +
       '<div style="color:var(--dim);font-size:12px;margin-top:8px">' +
-      '此模式尚未接入。整车几何与零件层级已经就绪，下一步接入赛道场景、' +
-      '车辆物理与悬架行程联动。</div>';
+      '用 W/S/A/D 或方向键驾驶。左下角遥测面板显示车速、纵横向加速度、' +
+      '前轮转角、圈速与四角悬架行程。R 重置，C 切换追车/自由视角。</div>';
   }
+  if (next === 'drive') enterDrive(); else exitDrive();
 }
 
 exSlider.addEventListener('input', function () {
@@ -368,6 +374,125 @@ function applyExplode() {
     if (!base || mesh.userData.system === 'body') return;
     mesh.position.set(base.x * k, base.y * k, base.z * k);
   });
+}
+
+// ------------------------------------------------------------------ 驾驶模式
+const driveKeys = {};
+let driveActive = false;
+let driveFree = false;
+let driveAuto = false;
+
+function enterDrive() {
+  if (!drive) return;
+  driveActive = true;
+  driveFree = false;
+  drive.setVisible(true);
+  grid.visible = false;
+  controls.enabled = false;
+  document.getElementById('hud').style.display = 'block';
+  legend.style.display = 'block';
+  document.getElementById('legendTxt').innerHTML =
+    '本模式是<b>游戏级简化模型</b>：3 自由度自行车模型（纵向 / 侧向 / 横摆）'
+    + '＋线性轮胎带摩擦圆饱和＋纵横向载荷转移＋准静态悬架行程。'
+    + '整车质量取 ' + Math.round(MANIFEST.totals.mass_kg + 78) + ' kg（含 78 kg 车手）。'
+    + '它能反映质量、轴距、质心高、轮胎抓地与驱动/制动能力对操控的影响，'
+    + '<b>但不能替代圈速仿真</b>。';
+  drive.reset();
+}
+
+function exitDrive() {
+  if (!driveActive || !drive) return;
+  driveActive = false;
+  drive.setVisible(false);
+  grid.visible = true;
+  controls.enabled = true;
+  document.getElementById('hud').style.display = 'none';
+  if (state.mode !== 'tunnel') legend.style.display = 'none';
+  model.position.set(0, 0, 0);
+  model.rotation.set(0, 0, 0);
+  partMeshes.forEach(function (m) {
+    m.position.copy(m.userData.base);
+    m.quaternion.set(0, 0, 0, 1);
+  });
+  applyShell();
+  camera.position.set(2.6, 1.9, -2.6);
+  controls.target.set(0, 0.42, 0);
+  controls.update();
+}
+
+window.addEventListener('keydown', function (e) {
+  driveKeys[e.code] = true;
+  if (!driveActive) return;
+  if (e.code === 'KeyR') { drive.reset(); e.preventDefault(); }
+  if (e.code === 'KeyC') { driveFree = !driveFree; e.preventDefault(); }
+  if (e.code === 'ArrowUp' || e.code === 'ArrowDown' || e.code === 'ArrowLeft'
+      || e.code === 'ArrowRight' || e.code === 'Space') {
+    e.preventDefault();
+  }
+});
+window.addEventListener('keyup', function (e) { driveKeys[e.code] = false; });
+
+function readDriveInput() {
+  if (driveAuto) {
+    // 自动演示：纯追踪控制器沿赛道中心线行驶，便于无人值守验证与给观众看
+    const t = drive.telemetry();
+    const aim = drive.aimPoint(7.0 + Math.abs(t.vx) * 0.55);
+    const dx = aim.point.x - t.pos.x;
+    const dy = aim.point.y - t.pos.y;
+    let err = Math.atan2(dy, dx) - t.heading;
+    while (err > Math.PI) err -= 2 * Math.PI;
+    while (err < -Math.PI) err += 2 * Math.PI;
+    drive.input.steer = Math.max(-1, Math.min(1, err * 2.2));
+    // 用航向偏差近似弯道缓急，弯里自动降速（否则演示车会一路冲出赛道）
+    const targetV = 15.0 - Math.min(8.0, Math.abs(err) * 14.0);
+    drive.input.throttle = t.vx < targetV ? 0.45 : 0.0;
+    drive.input.brake = t.vx > targetV + 1.5 ? 0.25 : 0.0;
+    return;
+  }
+  const up = driveKeys['KeyW'] || driveKeys['ArrowUp'];
+  const down = driveKeys['KeyS'] || driveKeys['ArrowDown'];
+  const left = driveKeys['KeyA'] || driveKeys['ArrowLeft'];
+  const right = driveKeys['KeyD'] || driveKeys['ArrowRight'];
+  const st = drive.telemetry();
+  if (up) {
+    drive.input.throttle = 1;
+    drive.input.brake = 0;
+  } else if (down) {
+    if (st.vx > 0.6) { drive.input.throttle = 0; drive.input.brake = 1; }
+    else { drive.input.throttle = -1; drive.input.brake = 0; }
+  } else {
+    drive.input.throttle = 0;
+    drive.input.brake = 0;
+  }
+  const target = (left ? 1 : 0) + (right ? -1 : 0);
+  drive.input.steer += (target - drive.input.steer) * 0.30;
+}
+
+function setTravel(key, mmv) {
+  const cap = key.charAt(0).toUpperCase() + key.slice(1);
+  const bar = document.getElementById('t' + cap);
+  const num = document.getElementById('n' + cap);
+  const t = Math.max(-30, Math.min(30, mmv));
+  if (bar) {
+    bar.style.width = (Math.abs(t) / 30 * 50) + '%';
+    bar.style.transform = t < 0 ? 'translateX(-100%)' : 'none';
+    bar.style.background = t > 0 ? '#4ea1ff' : '#ff9f43';
+  }
+  if (num) num.textContent = t.toFixed(1);
+}
+
+function updateHud(t) {
+  document.getElementById('hSpeed').textContent = t.speed.toFixed(0);
+  document.getElementById('hAx').textContent = t.ax.toFixed(2);
+  document.getElementById('hAy').textContent = t.ay.toFixed(2);
+  document.getElementById('hSteer').textContent = t.steerDeg.toFixed(1);
+  document.getElementById('hLap').textContent = t.lapTime.toFixed(1);
+  document.getElementById('hBest').textContent = t.bestLap > 0 ? t.bestLap.toFixed(1) : '—';
+  document.getElementById('hLaps').textContent = t.laps;
+  setTravel('fl', t.travel.fl);
+  setTravel('fr', t.travel.fr);
+  setTravel('rl', t.travel.rl);
+  setTravel('rr', t.travel.rr);
 }
 
 // ------------------------------------------------------------------ 视角预设
@@ -547,13 +672,27 @@ function loop(now) {
   requestAnimationFrame(loop);
   const dt = Math.min(0.05, (now - last) / 1000);
   last = now;
-  controls.update();
-  updateShell(dt);
-  if (state.mode === 'tunnel' && tun.built) {
-    tun.particles.update(dt, state.vinf);
+  if (driveActive && drive) {
+    readDriveInput();
+    const t = drive.update(dt);
+    if (driveFree) {
+      controls.update();
+    } else {
+      // 追车视角下必须显式让相机对准目标：OrbitControls 被禁用后
+      // 不会再替我们做这件事，否则相机会停在正确位置却盯着错误方向。
+      drive.camera(camera.position, controls.target);
+      camera.lookAt(controls.target);
+    }
+    updateHud(t);
+  } else {
+    controls.update();
+    if (state.mode === 'tunnel' && tun.built) {
+      tun.particles.update(dt, state.vinf);
+    }
   }
+  updateShell(dt);
   // 相机低于地面时收起地面网格，否则网格线会糊在车底上
-  grid.visible = camera.position.y > -0.02;
+  grid.visible = !driveActive && camera.position.y > -0.02;
   renderer.render(scene, camera);
 }
 requestAnimationFrame(loop);
@@ -564,6 +703,7 @@ requestAnimationFrame(loop);
 function applyDeepLink() {
   const viewMatch = HASH.match(/view=(iso|front|side|top|bottom|chassis)/);
   if (viewMatch) setView(viewMatch[1]);
+  if (HASH.indexOf('drive=auto') >= 0) driveAuto = true;
   const modeMatch = HASH.match(/mode=(whole|explode|tunnel|drive)/);
   if (modeMatch) setMode(modeMatch[1]);
   if (HASH.indexOf('shell=off') >= 0) {
@@ -627,6 +767,11 @@ if (HASH.indexOf('debug') >= 0) {
       'wheels=' + wheelInfo.join('\n        '),
       'systemGroups=' + Array.from(systemGroups.keys()).join('/'),
       'modelScale=' + fmt(model.scale) + '  modelPos=' + fmt(model.position),
+      'camPos=' + fmt(camera.position) + '  camTarget=' + fmt(controls.target),
+      'driveActive=' + driveActive + '  drivePos='
+        + (drive ? (drive.telemetry().pos.x.toFixed(2) + ',' + drive.telemetry().pos.y.toFixed(2)) : 'na')
+        + '  driveGroupVisible=' + (drive ? drive.group.visible : 'na'),
+      'camDbg=' + (drive ? JSON.stringify(drive.camDbg) : 'na'),
     ].join('\n');
   }, 3500);
 }
