@@ -75,17 +75,24 @@ def rot_z(p, deg, origin=(0.0, 0.0, 0.0)):
 # --------------------------------------------------------------------------
 
 class Mesh:
-    __slots__ = ("verts", "tris", "volume")
+    __slots__ = ("verts", "tris", "volume", "_sum", "_sum_ok")
 
     def __init__(self):
         self.verts = []
         self.tris = []
-        self.volume = None
+        self.volume = None      # 显式解析体积（由图元自己给出）
+        self._sum = 0.0         # 由 add() 累加的子件解析体积
+        self._sum_ok = True     # 只要有一个子件缺解析体积就置 False
 
     def add(self, other):
         off = len(self.verts)
         self.verts.extend(other.verts)
         self.tris.extend((a + off, b + off, c + off) for a, b, c in other.tris)
+        # 合并时若子件都带解析体积就累加；否则散度定理会把空心件当实心算。
+        if other.volume is not None:
+            self._sum += other.volume
+        else:
+            self._sum_ok = False
         return self
 
     def add_all(self, others):
@@ -121,6 +128,9 @@ class Mesh:
         return total / 6.0
 
     def volume_or_computed(self):
+        # 合并体：父件解析体积 + 各子件解析体积
+        if self._sum_ok and self._sum > 0.0:
+            return (self.volume or 0.0) + self._sum
         if self.volume is not None:
             return self.volume
         return abs(self.signed_volume())
@@ -193,7 +203,7 @@ def tube(p0, p1, r0, r1=None, seg=10, wall=None, caps=True):
         ri0, ri1 = max(r0 - wall, 1e-6), max(r1 - wall, 1e-6)
         volume -= math.pi * length * (ri0 * ri0 + ri0 * ri1 + ri1 * ri1) / 3.0
     m.volume = volume
-    return m.fix_winding()
+    return _seal(m)
 
 
 def box(center, size, rz=0.0, rz_origin=None):
@@ -211,7 +221,7 @@ def box(center, size, rz=0.0, rz_origin=None):
               (1, 2, 6), (1, 6, 5),
               (3, 0, 4), (3, 4, 7)]
     m.volume = size[0] * size[1] * size[2]
-    return m.fix_winding()
+    return _seal(m)
 
 
 def loft_rect(c0, w0, h0, c1, w1, h1):
@@ -229,7 +239,19 @@ def loft_rect(c0, w0, h0, c1, w1, h1):
               (1, 5, 6), (1, 6, 2),
               (2, 6, 7), (2, 7, 3),
               (3, 7, 4), (3, 4, 0)]
-    return m.fix_winding()
+    return _seal(m)
+
+
+def _seal(m):
+    """闭合图元建模收尾：修正绕向并固化精确体积。
+
+    只有闭合网格才能用散度定理算体积；把这些体积在**建模时**就写进 Mesh，
+    后续 add() 合并时直接相加，避免回退到散度定理时把空心件当实心算。
+    """
+    m.fix_winding()
+    if m.volume is None:
+        m.volume = abs(m.signed_volume())
+    return m
 
 
 def sphere(center, r, seg=12, rings=8):
@@ -262,7 +284,7 @@ def sphere(center, r, seg=12, rings=8):
     m.verts = verts
     m.tris = tris
     m.volume = 4.0 / 3.0 * math.pi * r ** 3
-    return m.fix_winding()
+    return _seal(m)
 
 
 def revolve(profile, origin, axis, seg=16):
@@ -299,7 +321,7 @@ def revolve(profile, origin, axis, seg=16):
         m.verts.append(vadd(origin, vmul(axis_n, profile[-1][1])))
         for i in range(seg):
             m.tris.append((c, vid((i + 1) % seg, n - 1), vid(i, n - 1)))
-    return m.fix_winding()
+    return _seal(m)
 
 
 def extrude_dir(outline, origin, dir_x, dir_y, depth):
@@ -323,7 +345,7 @@ def extrude_dir(outline, origin, dir_x, dir_y, depth):
         # 与端面朝向相反，散度定理算出的体积只有真值的 1/3。
         m.tris.append((i, n + i, n + j))
         m.tris.append((i, n + j, j))
-    return m.fix_winding()
+    return _seal(m)
 
 
 def airfoil_outline(chord, thick=0.12, camber=0.04, n=20):
@@ -365,7 +387,7 @@ def plate(p0, p1, width, thick, up=(0.0, 0.0, 1.0)):
               (2, 6, 7), (2, 7, 3),
               (3, 7, 4), (3, 4, 0)]
     m.volume = vlen(d) * width * thick
-    return m.fix_winding()
+    return _seal(m)
 
 
 # --------------------------------------------------------------------------

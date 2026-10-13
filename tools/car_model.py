@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 
 import geom as g
+import hardware as hw
 
 # --------------------------------------------------------------------------
 # 材料表：颜色给浏览器，密度用于质量估算
@@ -48,6 +49,13 @@ SYSTEMS = [
     ("cockpit", "座舱与安全"),
 ]
 
+# 件号前缀，按系统分配
+SYSTEM_CODE = {
+    "frame": "FRM", "susp_front": "SUF", "susp_rear": "SUR", "wheels": "WHL",
+    "steering": "STR", "brakes": "BRK", "powertrain": "PWR", "aero": "AER",
+    "aero_ground": "GND", "body": "BDY", "cockpit": "CPK",
+}
+
 MATERIAL_LABELS = {
     "steel_tube": "钢管（车架）",
     "steel": "钢件",
@@ -73,20 +81,26 @@ class Builder:
     def __init__(self, params):
         self.p = params
         self.parts = []
+        self.seq = {}
 
-    def add(self, pid, label, system, material, mesh, fill=1.0, note=None):
+    def add(self, pid, label, system, material, mesh, fill=1.0, note=None,
+            std=False, std_spec=None):
         """fill = 结构填充系数。
         实心图元的几何体积对空心结构（轮胎、轮辋、翼片壳、箱体）会显著高估，
         因此按零件的实际构造给一个可审计的折减系数，质量 = 体积 × 密度 × fill。
         note = 该零件的设计意图/气动功能说明，会显示在网页的信息卡里。
+        std/std_spec = 是否为标准件及其标准规格（对应 FS 规则 T 10 的标注要求）。
         """
         if mesh is None or not mesh.verts:
             return
         volume = mesh.volume_or_computed()
         spec = MATERIALS[material]
+        code = SYSTEM_CODE.get(system, "GEN")
+        self.seq[code] = self.seq.get(code, 0) + 1
         self.parts.append({
             "id": pid,
             "name": label,
+            "part_no": "26B-%s-%03d" % (code, self.seq[code]),
             "system": system,
             "material": material,
             "mesh": mesh,
@@ -94,6 +108,8 @@ class Builder:
             "fill": fill,
             "mass_kg": volume * spec["density"] * fill,
             "note": note or "",
+            "std": bool(std),
+            "spec": std_spec or "",
             "_rgb": tuple(spec["color"][:3]),
         })
 
@@ -169,13 +185,22 @@ class Builder:
             n[key + "_l"] = (x, y, z)
             n[key + "_r"] = (x, -y, z)
 
+        welds = g.Mesh()
+
         def tube(a, b, radius, wall, label, system="frame"):
-            mesh = g.tube(n[a], n[b], radius, seg=seg, wall=wall)
-            self.add("frame.%s.%s" % (a, b), label, system, "steel_tube", mesh)
+            p0, p1 = n[a], n[b]
+            self.add("frame.%s.%s" % (a, b), label, system, "steel_tube",
+                     hw.tube_chamfered(p0, p1, radius, wall=wall, seg=seg),
+                     note="车架主结构管件。两端倒角去毛刺，接头处另加焊缝凸起。")
+            welds.add(hw.weld_bead(p0, g.vsub(p1, p0), radius))
+            welds.add(hw.weld_bead(p1, g.vsub(p0, p1), radius))
 
         def cross(a, radius, wall, label):
+            p0, p1 = n[a + "_l"], n[a + "_r"]
             self.add("frame.%s.cross" % a, label, "frame", "steel_tube",
-                     g.tube(n[a + "_l"], n[a + "_r"], radius, seg=seg, wall=wall))
+                     hw.tube_chamfered(p0, p1, radius, wall=wall, seg=seg))
+            welds.add(hw.weld_bead(p0, g.vsub(p1, p0), radius))
+            welds.add(hw.weld_bead(p1, g.vsub(p0, p1), radius))
 
         pairs = [
             ("fb_bl", "fh_bl", r_main, w_main, "前舱下纵梁"),
@@ -219,6 +244,9 @@ class Builder:
                          ("rm_tl", "后安装上横杆"), ("rk_mnt", "摇臂支座横杆")]:
             cross(a, r_sec if a != "mh_tl" else r_main,
                   w_sec if a != "mh_tl" else w_main, label)
+
+        self.add("frame.weld_beads", "车架焊缝", "frame", "steel", welds,
+                 note="全部管件接头处的焊缝凸起，按节点表自动生成，便于核对焊接工作量。")
 
     # ---------------- 座舱与安全 ----------------
 
@@ -300,6 +328,17 @@ class Builder:
                 self.add("brake.caliper.%s%s" % (atag, tag), "%s%s制动卡钳" % (atag, tag),
                          "brakes", "aluminum",
                          g.box(caliper_center, (0.075, 0.035, 0.11)))
+                hub_y = side * (half_track + p["tire_width"] / 2.0 - 0.022)
+                naxis = (0.0, side, 0.0)
+                self.add("wheel.nut.%s%s" % (atag, tag), "%s%s中心锁紧螺母" % (atag, tag),
+                         "wheels", "chrome",
+                         hw.hex_nut((wheel_x, hub_y, tire_r), naxis, 0.046, 0.022, 0.016),
+                         std=True, std_spec="中心锁紧螺母 M30",
+                         note="中心单螺母锁紧。属关键紧固件，须有防松措施。")
+                self.add("wheel.washer.%s%s" % (atag, tag), "%s%s轮毂垫圈" % (atag, tag),
+                         "wheels", "chrome",
+                         hw.washer((wheel_x, hub_y - side * 0.013, tire_r), naxis, 0.016, 0.052, 0.004),
+                         std=True, std_spec="平垫圈 DIN 125")
 
     # ---------------- 悬架 ----------------
 
@@ -332,12 +371,33 @@ class Builder:
 
                 for name, a, b in (("uca_front", uca_in_f, uca_out),
                                    ("uca_rear", uca_in_r, uca_out)):
-                    self.add("%s.%s" % (pid, name), "%s上叉臂%s" % (lab, "前支" if "front" in name else "后支"),
-                             system, "steel_tube", g.tube(a, b, r_arm, seg=seg, wall=w_arm))
+                    tag2 = "前支" if "front" in name else "后支"
+                    self.add("%s.%s" % (pid, name), "%s上叉臂%s" % (lab, tag2),
+                             system, "steel_tube",
+                             hw.tube_chamfered(a, b, r_arm, wall=w_arm, seg=seg))
+                    d = g.vsub(b, a)
+                    self.add("%s.%s.rodend" % (pid, name), "%s上叉臂%s关节轴承" % (lab, tag2),
+                             system, "chrome",
+                             hw.rod_end(a, d, g.vnorm(g.vcross(d, (0.0, 0.0, 1.0))),
+                                        bore_r=0.004, thread_d=0.010, shank_len=0.042, nut_af=0.017),
+                             std=True, std_spec="GE8DO 关节轴承 + M10 锁紧螺母",
+                             note="叉臂内端经关节轴承与车架耳片铰接。FS 规则 T 10.2.5 要求"
+                                  "球面轴承须有大于轴承座内径的挡圈保持，T 10.2.6 要求"
+                                  "可调拉杆端用锁紧螺母防松。")
                 for name, a, b in (("lca_front", lca_in_f, lca_out),
                                    ("lca_rear", lca_in_r, lca_out)):
-                    self.add("%s.%s" % (pid, name), "%s下叉臂%s" % (lab, "前支" if "front" in name else "后支"),
-                             system, "steel_tube", g.tube(a, b, r_arm, seg=seg, wall=w_arm))
+                    tag2 = "前支" if "front" in name else "后支"
+                    self.add("%s.%s" % (pid, name), "%s下叉臂%s" % (lab, tag2),
+                             system, "steel_tube",
+                             hw.tube_chamfered(a, b, r_arm, wall=w_arm, seg=seg))
+                    d = g.vsub(b, a)
+                    self.add("%s.%s.rodend" % (pid, name), "%s下叉臂%s关节轴承" % (lab, tag2),
+                             system, "chrome",
+                             hw.rod_end(a, d, g.vnorm(g.vcross(d, (0.0, 0.0, 1.0))),
+                                        bore_r=0.004, thread_d=0.010, shank_len=0.042, nut_af=0.017),
+                             std=True, std_spec="GE8DO 关节轴承 + M10 锁紧螺母",
+                             note="下叉臂内端铰接点。关节轴承允许叉臂在跳动中自由转动，"
+                                  "同时通过螺纹调整长度来设定倾角与前束。")
 
                 upright = g.loft_rect(lca_out, (0.050, 0.0, 0.0), (0.0, 0.040, 0.0),
                                       uca_out, (0.042, 0.0, 0.0), (0.0, 0.034, 0.0))
@@ -382,13 +442,110 @@ class Builder:
         for side, stag in ((1, "左"), (-1, "右")):
             tie_in = (rack_x, side * 0.215, rack_z)
             tie_out = (wb / 2.0, side * (wheel["track_front"] / 2.0 - 0.055), 0.185)
+            sfx = "left" if side > 0 else "right"
             self.add("steering.tie_rod.%s" % ("left" if side > 0 else "right"),
                      "%s转向拉杆" % stag, "steering", "steel_tube",
-                     g.tube(tie_in, tie_out, 0.0085, seg=seg, wall=0.0012))
-        self.add("brake.master_cyl", "制动主缸", "brakes", "aluminum",
-                 g.box((0.560, 0.0, 0.240), (0.16, 0.075, 0.075)))
-        self.add("brake.pedal", "制动踏板", "brakes", "steel",
-                 g.box((0.480, 0.0, 0.230), (0.02, 0.09, 0.16)))
+                     hw.tube_chamfered(tie_in, tie_out, 0.0085, wall=0.0012, seg=seg))
+            d = g.vsub(tie_out, tie_in)
+            self.add("steering.tie_rod_rodend.%s" % sfx, "%s拉杆外端关节轴承" % stag,
+                     "steering", "chrome",
+                     hw.rod_end(tie_out, g.vmul(d, -1.0),
+                                g.vnorm(g.vcross(d, (0.0, 0.0, 1.0))),
+                                bore_r=0.004, thread_d=0.010, shank_len=0.040, nut_af=0.017),
+                     std=True, std_spec="GE8DO 关节轴承",
+                     note="拉杆外端接转向节臂。T 2.8.10 要求转向系统所有接头为机械连接"
+                          "且在技术检查时可见。")
+            self.add("steering.tie_rod_nut.%s" % sfx, "%s拉杆锁紧螺母" % stag,
+                     "steering", "steel",
+                     hw.hex_nut(g.vadd(tie_in, g.vmul(g.vnorm(d), 0.028)),
+                                g.vnorm(d), 0.013, 0.0064, 0.0051, nylon=True),
+                     std=True, std_spec="M8 尼龙锁紧螺母 ISO 7040",
+                     note="T 10.2.6：可调拉杆端必须用锁紧螺母约束防松；"
+                          "T 10.2.4：锁紧螺母外须露出至少两圈完整螺纹。")
+        # 齿条正限位：T 2.8.3 要求限位必须布置在齿条上
+        for side, stag in ((1, "左"), (-1, "右")):
+            self.add("steering.rack_stop.%s" % ("left" if side > 0 else "right"),
+                     "齿条%s正限位" % stag, "steering", "aluminum",
+                     g.revolve([(0.012, -0.005), (0.019, -0.005), (0.019, 0.005), (0.012, 0.005),
+                                (0.012, -0.005)],
+                               (rack_x, side * 0.238, rack_z), (0.0, 1.0, 0.0), seg=16),
+                     note="T 2.8.3：限位必须做在齿条上，防止连杆越过死点锁死，"
+                          "并防止轮胎轮辋碰到其他部件。")
+        # 方向盘快拆：T 2.8.5
+        hub_dir = g.vnorm(g.vsub(hub, rack_center))
+        self.add("steering.quick_release", "方向盘快拆", "steering", "chrome",
+                 g.revolve([(0.0, 0.0), (0.026, 0.0), (0.026, 0.014), (0.030, 0.018),
+                            (0.030, 0.030), (0.0, 0.030)],
+                           g.vadd(hub, g.vmul(hub_dir, -0.030)), hub_dir, seg=18),
+                 std=True, std_spec="方向盘快拆连接器",
+                 note="T 2.8.5：方向盘必须用快拆连接转向柱，驾驶员戴手套在正常坐姿下可操作。")
+
+    # ---------------- 制动踏板箱总成 ----------------
+
+    def build_pedal_box(self):
+        """双主缸踏板箱总成。
+
+        结构对应 FS 规则的三条硬性要求：
+        - T 6.1.2 必须有两套独立液压回路 → 两套主缸、两个独立油壶；
+        - T 6.1.10 踏板与踏板箱须承受 2 kN → 踏板与支架按此校核；
+        - T 3.20.1 踏板与主缸必须位于前撞击结构后方。
+        平衡杆把驾驶员的踩踏力按可调比例分配给前后回路，用来跟随理想制动力分配曲线。
+        """
+        x_mc, z_pb, y_off = 0.585, 0.300, 0.085
+        for side, stag in ((1, "左"), (-1, "右")):
+            sfx = "left" if side > 0 else "right"
+            y = side * y_off
+            self.add("brake.mc_body.%s" % sfx, "%s制动主缸" % stag, "brakes", "aluminum",
+                     g.revolve([(0.0, -0.048), (0.019, -0.048), (0.019, 0.048), (0.0, 0.048)],
+                               (x_mc, y, z_pb), (1.0, 0.0, 0.0), seg=18),
+                     std=True, std_spec="Ø19 串联主缸",
+                     note="双回路之一。T 6.1.2：任一点泄漏后仍须保证至少两轮有效制动。")
+            self.add("brake.mc_port.%s" % sfx, "%s主缸出油口" % stag, "brakes", "aluminum",
+                     g.tube((x_mc + 0.026, y, z_pb + 0.016), (x_mc + 0.026, y, z_pb + 0.042),
+                            0.0055, seg=10))
+            self.add("brake.reservoir.%s" % sfx, "%s制动油壶" % stag, "brakes", "body_dark",
+                     g.revolve([(0.0, 0.0), (0.013, 0.0), (0.013, 0.030), (0.0, 0.030)],
+                               (x_mc - 0.010, y, z_pb + 0.020), (0.0, 0.0, 1.0), seg=14),
+                     std=True, std_spec="独立油壶",
+                     note="T 6.1.2 要求每套回路有独立流体储备，可用独立油壶或分隔油壶。")
+            self.add("brake.clevis.%s" % sfx, "%s主缸推杆叉头" % stag, "brakes", "steel",
+                     hw.clevis((0.487, y, z_pb), (-1.0, 0.0, 0.0), (0.0, 1.0, 0.0),
+                               bore_r=0.0042, gap=0.009, ear_w=0.005,
+                               thread_d=0.008, shank_len=0.030, nut_af=0.013),
+                     std=True, std_spec="CNC 叉头 + M8 锁紧螺母",
+                     note="把平衡杆的力传给主缸推杆。叉口内嵌关节轴承，允许平衡杆摆动。")
+            self.add("brake.balance_nut.%s" % sfx, "%s平衡杆锁紧螺母" % stag,
+                     "brakes", "steel",
+                     hw.hex_nut((0.487, side * 0.068, z_pb), (0.0, 1.0, 0.0),
+                                0.013, 0.0064, 0.0051, nylon=True),
+                     std=True, std_spec="M8 尼龙锁紧螺母 ISO 7040",
+                     note="T 10.2.1：关键紧固件必须用尼龙锁紧螺母等防松措施。")
+            self.add("brake.balance_washer.%s" % sfx, "%s平衡杆垫圈" % stag,
+                     "brakes", "chrome",
+                     hw.washer((0.487, side * 0.080, z_pb), (0.0, 1.0, 0.0), 0.0043, 0.011, 0.0016),
+                     std=True, std_spec="平垫圈 DIN 125")
+        self.add("brake.balance_bar", "平衡杆", "brakes", "chrome",
+                 hw.thread_shank((0.487, -0.085, z_pb), (0.487, 0.085, z_pb), 0.008),
+                 std=True, std_spec="M8 螺纹平衡杆",
+                 note="把踩踏力按可调比例分给前后回路，跟随理想制动力分配曲线；"
+                      "两端螺纹用于调节前后配比。")
+        self.add("brake.balance_pivot", "平衡杆球面支点", "brakes", "chrome",
+                 hw.rod_end((0.487, 0.0, z_pb), (1.0, 0.0, 0.0), (0.0, 0.0, 1.0),
+                            bore_r=0.004, thread_d=0.010, shank_len=0.028, nut_af=None),
+                 std=True, std_spec="GE8DO 关节轴承",
+                 note="平衡杆绕竖直轴摆动，实现左右主缸的力分配。")
+        self.add("brake.pedal_arm", "制动踏板臂", "brakes", "steel",
+                 self.panel(0.440, 0.472, 0.0, 0.230, 0.075, 0.004),
+                 note="T 6.1.11：踏板含传力面必须用钢或铝制造；"
+                      "T 6.1.10：须承受 2 kN 不失效。")
+        self.add("brake.pedal_face", "制动踏板面", "brakes", "aluminum",
+                 g.box((0.476, 0.0, 0.242), (0.014, 0.090, 0.072)),
+                 note="蹬踏面。按 2 kN 踏板力校核根部弯曲应力。")
+        self.add("brake.pedal_pivot", "踏板枢轴", "brakes", "chrome",
+                 g.tube((0.440, -0.055, 0.152), (0.440, 0.055, 0.152), 0.006, seg=10),
+                 std=True, std_spec="M12 枢轴螺栓 ISO 4017",
+                 note="T 10.1.2：关键紧固件须为钢制、≥M4、8.8 级以上；"
+                      "T 10.1.3：只允许六角头螺栓或内六角圆柱头螺钉。")
 
     # ---------------- 动力总成（电动方案） ----------------
 
@@ -685,6 +842,7 @@ def build(params):
     b.build_wheels()
     b.build_suspension()
     b.build_steering()
+    b.build_pedal_box()
     b.build_powertrain()
     b.build_aero()
     b.build_ground_effect()

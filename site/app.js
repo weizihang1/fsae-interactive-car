@@ -288,6 +288,11 @@ function renderCard(partId) {
     '<div class="name">' + found.name + '</div>' +
     '<div class="sysname2">' + sys.label + '</div>' +
     (found.note ? '<div class="note">' + found.note + '</div>' : '') +
+    '<div class="kv"><span>件号</span><span>' + (found.part_no || '—') + '</span></div>' +
+    (found.std
+      ? '<div class="kv"><span>类型</span><span>标准件</span></div>'
+        + '<div class="kv"><span>标准规格</span><span>' + (found.spec || '—') + '</span></div>'
+      : '<div class="kv"><span>类型</span><span>自制件</span></div>') +
     '<div class="kv"><span>材料</span><span>' + found.material_label + '</span></div>' +
     '<div class="kv"><span>估算质量</span><span>' + found.mass_kg + ' kg</span></div>' +
     '<div class="kv"><span>几何体积</span><span>' + (found.volume_m3 * 1e6).toFixed(1) + ' cm³</span></div>' +
@@ -576,6 +581,13 @@ function applyDeepLink() {
       selectPartMesh(mesh);
       controls.target.copy(toWorld(mesh.userData.base));
     }
+  }
+  const zoomMatch = HASH.match(/zoom=([\d.]+)/);
+  if (zoomMatch) {
+    const dist = parseFloat(zoomMatch[1]);
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    camera.position.copy(controls.target).addScaledVector(dir, dist);
+    controls.update();
   }
   const isoMatch = HASH.match(/isolate=([a-z_]+)/);
   if (isoMatch) {

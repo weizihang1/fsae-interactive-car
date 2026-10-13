@@ -33,7 +33,7 @@ def prism(profile, origin, u, v, w, length):
         j = (i + 1) % n
         m.tris.append((i, n + i, n + j))
         m.tris.append((i, n + j, j))
-    return m.fix_winding()
+    return g._seal(m)
 
 
 def resample(poly, n):
@@ -80,8 +80,21 @@ def ring_solid(outer2d, inner_r, origin, u, v, w, height):
 
     o0 = [at2(p, 0.0) for p in outer2d]
     o1 = [at2(p, height) for p in outer2d]
-    i0 = circle(inner_r, 0.0)
-    i1 = circle(inner_r, height)
+    # 内圈必须与外轮廓逐点**同角度**对应。外轮廓是按周长等分重采样的，
+    # 点的角向间距不均匀，若内圈按等角度生成，端面三角面会被扭掉、体积算错。
+    # 角度必须做展开：外轮廓绕行一圈会跨过 ±180° 边界（如 330° 之后回到 -10°），
+    # 直接用 atan2 会在这里断开，导致内圈点序错乱、端面三角面被扭折。
+    angles = []
+    prev = None
+    for p in outer2d:
+        t = math.atan2(p[1], p[0])
+        if prev is not None:
+            while t < prev:
+                t += 2.0 * math.pi
+        prev = t
+        angles.append(t)
+    i0 = [at2((inner_r * math.cos(t), inner_r * math.sin(t)), 0.0) for t in angles]
+    i1 = [at2((inner_r * math.cos(t), inner_r * math.sin(t)), height) for t in angles]
     for ring in (o0, o1, i0, i1):
         m.verts.extend(ring)
 
@@ -102,12 +115,14 @@ def ring_solid(outer2d, inner_r, origin, u, v, w, height):
         # 底面
         m.tris.append((vid(0, i), vid(2 * n, j), vid(0, j)))
         m.tris.append((vid(0, i), vid(2 * n, i), vid(2 * n, j)))
-    return m.fix_winding()
+    return g._seal(m)
 
 
 def hex_profile(af):
-    """对边距为 af 的六边形。"""
-    r = 2.0 * af / math.sqrt(3.0)
+    """对边距为 af 的六边形（af = 两平行对边之间的距离）。"""
+    # 正六边形：对边距 af = √3 · R，故外接圆半径 R = af / √3。
+    # 这里曾误写成 2af/√3，导致六边形整体大一倍、面积大四倍。
+    r = af / math.sqrt(3.0)
     return [(r * math.cos(math.pi / 6.0 + i * math.pi / 3.0),
              r * math.sin(math.pi / 6.0 + i * math.pi / 3.0)) for i in range(6)]
 
@@ -122,7 +137,7 @@ def hex_prism(origin, axis, af, length):
     return prism(hex_profile(af), origin, u, v, a, length)
 
 
-def hex_nut(center, axis, af, height, bore_r, seg=24, nylon=False):
+def hex_nut(center, axis, af, height, bore_r, seg=16, nylon=False):
     """六角螺母（带通孔）。nylon=True 时在端部加一圈尼龙锁紧环。"""
     a = g.vnorm(axis)
     u, v = g.orthogonal_basis(a)
@@ -151,18 +166,24 @@ def thread_shank(p0, p1, d, pitch=None, seg=14):
     r = d / 2.0
     if pitch is None:
         pitch = d * 0.16
-    m = g.tube(p0, p1, r * 0.86, seg=seg)
+    # 螺纹按"中径圆柱"估体积：真实螺纹是螺旋槽，材料约为名义圆柱的 0.8 左右
+    m = g.tube(p0, p1, r * 0.90, seg=seg)
     axis = g.vsub(p1, p0)
     length = g.vlen(axis)
     if length <= pitch:
         return m
     a = g.vnorm(axis)
-    count = max(1, int(length / pitch))
+    # 牙顶环只用于"读作螺纹"，按真实螺距会生成几十道环、白白堆三角形，
+    # 因此上限 8 道，沿长度均匀分布。
+    count = max(1, min(8, int(length / pitch)))
     step = (length - pitch) / count
     for k in range(count):
         c = g.vadd(p0, g.vmul(a, pitch / 2.0 + k * step))
-        m.add(g.tube(g.vadd(c, g.vmul(a, -pitch * 0.30)), g.vadd(c, g.vmul(a, pitch * 0.30)),
-                     r, seg=seg, caps=False))
+        ridge = g.tube(g.vadd(c, g.vmul(a, -pitch * 0.30)), g.vadd(c, g.vmul(a, pitch * 0.30)),
+                       r, seg=seg, caps=False)
+        # 牙顶环与中径圆柱重叠，只是视觉细节，体积记 0，否则质量会被重复累加
+        ridge.volume = 0.0
+        m.add(ridge)
     return m
 
 
@@ -225,18 +246,20 @@ def clevis(center, axis, bore_axis, bore_r=0.0032, gap=0.012, ear_w=0.006,
     b = g.vnorm(bore_axis)
     side = g.vnorm(g.vcross(b, a))
     m = g.Mesh()
+    # 两片耳板沿销轴向 b 分开，各自是绕 b 的环形板
     for sgn in (1.0, -1.0):
-        off = g.vmul(side, sgn * (gap / 2.0 + ear_w / 2.0))
+        off = g.vmul(b, sgn * (gap / 2.0 + ear_w / 2.0))
         m.add(g.revolve(
             [(bore_r, -ear_w / 2), (bore_r * 2.6, -ear_w / 2), (bore_r * 2.6, ear_w / 2),
              (bore_r, ear_w / 2), (bore_r, -ear_w / 2)],
             g.vadd(center, off), b, seg=seg))
     block0 = g.vadd(center, g.vmul(a, -bore_r * 2.6))
     block1 = g.vadd(center, g.vmul(a, -bore_r * 2.6 - thread_d * 1.3))
-    u, v = g.orthogonal_basis(a)
-    m.add(prism([(gap / 2.0 + ear_w, -bore_r * 2.6), (gap / 2.0 + ear_w, bore_r * 2.6),
-                 (-(gap / 2.0 + ear_w), bore_r * 2.6), (-(gap / 2.0 + ear_w), -bore_r * 2.6)],
-                block0, u, v, a, -(block1[0] - block0[0]) if False else
+    # 过渡块：沿侧(stde)方向的半宽 = 耳高，沿销轴 b 方向的半宽 = 耳宽
+    half_w = gap / 2.0 + ear_w
+    half_t = bore_r * 2.6
+    m.add(prism([(half_t, -half_w), (half_t, half_w), (-half_t, half_w), (-half_t, -half_w)],
+                block0, side, b, a,
                 g.vlen(g.vsub(block1, block0))))
     shank1 = g.vadd(block1, g.vmul(a, -shank_len))
     m.add(thread_shank(block1, shank1, thread_d, seg=14))
@@ -250,12 +273,15 @@ def clevis(center, axis, bore_axis, bore_r=0.0032, gap=0.012, ear_w=0.006,
 # 焊接与管件细节
 # --------------------------------------------------------------------------
 
-def weld_bead(point, direction, r, scale=1.30, width=0.0075, seg=10):
-    """管端焊缝：在接头处加一圈略粗的凸起。"""
+def weld_bead(point, direction, r, scale=1.15, width=0.0032, seg=8):
+    """管端焊缝：在接头处加一圈略粗的凸起。
+    体积只计管外那一圈焊料（环形），否则会把管体本身算两遍。"""
     a = g.vnorm(direction)
-    return g.tube(g.vadd(point, g.vmul(a, -width * 0.5)),
-                  g.vadd(point, g.vmul(a, width * 0.5)),
-                  r * scale, seg=seg, caps=False)
+    m = g.tube(g.vadd(point, g.vmul(a, -width * 0.5)),
+               g.vadd(point, g.vmul(a, width * 0.5)),
+               r * scale, seg=seg, caps=False)
+    m.volume = math.pi * ((r * scale) ** 2 - r ** 2) * width
+    return m
 
 
 def tube_chamfered(p0, p1, r, wall=None, chamfer=None, seg=10):
@@ -271,5 +297,4 @@ def tube_chamfered(p0, p1, r, wall=None, chamfer=None, seg=10):
                seg=seg, wall=wall)
     m.add(g.tube(p0, g.vadd(p0, g.vmul(a, chamfer)), r - chamfer, r, seg=seg))
     m.add(g.tube(g.vadd(p1, g.vmul(a, -chamfer)), p1, r, r - chamfer, seg=seg))
-    m.volume = None
     return m

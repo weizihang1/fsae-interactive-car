@@ -51,6 +51,9 @@ def build_manifest(parts, params, glb_info):
             "parts": [{
                 "id": p["id"],
                 "name": p["name"],
+                "part_no": p.get("part_no", ""),
+                "std": bool(p.get("std", False)),
+                "spec": p.get("spec", ""),
                 "material": p["material"],
                 "material_label": car_model.MATERIAL_LABELS.get(p["material"], p["material"]),
                 "mass_kg": round(p["mass_kg"], 3),
