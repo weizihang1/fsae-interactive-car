@@ -319,8 +319,10 @@ def extrude_dir(outline, origin, dir_x, dir_y, depth):
         m.tris.append((n, n + i + 1, n + i))
     for i in range(n):
         j = (i + 1) % n
-        m.tris.append((i, j, n + j))
-        m.tris.append((i, n + j, n + i))
+        # 侧面绕向必须与端面一致（都朝外）。原先写成 (i, j, n+j) 会让侧面朝内，
+        # 与端面朝向相反，散度定理算出的体积只有真值的 1/3。
+        m.tris.append((i, n + i, n + j))
+        m.tris.append((i, n + j, j))
     return m.fix_winding()
 
 

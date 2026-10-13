@@ -14,7 +14,7 @@ const HASH = window.location.hash || '';
 const SYSTEM_COLORS = {
   frame: '#7f8ea6', susp_front: '#4ea1ff', susp_rear: '#38d0c0', wheels: '#c8a24a',
   steering: '#b07cff', brakes: '#ff7043', powertrain: '#4bd99a', aero: '#ff5c6e',
-  body: '#ffd166', cockpit: '#e0e6f0',
+  aero_ground: '#ff9f43', body: '#ffd166', cockpit: '#e0e6f0',
 };
 
 document.getElementById('sub').textContent =
@@ -34,12 +34,12 @@ scene.background = new THREE.Color(0x0b0d12);
 scene.fog = new THREE.Fog(0x0b0d12, 10, 26);
 
 const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.05, 140);
-camera.position.set(2.9, 1.85, 2.6);
+camera.position.set(2.6, 1.9, -2.6);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.075;
-controls.target.set(0, 0, 0.42);
+controls.target.set(0, 0.42, 0);
 controls.minDistance = 0.9;
 controls.maxDistance = 14;
 controls.maxPolarAngle = Math.PI * 0.495;
@@ -60,10 +60,23 @@ grid.material.transparent = true;
 grid.material.opacity = 0.5;
 scene.add(grid);
 
+// 模型与流场都建立在"Z 轴朝上"的工程坐标系里，而 three.js 的世界是 Y 轴朝上。
+// 用外层容器整体旋转 -90°，内部数据全部保持工程坐标不变，
+// 这样建模、流场计算与显示三者不会互相污染。
+const world = new THREE.Group();
+world.rotation.x = -Math.PI / 2;
+scene.add(world);
+
+// 工程坐标 -> 世界坐标：(x, y, z) -> (x, z, -y)
+function toWorld(v) {
+  return new THREE.Vector3(v.x, v.z, -v.y);
+}
+
 // ------------------------------------------------------------------ 状态
 const state = {
   mode: 'whole', explode: 0, shellOn: true, shellT: 1,
-  selected: null, hidden: new Set(), cpOn: false, vinf: 18, yaw: 0,
+  selected: null, hidden: new Set(), isolated: null,
+  cpOn: false, vinf: 18, yaw: 0,
 };
 
 const partMeshes = new Map();
@@ -76,7 +89,7 @@ const tun = {
   group: new THREE.Group(), flow: null, lines: null,
   particles: null, speeds: null, built: false,
 };
-scene.add(tun.group);
+world.add(tun.group);
 tun.group.visible = false;
 
 function decodeBase64(b64) {
@@ -89,7 +102,7 @@ function decodeBase64(b64) {
 // ------------------------------------------------------------------ 载入模型
 new GLTFLoader().parse(decodeBase64(GLB_BASE64), '', function (gltf) {
   model = gltf.scene;
-  scene.add(model);
+  world.add(model);
   model.traverse(function (o) {
     if (!o.isMesh) return;
     // 节点名会被 GLTFLoader 清洗（点号被删掉），所以以 extras 里的 id 为准
@@ -214,8 +227,7 @@ function renderTree() {
       const mesh = partMeshes.get(el.dataset.part);
       if (!mesh) return;
       selectPartMesh(mesh);
-      const c = mesh.userData.base;
-      controls.target.set(c.x, c.y, c.z);
+      controls.target.copy(toWorld(mesh.userData.base));
     });
   });
 }
@@ -231,9 +243,20 @@ function applyVisibility() {
   systemGroups.forEach(function (group, id) {
     group.visible = !state.hidden.has(id);
   });
-  if (state.hidden.has('body') === false && state.shellT < 0.03) {
-    bodyMeshes.forEach(function (m) { m.visible = false; });
+}
+
+// 隔离显示某个系统。传 null 表示恢复显示全部系统。
+function isolateSystem(systemId) {
+  state.hidden.clear();
+  state.isolated = null;
+  if (systemId) {
+    MANIFEST.systems.forEach(function (s) {
+      if (s.id !== systemId) state.hidden.add(s.id);
+    });
+    state.isolated = systemId;
   }
+  applyVisibility();
+  renderTree();
 }
 
 // ------------------------------------------------------------------ 信息卡
@@ -272,11 +295,10 @@ function renderCard(partId) {
     '<div class="btn ghost" id="isoBtn">单独显示此零件</div>';
   const iso = document.getElementById('isoBtn');
   if (iso) {
+    iso.textContent = state.isolated === sys.id ? '显示全部系统' : '单独显示此零件';
     iso.addEventListener('click', function () {
-      state.hidden.clear();
-      MANIFEST.systems.forEach(function (s) { if (s.id !== sys.id) state.hidden.add(s.id); });
-      applyVisibility();
-      renderTree();
+      isolateSystem(state.isolated === sys.id ? null : sys.id);
+      renderCard(partId);
     });
   }
 }
@@ -346,6 +368,12 @@ shellBtn.addEventListener('click', function () {
   shellDirty = true;
   document.getElementById('shellLabel').textContent = state.shellOn ? '拆下车壳' : '装回车壳';
   shellBtn.classList.toggle('off', !state.shellOn);
+});
+
+document.getElementById('showAllBtn').addEventListener('click', function () {
+  isolateSystem(null);
+  state.selected = null;
+  renderCard(null);
 });
 
 function applyShell() {
@@ -480,13 +508,14 @@ requestAnimationFrame(loop);
 // 仅在网址末尾加 #debug 时生效：把关键状态写进页面标题，便于无人值守排查
 // （可用无头浏览器 --dump-dom 直接读到），正常访问时完全不影响页面。
 if (HASH.indexOf('view=side') >= 0) {
-  camera.position.set(0.02, 5.2, 0.62);
-  controls.target.set(0.02, 0, 0.55);
+  // 从车的左侧看：工程坐标 +Y 对应世界 -Z
+  camera.position.set(0.02, 0.62, -5.2);
+  controls.target.set(0.02, 0.55, 0);
   controls.update();
 }
 if (HASH.indexOf('view=front') >= 0) {
-  camera.position.set(5.2, 0.05, 0.62);
-  controls.target.set(0, 0, 0.55);
+  camera.position.set(5.2, 0.62, 0.02);
+  controls.target.set(0, 0.55, 0);
   controls.update();
 }
 
@@ -506,9 +535,12 @@ function applyDeepLink() {
     const mesh = partMeshes.get(decodeURIComponent(selMatch[1]));
     if (mesh) {
       selectPartMesh(mesh);
-      const c = mesh.userData.base;
-      controls.target.set(c.x, c.y, c.z);
+      controls.target.copy(toWorld(mesh.userData.base));
     }
+  }
+  const isoMatch = HASH.match(/isolate=([a-z_]+)/);
+  if (isoMatch) {
+    isolateSystem(isoMatch[1]);
   }
 }
 
@@ -519,7 +551,7 @@ if (HASH.indexOf('debug') >= 0) {
     + 'font:11px/1.5 Consolas,monospace;white-space:pre-wrap;max-width:1200px';
   document.body.appendChild(dbg);
   setTimeout(function () {
-    const box = new THREE.Box3().setFromObject(model);
+    const box = new THREE.Box3().setFromObject(world);
     const fmt = function (v) {
       return v.toArray().map(function (x) { return x.toFixed(3); }).join(',');
     };

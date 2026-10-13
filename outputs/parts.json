@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13T11:16:50",
+ "generated": "2026-10-13T11:40:54",
  "source": "car.json",
  "systems": [
   {
@@ -1447,7 +1447,7 @@
    "id": "susp_front",
    "label": "前悬架",
    "count": 18,
-   "mass_kg": 18.32,
+   "mass_kg": 18.78,
    "center": [
     0.7162,
     0.0013,
@@ -1579,6 +1579,48 @@
       0.2051
      ],
      "node": 109
+    },
+    {
+     "id": "susp.front.right.rocker",
+     "name": "前右摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.342,
+     "volume_m3": 0.000127,
+     "fill": 1.0,
+     "note": "",
+     "center": [
+      0.68,
+      -0.223,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 108
+    },
+    {
+     "id": "susp.front.left.rocker",
+     "name": "前左摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.342,
+     "volume_m3": 0.000127,
+     "fill": 1.0,
+     "note": "",
+     "center": [
+      0.68,
+      0.247,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 99
     },
     {
      "id": "susp.front.left.lca_front",
@@ -1789,48 +1831,6 @@
       0.0519
      ],
      "node": 103
-    },
-    {
-     "id": "susp.front.right.rocker",
-     "name": "前右摇臂",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.114,
-     "volume_m3": 4.2e-05,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.68,
-      -0.223,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 108
-    },
-    {
-     "id": "susp.front.left.rocker",
-     "name": "前左摇臂",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.114,
-     "volume_m3": 4.2e-05,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.68,
-      0.247,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 99
     }
    ]
   },
@@ -1838,7 +1838,7 @@
    "id": "susp_rear",
    "label": "后悬架",
    "count": 18,
-   "mass_kg": 18.22,
+   "mass_kg": 18.67,
    "center": [
     -0.8338,
     0.0013,
@@ -1970,6 +1970,48 @@
       0.2051
      ],
      "node": 127
+    },
+    {
+     "id": "susp.rear.right.rocker",
+     "name": "后右摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.342,
+     "volume_m3": 0.000127,
+     "fill": 1.0,
+     "note": "",
+     "center": [
+      -0.87,
+      -0.223,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 126
+    },
+    {
+     "id": "susp.rear.left.rocker",
+     "name": "后左摇臂",
+     "material": "aluminum",
+     "material_label": "铝合金",
+     "mass_kg": 0.342,
+     "volume_m3": 0.000127,
+     "fill": 1.0,
+     "note": "",
+     "center": [
+      -0.87,
+      0.247,
+      0.455
+     ],
+     "size": [
+      0.11,
+      0.024,
+      0.096
+     ],
+     "node": 117
     },
     {
      "id": "susp.rear.left.pushrod",
@@ -2180,48 +2222,6 @@
       0.0519
      ],
      "node": 121
-    },
-    {
-     "id": "susp.rear.left.rocker",
-     "name": "后左摇臂",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.114,
-     "volume_m3": 4.2e-05,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      -0.87,
-      0.247,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 117
-    },
-    {
-     "id": "susp.rear.right.rocker",
-     "name": "后右摇臂",
-     "material": "aluminum",
-     "material_label": "铝合金",
-     "mass_kg": 0.114,
-     "volume_m3": 4.2e-05,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      -0.87,
-      -0.223,
-      0.455
-     ],
-     "size": [
-      0.11,
-      0.024,
-      0.096
-     ],
-     "node": 126
     }
    ]
   },
@@ -3036,63 +3036,21 @@
   {
    "id": "aero",
    "label": "空气动力学套件",
-   "count": 15,
-   "mass_kg": 12.99,
+   "count": 18,
+   "mass_kg": 6.76,
    "center": [
-    -0.0826,
+    0.2915,
     0.0,
-    0.5334
+    0.4741
    ],
    "parts": [
-    {
-     "id": "aero.diffuser",
-     "name": "扩散器",
-     "material": "carbon_sandwich",
-     "material_label": "碳纤维夹芯板",
-     "mass_kg": 5.42,
-     "volume_m3": 0.045171,
-     "fill": 0.25,
-     "note": "",
-     "center": [
-      -0.76,
-      0.0,
-      0.185
-     ],
-     "size": [
-      0.52,
-      0.68,
-      0.25
-     ],
-     "node": 159
-    },
-    {
-     "id": "aero.floor",
-     "name": "空气动力学底板",
-     "material": "carbon_sandwich",
-     "material_label": "碳纤维夹芯板",
-     "mass_kg": 4.285,
-     "volume_m3": 0.008928,
-     "fill": 1.0,
-     "note": "",
-     "center": [
-      0.05,
-      0.0,
-      0.055
-     ],
-     "size": [
-      1.55,
-      0.72,
-      0.008
-     ],
-     "node": 158
-    },
     {
      "id": "aero.rear_wing.main",
      "name": "后翼主翼",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.605,
-     "volume_m3": 0.002801,
+     "mass_kg": 1.815,
+     "volume_m3": 0.008402,
      "fill": 0.45,
      "note": "",
      "center": [
@@ -3112,8 +3070,8 @@
      "name": "前翼主翼",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.571,
-     "volume_m3": 0.002645,
+     "mass_kg": 1.714,
+     "volume_m3": 0.007934,
      "fill": 0.45,
      "note": "",
      "center": [
@@ -3217,8 +3175,8 @@
      "name": "前翼襟翼",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.104,
-     "volume_m3": 0.000482,
+     "mass_kg": 0.312,
+     "volume_m3": 0.001446,
      "fill": 0.45,
      "note": "",
      "center": [
@@ -3238,8 +3196,8 @@
      "name": "后翼襟翼1",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.097,
-     "volume_m3": 0.000449,
+     "mass_kg": 0.291,
+     "volume_m3": 0.001347,
      "fill": 0.45,
      "note": "",
      "center": [
@@ -3259,8 +3217,8 @@
      "name": "后翼左端板",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.066,
-     "volume_m3": 0.000342,
+     "mass_kg": 0.197,
+     "volume_m3": 0.001026,
      "fill": 0.4,
      "note": "",
      "center": [
@@ -3280,8 +3238,8 @@
      "name": "后翼右端板",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.066,
-     "volume_m3": 0.000342,
+     "mass_kg": 0.197,
+     "volume_m3": 0.001026,
      "fill": 0.4,
      "note": "",
      "center": [
@@ -3301,8 +3259,8 @@
      "name": "后翼襟翼2",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.049,
-     "volume_m3": 0.000229,
+     "mass_kg": 0.148,
+     "volume_m3": 0.000687,
      "fill": 0.45,
      "note": "",
      "center": [
@@ -3322,8 +3280,8 @@
      "name": "前翼左端板",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.033,
-     "volume_m3": 0.000172,
+     "mass_kg": 0.099,
+     "volume_m3": 0.000515,
      "fill": 0.4,
      "note": "",
      "center": [
@@ -3343,8 +3301,8 @@
      "name": "前翼右端板",
      "material": "carbon_sandwich",
      "material_label": "碳纤维夹芯板",
-     "mass_kg": 0.033,
-     "volume_m3": 0.000172,
+     "mass_kg": 0.099,
+     "volume_m3": 0.000515,
      "fill": 0.4,
      "note": "",
      "center": [
@@ -3358,6 +3316,397 @@
       0.23
      ],
      "node": 148
+    },
+    {
+     "id": "aero.front_wing.strake.left",
+     "name": "前翼左端板涡片",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.051,
+     "volume_m3": 0.000124,
+     "fill": 0.85,
+     "note": "端板内侧的三片涡片：制造稳定涡抑制翼尖绕流，让前翼展向载荷更均匀、减小诱导阻力。",
+     "center": [
+      1.1325,
+      0.614,
+      0.208
+     ],
+     "size": [
+      0.205,
+      0.042,
+      0.052
+     ],
+     "node": 159
+    },
+    {
+     "id": "aero.front_wing.strake.right",
+     "name": "前翼右端板涡片",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.051,
+     "volume_m3": 0.000124,
+     "fill": 0.85,
+     "note": "端板内侧的三片涡片：制造稳定涡抑制翼尖绕流，让前翼展向载荷更均匀、减小诱导阻力。",
+     "center": [
+      1.1325,
+      -0.614,
+      0.208
+     ],
+     "size": [
+      0.205,
+      0.042,
+      0.052
+     ],
+     "node": 161
+    },
+    {
+     "id": "aero.front_wing.vortex_gen.right",
+     "name": "前翼右涡流发生器",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.042,
+     "volume_m3": 0.000103,
+     "fill": 0.85,
+     "note": "翼下三片小涡流发生器：给附面层注入能量，推迟大攻角下的翼面分离。",
+     "center": [
+      1.095,
+      -0.292,
+      0.125
+     ],
+     "size": [
+      0.05,
+      0.362,
+      0.042
+     ],
+     "node": 162
+    },
+    {
+     "id": "aero.front_wing.vortex_gen.left",
+     "name": "前翼左涡流发生器",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.042,
+     "volume_m3": 0.000103,
+     "fill": 0.85,
+     "note": "翼下三片小涡流发生器：给附面层注入能量，推迟大攻角下的翼面分离。",
+     "center": [
+      1.095,
+      0.292,
+      0.125
+     ],
+     "size": [
+      0.05,
+      0.362,
+      0.042
+     ],
+     "node": 160
+    },
+    {
+     "id": "aero.front_wing.gurney",
+     "name": "前翼古尼襟翼",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.04,
+     "volume_m3": 0.00014,
+     "fill": 0.6,
+     "note": "在襟翼后缘竖起一道 12 mm 小挡板，把驻点压力留在翼后，等效增加翼型弯度，是投入产出比最高的一片。",
+     "center": [
+      1.3215,
+      0.0,
+      0.1075
+     ],
+     "size": [
+      0.006,
+      1.3,
+      0.018
+     ],
+     "node": 158
+    }
+   ]
+  },
+  {
+   "id": "aero_ground",
+   "label": "文丘里与地面效应套件",
+   "count": 13,
+   "mass_kg": 8.56,
+   "center": [
+    -0.1481,
+    0.0,
+    0.1456
+   ],
+   "parts": [
+    {
+     "id": "aero_ground.underbody.right",
+     "name": "右文丘里通道顶板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 1.666,
+     "volume_m3": 0.007711,
+     "fill": 0.45,
+     "note": "通道顶板：截面从入口 75 mm 收敛到喉部 48 mm，再扩张到出口 320 mm。喉部流速最高、压力最低，这就是地面效应的来源。",
+     "center": [
+      -0.19,
+      -0.23,
+      0.184
+     ],
+     "size": [
+      1.62,
+      0.34,
+      0.286
+     ],
+     "node": 167
+    },
+    {
+     "id": "aero_ground.underbody.left",
+     "name": "左文丘里通道顶板",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 1.666,
+     "volume_m3": 0.007711,
+     "fill": 0.45,
+     "note": "通道顶板：截面从入口 75 mm 收敛到喉部 48 mm，再扩张到出口 320 mm。喉部流速最高、压力最低，这就是地面效应的来源。",
+     "center": [
+      -0.19,
+      0.23,
+      0.184
+     ],
+     "size": [
+      1.62,
+      0.34,
+      0.286
+     ],
+     "node": 164
+    },
+    {
+     "id": "aero_ground.keel",
+     "name": "中央龙骨",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.904,
+     "volume_m3": 0.005381,
+     "fill": 0.35,
+     "note": "把车底切成左右两条独立通道，避免两侧气流互相干扰，同时封住中央这条最容易漏压的路径。",
+     "center": [
+      -0.19,
+      0.0,
+      0.167
+     ],
+     "size": [
+      1.62,
+      0.032,
+      0.306
+     ],
+     "node": 163
+    },
+    {
+     "id": "aero_ground.nose_duct",
+     "name": "鼻锥下进气通道",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.744,
+     "volume_m3": 0.003444,
+     "fill": 0.45,
+     "note": "把鼻锥下方的来流平顺导入车底通道入口，减小入口损失，避免这部分气流被卷进前轮尾流白白浪费。",
+     "center": [
+      0.825,
+      0.0,
+      0.1225
+     ],
+     "size": [
+      0.41,
+      0.6,
+      0.109
+     ],
+     "node": 174
+    },
+    {
+     "id": "aero_ground.tunnel_wall.right",
+     "name": "右通道外壁",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.581,
+     "volume_m3": 0.002018,
+     "fill": 0.6,
+     "note": "通道外侧封板：防止车侧高压气流灌进车底。否则低压区会被吹平，下压力大幅流失。",
+     "center": [
+      -0.19,
+      -0.394,
+      0.167
+     ],
+     "size": [
+      1.62,
+      0.012,
+      0.306
+     ],
+     "node": 168
+    },
+    {
+     "id": "aero_ground.tunnel_wall.left",
+     "name": "左通道外壁",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.581,
+     "volume_m3": 0.002018,
+     "fill": 0.6,
+     "note": "通道外侧封板：防止车侧高压气流灌进车底。否则低压区会被吹平，下压力大幅流失。",
+     "center": [
+      -0.19,
+      0.394,
+      0.167
+     ],
+     "size": [
+      1.62,
+      0.012,
+      0.306
+     ],
+     "node": 165
+    },
+    {
+     "id": "aero_ground.diffuser_fence.-30",
+     "name": "扩散器隔板 -0.30 m",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.486,
+     "volume_m3": 0.001688,
+     "fill": 0.6,
+     "note": "扩散器内的纵向隔板：抑制横向串流与角部涡，保住扩张段的压力恢复效率。",
+     "center": [
+      -0.75,
+      -0.3,
+      0.167
+     ],
+     "size": [
+      0.5,
+      0.016,
+      0.306
+     ],
+     "node": 170
+    },
+    {
+     "id": "aero_ground.diffuser_fence.10",
+     "name": "扩散器隔板 +0.10 m",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.486,
+     "volume_m3": 0.001688,
+     "fill": 0.6,
+     "note": "扩散器内的纵向隔板：抑制横向串流与角部涡，保住扩张段的压力恢复效率。",
+     "center": [
+      -0.75,
+      0.1,
+      0.167
+     ],
+     "size": [
+      0.5,
+      0.016,
+      0.306
+     ],
+     "node": 172
+    },
+    {
+     "id": "aero_ground.diffuser_fence.30",
+     "name": "扩散器隔板 +0.30 m",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.486,
+     "volume_m3": 0.001688,
+     "fill": 0.6,
+     "note": "扩散器内的纵向隔板：抑制横向串流与角部涡，保住扩张段的压力恢复效率。",
+     "center": [
+      -0.75,
+      0.3,
+      0.167
+     ],
+     "size": [
+      0.5,
+      0.016,
+      0.306
+     ],
+     "node": 173
+    },
+    {
+     "id": "aero_ground.diffuser_fence.-10",
+     "name": "扩散器隔板 -0.10 m",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.486,
+     "volume_m3": 0.001688,
+     "fill": 0.6,
+     "note": "扩散器内的纵向隔板：抑制横向串流与角部涡，保住扩张段的压力恢复效率。",
+     "center": [
+      -0.75,
+      -0.1,
+      0.167
+     ],
+     "size": [
+      0.5,
+      0.016,
+      0.306
+     ],
+     "node": 171
+    },
+    {
+     "id": "aero_ground.splitter_lip",
+     "name": "前唇",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.332,
+     "volume_m3": 0.000864,
+     "fill": 0.8,
+     "note": "车底入口前缘的水平唇：把来流分成上下两路，并阻止车头高压区从下方泄漏进通道。",
+     "center": [
+      0.67,
+      0.0,
+      0.057
+     ],
+     "size": [
+      0.06,
+      0.8,
+      0.026
+     ],
+     "node": 175
+    },
+    {
+     "id": "aero_ground.vortex_generator.right",
+     "name": "右涡流发生器",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.072,
+     "volume_m3": 0.000176,
+     "fill": 0.85,
+     "note": "喉部前四片小涡流发生器：把附面层低能气流搅成涡，提高抗逆压梯度能力，推迟喉后扩张段的分离。",
+     "center": [
+      0.265,
+      -0.2095,
+      0.088
+     ],
+     "size": [
+      0.31,
+      0.205,
+      0.056
+     ],
+     "node": 169
+    },
+    {
+     "id": "aero_ground.vortex_generator.left",
+     "name": "左涡流发生器",
+     "material": "carbon_sandwich",
+     "material_label": "碳纤维夹芯板",
+     "mass_kg": 0.072,
+     "volume_m3": 0.000176,
+     "fill": 0.85,
+     "note": "喉部前四片小涡流发生器：把附面层低能气流搅成涡，提高抗逆压梯度能力，推迟喉后扩张段的分离。",
+     "center": [
+      0.265,
+      0.2095,
+      0.088
+     ],
+     "size": [
+      0.31,
+      0.205,
+      0.056
+     ],
+     "node": 166
     }
    ]
   },
@@ -3391,7 +3740,7 @@
       0.47,
       0.34
      ],
-     "node": 160
+     "node": 176
     },
     {
      "id": "body.engine_cover",
@@ -3412,7 +3761,7 @@
       0.476,
       0.415
      ],
-     "node": 165
+     "node": 181
     },
     {
      "id": "body.helmet_fairing",
@@ -3433,7 +3782,7 @@
       0.484,
       0.335
      ],
-     "node": 164
+     "node": 180
     },
     {
      "id": "body.sidepod.right",
@@ -3454,7 +3803,7 @@
       0.235,
       0.3
      ],
-     "node": 167
+     "node": 183
     },
     {
      "id": "body.sidepod.left",
@@ -3475,7 +3824,7 @@
       0.235,
       0.3
      ],
-     "node": 166
+     "node": 182
     },
     {
      "id": "body.cockpit_panel.right",
@@ -3496,7 +3845,7 @@
       0.012,
       0.36
      ],
-     "node": 162
+     "node": 178
     },
     {
      "id": "body.cockpit_panel.left",
@@ -3517,7 +3866,7 @@
       0.012,
       0.36
      ],
-     "node": 161
+     "node": 177
     },
     {
      "id": "body.dash_cover",
@@ -3538,7 +3887,7 @@
       0.46,
       0.095
      ],
-     "node": 163
+     "node": 179
     },
     {
      "id": "body.side_skirt.right",
@@ -3559,7 +3908,7 @@
       0.016,
       0.096
      ],
-     "node": 171
+     "node": 187
     },
     {
      "id": "body.side_skirt.left",
@@ -3580,7 +3929,7 @@
       0.016,
       0.096
      ],
-     "node": 170
+     "node": 186
     },
     {
      "id": "body.wheel_deflector.right",
@@ -3601,7 +3950,7 @@
       0.016,
       0.29
      ],
-     "node": 169
+     "node": 185
     },
     {
      "id": "body.wheel_deflector.left",
@@ -3622,7 +3971,7 @@
       0.016,
       0.29
      ],
-     "node": 168
+     "node": 184
     }
    ]
   },
@@ -3746,9 +4095,9 @@
   }
  ],
  "totals": {
-  "parts": 172,
-  "mass_kg": 276.2,
-  "triangles": 8608,
+  "parts": 188,
+  "mass_kg": 279.4,
+  "triangles": 9160,
   "bbox_min": [
    -1.274,
    -0.716,
@@ -3803,6 +4152,34 @@
   },
   "suspension": {
    "_note": "硬点目前由 car_model.py 依据轮距与轮胎尺寸推导，后续可在此逐个改为显式坐标"
+  },
+  "undercarriage": {
+   "_note": "车底文丘里通道纵剖面：入口 75mm -> 喉部 48mm -> 出口 320mm。地面间隙 14mm。",
+   "profile": [
+    [
+     0.62,
+     0.075
+    ],
+    [
+     0.2,
+     0.055
+    ],
+    [
+     -0.1,
+     0.048
+    ],
+    [
+     -0.5,
+     0.13
+    ],
+    [
+     -1.0,
+     0.32
+    ]
+   ],
+   "tunnel_inner_y": 0.06,
+   "tunnel_outer_y": 0.4,
+   "ground_gap": 0.014
   }
  },
  "disclaimer": "参数为原型占位值，非车队实测数据；质量由几何体积与材料密度估算，不含紧固件与线束。"

@@ -43,6 +43,7 @@ SYSTEMS = [
     ("brakes", "制动系统"),
     ("powertrain", "动力总成"),
     ("aero", "空气动力学套件"),
+    ("aero_ground", "文丘里与地面效应套件"),
     ("body", "车壳"),
     ("cockpit", "座舱与安全"),
 ]
@@ -114,6 +115,30 @@ class Builder:
         """竖向薄板件（侧板、导流板、侧裙）。half_thickness=0.006 即 12 mm 夹芯板。"""
         return g.loft_rect((x0, y, z_center), (0.0, half_thickness, 0.0), (0.0, 0.0, half_height),
                            (x1, y, z_center), (0.0, half_thickness, 0.0), (0.0, 0.0, half_height))
+
+    @staticmethod
+    def profiled_panel(sections, y0, y1, thickness=0.014, mode="roof", z_floor=0.014):
+        """沿 X 逐段放样、高度按 sections 变化的板件 —— 文丘里通道靠它成形。
+
+        sections = [(x, z), ...]
+        mode="roof"：水平板，板面中心高度按 z 变化（通道顶板）
+        mode="wall"：竖直板，底边固定在 z_floor，顶边按 z 变化（侧壁、隔板、龙骨）
+        """
+        mesh = g.Mesh()
+        y_center = (y0 + y1) / 2.0
+        half_y = abs(y1 - y0) / 2.0
+        for (xa, za), (xb, zb) in zip(sections, sections[1:]):
+            if mode == "roof":
+                mesh.add(g.loft_rect(
+                    (xa, y_center, za), (0.0, half_y, 0.0), (0.0, 0.0, thickness / 2.0),
+                    (xb, y_center, zb), (0.0, half_y, 0.0), (0.0, 0.0, thickness / 2.0)))
+            else:
+                mesh.add(g.loft_rect(
+                    (xa, y_center, (z_floor + za) / 2.0),
+                    (0.0, half_y, 0.0), (0.0, 0.0, (za - z_floor) / 2.0),
+                    (xb, y_center, (z_floor + zb) / 2.0),
+                    (0.0, half_y, 0.0), (0.0, 0.0, (zb - z_floor) / 2.0)))
+        return mesh
 
     # ---------------- 车架 ----------------
 
@@ -457,12 +482,42 @@ class Builder:
                      g.tube((aero["rear_wing_x"] + 0.06, side * 0.22, aero["rear_wing_z"] - 0.02),
                             (-0.760, side * 0.16, 0.500), 0.014, seg=8))
 
-        # 底板与扩散器
-        self.add("aero.floor", "空气动力学底板", "aero", "carbon_sandwich",
-                 g.box((0.05, 0.0, 0.055), (1.55, 0.72, 0.008)))
-        diff = g.loft_rect((-0.500, 0.0, 0.090), (0.0, 0.340, 0.0), (0.0, 0.0, 0.030),
-                           (-1.020, 0.0, 0.210), (0.0, 0.330, 0.0), (0.0, 0.0, 0.100))
-        self.add("aero.diffuser", "扩散器", "aero", "carbon_sandwich", diff, fill=0.25)
+        # 前翼细节件：古尼襟翼、端板涡片、翼下涡流发生器
+        chord = aero["wing_chord"]
+        te_x = aero["front_wing_x"] + chord * 0.995
+        te_z = aero["front_wing_z"] - chord * 0.105
+        gurney = g.loft_rect((te_x, 0.0, te_z + 0.009), (0.0, fw_span / 2.0, 0.0), (0.0, 0.0, 0.009),
+                             (te_x + 0.006, 0.0, te_z + 0.009), (0.0, fw_span / 2.0, 0.0), (0.0, 0.0, 0.009))
+        self.add("aero.front_wing.gurney", "前翼古尼襟翼", "aero", "carbon_sandwich", gurney,
+                 fill=0.60,
+                 note="在襟翼后缘竖起一道 12 mm 小挡板，把驻点压力留在翼后，"
+                      "等效增加翼型弯度，是投入产出比最高的一片。")
+        for side, stag in ((1, "左"), (-1, "右")):
+            sfx = "left" if side > 0 else "right"
+            strakes = g.Mesh()
+            for k in range(3):
+                yv = side * (fw_span / 2.0 - 0.025)
+                xv = aero["front_wing_x"] + 0.055 + 0.080 * k
+                strakes.add(g.loft_rect(
+                    (xv, yv, aero["front_wing_z"] + 0.080), (0.0, 0.010, 0.0), (0.0, 0.0, 0.024),
+                    (xv - 0.045, yv - side * 0.022, aero["front_wing_z"] + 0.074),
+                    (0.0, 0.010, 0.0), (0.0, 0.0, 0.022)))
+            self.add("aero.front_wing.strake.%s" % sfx, "前翼%s端板涡片" % stag, "aero",
+                     "carbon_sandwich", strakes, fill=0.85,
+                     note="端板内侧的三片涡片：制造稳定涡抑制翼尖绕流，"
+                          "让前翼展向载荷更均匀、减小诱导阻力。")
+            vgs = g.Mesh()
+            for k in range(3):
+                yv = side * (0.12 + 0.16 * k)
+                xv = aero["front_wing_x"] + 0.10
+                vgs.add(g.loft_rect(
+                    (xv, yv, aero["front_wing_z"] - 0.004), (0.0, 0.009, 0.0), (0.0, 0.0, 0.020),
+                    (xv - 0.050, yv + side * 0.024, aero["front_wing_z"] - 0.008),
+                    (0.0, 0.009, 0.0), (0.0, 0.0, 0.018)))
+            self.add("aero.front_wing.vortex_gen.%s" % sfx, "前翼%s涡流发生器" % stag, "aero",
+                     "carbon_sandwich", vgs, fill=0.85,
+                     note="翼下三片小涡流发生器：给附面层注入能量，"
+                          "推迟大攻角下的翼面分离。")
 
     # ---------------- 车壳（按气动功能分片设计） ----------------
 
@@ -547,6 +602,80 @@ class Builder:
                      fill=0.70,
                      note="压低车身下方的压力并抑制两侧气流内窜，增强底板与扩散器的抽吸效果。")
 
+    # ---------------- 文丘里通道与地面效应套件 ----------------
+
+    def build_ground_effect(self):
+        """地面效应套件。车底两条文丘里通道是全车下压力的主要来源之一。
+
+        通道纵剖面按"入口高 → 喉部最窄 → 出口扩张"布置：气流在喉部加速、
+        静压降低，把车身吸向地面；出口接扩散器把加速后的气流平稳排出，
+        避免在车尾突然扩压导致分离。配套布置喉部前的涡流发生器（搅动附面层、
+        推迟分离）与扩散器内的隔板（抑制横向串流、保住压力恢复）。
+        """
+        cfg = self.p.get("undercarriage", {})
+        profile = [(float(x), float(z)) for x, z in cfg.get(
+            "profile", [[0.620, 0.075], [0.200, 0.055], [-0.100, 0.048],
+                        [-0.500, 0.130], [-1.000, 0.320]])]
+        y_in = float(cfg.get("tunnel_inner_y", 0.060))
+        y_out = float(cfg.get("tunnel_outer_y", 0.400))
+        z_floor = float(cfg.get("ground_gap", 0.014))
+        tail = [(x, z) for (x, z) in profile if x <= -0.40]
+
+        self.add("aero_ground.keel", "中央龙骨", "aero_ground", "carbon_sandwich",
+                 self.profiled_panel(profile, -0.016, 0.016, mode="wall", z_floor=z_floor),
+                 fill=0.35,
+                 note="把车底切成左右两条独立通道，避免两侧气流互相干扰，"
+                      "同时封住中央这条最容易漏压的路径。")
+
+        for side, stag in ((1, "左"), (-1, "右")):
+            sfx = "left" if side > 0 else "right"
+            self.add("aero_ground.underbody.%s" % sfx, "%s文丘里通道顶板" % stag,
+                     "aero_ground", "carbon_sandwich",
+                     self.profiled_panel(profile, side * y_in, side * y_out, 0.014, "roof"),
+                     fill=0.45,
+                     note="通道顶板：截面从入口 75 mm 收敛到喉部 48 mm，再扩张到出口 320 mm。"
+                          "喉部流速最高、压力最低，这就是地面效应的来源。")
+            self.add("aero_ground.tunnel_wall.%s" % sfx, "%s通道外壁" % stag,
+                     "aero_ground", "carbon_sandwich",
+                     self.profiled_panel(profile, side * (y_out - 0.012), side * y_out,
+                                         mode="wall", z_floor=z_floor),
+                     fill=0.60,
+                     note="通道外侧封板：防止车侧高压气流灌进车底。"
+                          "否则低压区会被吹平，下压力大幅流失。")
+            fins = g.Mesh()
+            for k in range(4):
+                xv = 0.42 - 0.085 * k
+                yv = side * (y_in + 0.055 + 0.055 * k)
+                fins.add(g.loft_rect(
+                    (xv, yv, 0.090), (0.0, 0.008, 0.0), (0.0, 0.0, 0.026),
+                    (xv - 0.055, yv + side * 0.024, 0.084), (0.0, 0.008, 0.0), (0.0, 0.0, 0.024)))
+            self.add("aero_ground.vortex_generator.%s" % sfx, "%s涡流发生器" % stag,
+                     "aero_ground", "carbon_sandwich", fins, fill=0.85,
+                     note="喉部前四片小涡流发生器：把附面层低能气流搅成涡，"
+                          "提高抗逆压梯度能力，推迟喉后扩张段的分离。")
+
+        for yv in (-0.30, -0.10, 0.10, 0.30):
+            self.add("aero_ground.diffuser_fence.%d" % int(round(yv * 100)),
+                     "扩散器隔板 %+.2f m" % yv, "aero_ground", "carbon_sandwich",
+                     self.profiled_panel(tail, yv - 0.008, yv + 0.008, mode="wall", z_floor=z_floor),
+                     fill=0.60,
+                     note="扩散器内的纵向隔板：抑制横向串流与角部涡，"
+                          "保住扩张段的压力恢复效率。")
+
+        self.add("aero_ground.nose_duct", "鼻锥下进气通道", "aero_ground", "carbon_sandwich",
+                 self.profiled_panel([(1.030, 0.170), (0.820, 0.110), (0.620, 0.075)],
+                                     -0.300, 0.300, 0.014, "roof"),
+                 fill=0.45,
+                 note="把鼻锥下方的来流平顺导入车底通道入口，减小入口损失，"
+                      "避免这部分气流被卷进前轮尾流白白浪费。")
+
+        self.add("aero_ground.splitter_lip", "前唇", "aero_ground", "carbon_sandwich",
+                 g.loft_rect((0.700, 0.0, 0.052), (0.0, 0.400, 0.0), (0.0, 0.0, 0.008),
+                             (0.640, 0.0, 0.060), (0.0, 0.400, 0.0), (0.0, 0.0, 0.010)),
+                 fill=0.80,
+                 note="车底入口前缘的水平唇：把来流分成上下两路，"
+                      "并阻止车头高压区从下方泄漏进通道。")
+
 
 def build(params):
     """按参数字典生成全部零件。"""
@@ -558,5 +687,6 @@ def build(params):
     b.build_steering()
     b.build_powertrain()
     b.build_aero()
+    b.build_ground_effect()
     b.build_body()
     return b.parts
