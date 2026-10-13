@@ -181,11 +181,13 @@ def main():
         m = publish_stls()
         print("逐零件 STL：%d 个 -> outputs/stl/（并发布 %d 个到 site/stl/）" % (n, m))
 
-    views = [("preview_3q.png", 38.0, 20.0), ("preview_front.png", -90.0, 6.0),
-             ("preview_side.png", 0.0, 4.0), ("preview_top.png", 0.0, 85.0)]
+    # 方位角约定：0° 看左侧面，90° 看车头，-90° 看车尾，38° 为前侧三分之四视角
+    views = [("preview_3q.png", 38.0, 20.0), ("preview_front.png", 90.0, 6.0),
+             ("preview_rear.png", -90.0, 6.0), ("preview_side.png", 0.0, 4.0),
+             ("preview_top.png", 0.0, 85.0)]
     for name, az, el in views:
         g.render_preview(os.path.join(OUT, name), parts, azimuth=az, elevation=el)
-    print("预览图：4 张 -> outputs/")
+    print("预览图：5 张 -> outputs/")
 
     page = build_site(manifest, glb_path)
     if page:
