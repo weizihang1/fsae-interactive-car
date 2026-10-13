@@ -43,6 +43,7 @@ SYSTEMS = [
     ("brakes", "制动系统"),
     ("powertrain", "动力总成"),
     ("aero", "空气动力学套件"),
+    ("body", "车壳"),
     ("cockpit", "座舱与安全"),
 ]
 
@@ -72,10 +73,11 @@ class Builder:
         self.p = params
         self.parts = []
 
-    def add(self, pid, label, system, material, mesh, fill=1.0):
+    def add(self, pid, label, system, material, mesh, fill=1.0, note=None):
         """fill = 结构填充系数。
         实心图元的几何体积对空心结构（轮胎、轮辋、翼片壳、箱体）会显著高估，
         因此按零件的实际构造给一个可审计的折减系数，质量 = 体积 × 密度 × fill。
+        note = 该零件的设计意图/气动功能说明，会显示在网页的信息卡里。
         """
         if mesh is None or not mesh.verts:
             return
@@ -90,8 +92,28 @@ class Builder:
             "volume_m3": volume,
             "fill": fill,
             "mass_kg": volume * spec["density"] * fill,
+            "note": note or "",
             "_rgb": tuple(spec["color"][:3]),
         })
+
+    # ---------------- 通用造型工具 ----------------
+
+    @staticmethod
+    def skin(sections):
+        """按一组横截面放样出光滑外壳。
+        sections = [(x, 半宽, 半高, 中心高度), ...]，沿 X 方向串联。"""
+        mesh = g.Mesh()
+        for a, b in zip(sections, sections[1:]):
+            mesh.add(g.loft_rect(
+                (a[0], 0.0, a[3]), (0.0, a[1], 0.0), (0.0, 0.0, a[2]),
+                (b[0], 0.0, b[3]), (0.0, b[1], 0.0), (0.0, 0.0, b[2])))
+        return mesh
+
+    @staticmethod
+    def panel(x0, x1, y, z_center, half_height, half_thickness=0.006):
+        """竖向薄板件（侧板、导流板、侧裙）。half_thickness=0.006 即 12 mm 夹芯板。"""
+        return g.loft_rect((x0, y, z_center), (0.0, half_thickness, 0.0), (0.0, 0.0, half_height),
+                           (x1, y, z_center), (0.0, half_thickness, 0.0), (0.0, 0.0, half_height))
 
     # ---------------- 车架 ----------------
 
@@ -407,11 +429,6 @@ class Builder:
                      g.tube((aero["front_wing_x"] + 0.05, side * 0.18, aero["front_wing_z"] + 0.02),
                             (0.620, side * 0.14, 0.310), 0.012, seg=8))
 
-        # 鼻锥
-        nose = g.loft_rect((0.860, 0.0, 0.290), (0.0, 0.215, 0.0), (0.0, 0.0, 0.150),
-                           (1.100, 0.0, 0.190), (0.0, 0.115, 0.0), (0.0, 0.0, 0.070))
-        self.add("aero.nose", "鼻锥", "aero", "body_red", nose, fill=0.20)
-
         # 后翼主翼 + 两级襟翼
         rw_main = g.extrude_dir(g.airfoil_outline(aero["rear_wing_chord"], 0.11, 0.05),
                                 (aero["rear_wing_x"], -rw_span / 2.0, aero["rear_wing_z"]),
@@ -440,19 +457,95 @@ class Builder:
                      g.tube((aero["rear_wing_x"] + 0.06, side * 0.22, aero["rear_wing_z"] - 0.02),
                             (-0.760, side * 0.16, 0.500), 0.014, seg=8))
 
-        # 侧箱
-        for side, stag in ((1, "左"), (-1, "右")):
-            pod = g.loft_rect((0.420, side * 0.330, 0.230), (0.0, 0.105, 0.0), (0.0, 0.0, 0.140),
-                              (-0.430, side * 0.300, 0.250), (0.0, 0.130, 0.0), (0.0, 0.0, 0.170))
-            self.add("aero.sidepod.%s" % ("left" if side > 0 else "right"),
-                     "%s侧箱" % stag, "aero", "body_red", pod, fill=0.12)
-
         # 底板与扩散器
         self.add("aero.floor", "空气动力学底板", "aero", "carbon_sandwich",
                  g.box((0.05, 0.0, 0.055), (1.55, 0.72, 0.008)))
         diff = g.loft_rect((-0.500, 0.0, 0.090), (0.0, 0.340, 0.0), (0.0, 0.0, 0.030),
                            (-1.020, 0.0, 0.210), (0.0, 0.330, 0.0), (0.0, 0.0, 0.100))
         self.add("aero.diffuser", "扩散器", "aero", "carbon_sandwich", diff, fill=0.25)
+
+    # ---------------- 车壳（按气动功能分片设计） ----------------
+
+    def build_body(self):
+        """车壳不是"包一层皮"，每一片都有明确的气动职责：
+        1. 鼻锥与舱盖把来流平顺地导向上方与车身两侧，避免钝体分离（降阻）。
+        2. 座舱侧板把气流"关"在座舱外侧，不让它窜进驾驶舱开口产生涡。
+        3. 头盔整流罩是降阻收益最大的一片：把驾驶员头部+主环这个钝体
+           整流成流线型尾锥，显著减小尾流分离区。
+        4. 侧箱外壳承担两件事：下方收窄给扩散器让出流道，上方引导
+           冷却气流平顺排出，尾端渐收避免脱体。
+        5. 侧裙压低车身下方的压力，增强底板/扩散器的抽吸效果。
+        6. 前轮导流板把前轮前方的气流拨开，减弱轮胎尾流对侧箱与
+           后翼的污染。
+        """
+        # 鼻锥：四段放样，截面连续收缩，避免出现逆压梯度突变
+        nose = self.skin([(0.600, 0.235, 0.170, 0.300),
+                          (0.820, 0.222, 0.152, 0.288),
+                          (1.010, 0.168, 0.108, 0.268),
+                          (1.130, 0.098, 0.064, 0.252)])
+        tip = self.skin([(1.130, 0.098, 0.064, 0.252),
+                         (1.185, 0.030, 0.020, 0.248)])
+        nose.add(tip)
+        self.add("body.nose", "鼻锥", "body", "body_red", nose, fill=0.05,
+                 note="把来流平顺分流到车身上下两侧，避免钝头分离；同时为前翼提供干净来流。")
+
+        # 座舱侧板
+        for side, stag in ((1, "左"), (-1, "右")):
+            self.add("body.cockpit_panel.%s" % ("left" if side > 0 else "right"),
+                     "座舱%s侧板" % stag, "body", "carbon_sandwich",
+                     self.panel(0.300, -0.330, side * 0.315, 0.425, 0.180, 0.006),
+                     fill=0.50,
+                     note="封住座舱开口两侧，防止气流窜入驾驶舱形成涡流与附加阻力。")
+
+        # 仪表罩
+        self.add("body.dash_cover", "仪表罩", "body", "carbon_sandwich",
+                 g.loft_rect((0.250, 0.0, 0.640), (0.0, 0.230, 0.0), (0.0, 0.0, 0.045),
+                             (0.430, 0.0, 0.625), (0.0, 0.185, 0.0), (0.0, 0.0, 0.035)),
+                 fill=0.20, note="整流仪表板区域，把气流从座舱开口上方引开。")
+
+        # 头盔整流罩
+        fairing = self.skin([(-0.320, 0.242, 0.150, 0.870),
+                             (-0.430, 0.222, 0.155, 0.900),
+                             (-0.540, 0.185, 0.125, 0.880),
+                             (-0.650, 0.135, 0.080, 0.820)])
+        self.add("body.helmet_fairing", "头盔整流罩", "body", "body_red", fairing, fill=0.05,
+                 note="全车减阻收益最大的一片：把驾驶员头部与主环这个钝体整流为流线尾锥，"
+                      "显著缩小尾部低压分离区。")
+
+        # 尾部舱盖
+        cover = self.skin([(-0.560, 0.238, 0.170, 0.600),
+                           (-0.720, 0.215, 0.150, 0.545),
+                           (-0.880, 0.170, 0.115, 0.480),
+                           (-1.000, 0.115, 0.075, 0.430)])
+        self.add("body.engine_cover", "尾部舱盖", "body", "body_red", cover, fill=0.05,
+                 note="覆盖动力舱并把尾流向上收拢，与后翼配合；尾端渐收以避免脱体分离。")
+
+        # 侧箱外壳
+        for side, stag in ((1, "左"), (-1, "右")):
+            pod = g.loft_rect((0.430, side * 0.330, 0.245), (0.0, 0.100, 0.0), (0.0, 0.0, 0.135),
+                              (0.000, side * 0.330, 0.255), (0.0, 0.115, 0.0), (0.0, 0.0, 0.150))
+            pod.add(g.loft_rect((0.000, side * 0.330, 0.255), (0.0, 0.115, 0.0), (0.0, 0.0, 0.150),
+                                (-0.450, side * 0.292, 0.235), (0.0, 0.082, 0.0), (0.0, 0.0, 0.115)))
+            self.add("body.sidepod.%s" % ("left" if side > 0 else "right"),
+                     "%s侧箱外壳" % stag, "body", "body_red", pod, fill=0.03,
+                     note="下缘收窄给底板与扩散器让出流道，上方引导冷却气流平顺排出，"
+                          "尾端渐收避免脱体。")
+
+        # 前轮导流板
+        for side, stag in ((1, "左"), (-1, "右")):
+            self.add("body.wheel_deflector.%s" % ("left" if side > 0 else "right"),
+                     "前轮%s导流板" % stag, "body", "carbon_sandwich",
+                     self.panel(0.880, 0.985, side * 0.505, 0.245, 0.145, 0.008),
+                     fill=0.70,
+                     note="把前轮前方的气流向外拨开，减弱轮胎旋转尾流对侧箱和后翼的污染。")
+
+        # 侧裙
+        for side, stag in ((1, "左"), (-1, "右")):
+            self.add("body.side_skirt.%s" % ("left" if side > 0 else "right"),
+                     "%s侧裙" % stag, "body", "carbon_sandwich",
+                     self.panel(0.420, -0.360, side * 0.415, 0.078, 0.048, 0.008),
+                     fill=0.70,
+                     note="压低车身下方的压力并抑制两侧气流内窜，增强底板与扩散器的抽吸效果。")
 
 
 def build(params):
@@ -465,4 +558,5 @@ def build(params):
     b.build_steering()
     b.build_powertrain()
     b.build_aero()
+    b.build_body()
     return b.parts

@@ -484,7 +484,11 @@ def write_glb(path, parts, materials=None):
             "name": part["id"],
             "mesh": len(meshes) - 1,
             "translation": [round(center[0], 6), round(center[1], 6), round(center[2], 6)],
-            "extras": {"system": part.get("system", ""), "label": part.get("name", "")},
+            # 注意：three.js 的 GLTFLoader 会用 PropertyBinding.sanitizeNodeName 清洗节点名，
+            # 把其中的 "." 等字符删掉。因此零件 ID 必须另存一份在 extras 里（extras 不会被清洗），
+            # 网页端一律以 extras.id 为准。
+            "extras": {"id": part["id"], "system": part.get("system", ""),
+                       "label": part.get("name", "")},
         })
         part["_node"] = len(nodes) - 1
 

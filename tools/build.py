@@ -56,6 +56,7 @@ def build_manifest(parts, params, glb_info):
                 "mass_kg": round(p["mass_kg"], 3),
                 "volume_m3": round(p["volume_m3"], 6),
                 "fill": round(p.get("fill", 1.0), 3),
+                "note": p.get("note", ""),
                 "center": [round(v, 4) for v in p["mesh"].center()],
                 "size": [round(v, 4) for v in p["mesh"].size()],
                 "node": p.get("_node"),
@@ -135,10 +136,17 @@ def build_site(manifest, glb_path):
     if not os.path.exists(template):
         print("  [跳过网页] 缺少 site/template.html")
         return None
+    bundle_path = os.path.join(SITE, "vendor", "app.bundle.js")
+    if not os.path.exists(bundle_path):
+        print("  [跳过网页] 缺少 site/vendor/app.bundle.js，请先运行 node tools/bundle_site.js")
+        return None
     with open(template, "r", encoding="utf-8") as handle:
         html = handle.read()
+    with open(bundle_path, "r", encoding="utf-8") as handle:
+        bundle = handle.read().replace("</script>", "<\\/script>")
     with open(glb_path, "rb") as handle:
         blob = base64.b64encode(handle.read()).decode("ascii")
+    html = html.replace("__APP_BUNDLE__", bundle)
     html = html.replace("__CAR_GLB_BASE64__", blob)
     html = html.replace("__PARTS_JSON__", json.dumps(manifest, ensure_ascii=False))
     out = os.path.join(SITE, "index.html")

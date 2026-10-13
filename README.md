@@ -8,19 +8,40 @@
 打开 `site/index.html`（单文件，双击即可，无需联网、无需服务器）：
 
 - **整机模式**：拖动旋转、滚轮缩放、点击任意零件查看名称 / 材料 / 估算质量 / 外形尺寸
+- **车壳拆装**：左上角一个按钮，默认装着车壳；点击后车壳向外上方脱离并淡出，
+  露出里面的车架、悬架、动力与空力套件。再点一次装回。
 - **拆解模式**：滑杆控制零件向外散开，看清内部结构
-- **系统树**：按车架 / 悬架 / 转向 / 制动 / 动力 / 空套 / 座舱分组，可折叠、可单独显示
+- **风洞模式**：风速与偏航角滑杆、流线（按当地流速着色）、粒子示踪、
+  可选的表面压力云图。**注意这是简化流场示意，不是 CFD 计算结果**，
+  界面里也写明了这一点。
+- **系统树**：按车架 / 车壳 / 悬架 / 转向 / 制动 / 动力 / 空套 / 座舱分组，
+  可折叠、可单独显示
 - **逐零件导出**：每个零件都能下载独立 STL，直接拖进 Blender 打开编辑
+
+### 深链参数（可直接分享到某个状态）
+
+在网址末尾加 `#` 参数即可，例如 `index.html#mode=tunnel`：
+
+| 参数 | 作用 |
+| --- | --- |
+| `#mode=whole\|explode\|tunnel\|drive` | 直接打开某个模式 |
+| `#shell=off` | 打开时车壳就是拆下状态 |
+| `#select=零件ID` | 直接选中某个零件（如 `#select=body.nose`） |
+| `#view=side\|front` | 固定为侧视 / 前视 |
+| `#debug` | 左下角显示诊断信息（排查用） |
 
 ## 怎么重建
 
 ```bash
-python tools/build.py            # 全量构建
+python tools/build.py            # 全量构建（几何 -> GLB/STL/清单/预览图/网页）
 python tools/build.py --no-stl   # 跳过逐零件 STL，更快
-node   tools/check_site.js       # 校验生成的网页脚本
+node   tools/check_site.js       # 校验生成的网页
+node   tools/bundle_site.js      # 仅在改了前端代码后需要（需联网取 esbuild）
 ```
 
 只要 Python 3.10+，**不需要任何第三方库**（几何内核是纯标准库实现的）。
+网页是自包含单文件：three.js 与应用代码已打包内嵌，**不依赖任何 CDN，
+断网也能打开**。
 
 ## 目录
 
@@ -30,13 +51,22 @@ tools/geom.py       几何内核：图元 → 网格 → STL / GLB / PNG（零�
 tools/car_model.py  整车模型：车架、悬架、转向、制动、动力、空套、座舱
 tools/build.py      构建流水线：参数 → 全部产物
 tools/check_site.js 网页脚本语法自检
+tools/bundle_site.js 前端打包（three.js 内嵌，产物入库，CI 无需联网）
+site/app.js         网页主逻辑；site/tunnel.js 风洞可视化模块
 outputs/            GLB、逐零件 STL、零件清单、四视图预览
 site/               交互网页（index.html 为构建产物）
 blender/            Blender 无头脚本（组装成 .blend，规划中）
-cfd/                风洞算例（规划中）
+cfd/                真实风洞算例（RapidFOAM + OpenFOAM，规划中）
 sim/                车辆动力学参数（规划中）
 docs/               方案文档
 ```
+
+## 已知技术细节
+
+- three.js 的 GLTFLoader 会用 `PropertyBinding.sanitizeNodeName` 清洗节点名
+  （把 `.` 等字符删掉），所以零件 ID 另存于 glTF 的 `extras.id` 字段，
+  网页端一律以 `extras` 为准。不要依赖节点名。
+- 车壳与空力套件共 27 片，各自带有气动功能说明，会显示在零件信息卡里。
 
 ## 重要说明
 
@@ -51,7 +81,8 @@ docs/               方案文档
 ## 路线图
 
 - [x] **S0/S1** 参数化整车 + 零件级装配树 + 交互网页 + 逐零件导出
-- [ ] **S2** 风洞可视化：流线、表面压力云图、粒子示踪（秒级交互）
-- [ ] **S3** 真实风洞计算：CI 上跑 OpenFOAM，结果回填可视化层
+- [x] **S1.5** 空气动力学车壳（12 片，带气动功能说明）+ 一键拆装
+- [x] **S2** 风洞可视化：流线、粒子示踪、表面压力云图、风速/偏航角滑杆
+- [ ] **S3** 真实风洞计算：CI 上跑 OpenFOAM（复用 RapidFOAM），结果回填可视化层
 - [ ] **S4** 场景驾驶：赛道 + 车辆物理 + 遥测 HUD
 - [ ] **S5** 导出 Blender `.blend`（整车 + 逐零件集合树）
