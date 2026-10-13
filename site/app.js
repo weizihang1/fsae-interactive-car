@@ -42,7 +42,9 @@ controls.dampingFactor = 0.075;
 controls.target.set(0, 0.42, 0);
 controls.minDistance = 0.9;
 controls.maxDistance = 14;
-controls.maxPolarAngle = Math.PI * 0.495;
+// 解除水平线限制：允许 360° 环绕，包括从车底往上看
+controls.minPolarAngle = 0.02;
+controls.maxPolarAngle = Math.PI - 0.02;
 
 scene.add(new THREE.HemisphereLight(0x9fc0ff, 0x141a24, 0.85));
 const keyLight = new THREE.DirectionalLight(0xffffff, 2.1);
@@ -54,6 +56,10 @@ scene.add(fillLight);
 const rimLight = new THREE.DirectionalLight(0xff9aa5, 0.5);
 rimLight.position.set(-3, 1.5, 6);
 scene.add(rimLight);
+// 车底补光：否则从下方看底盘时一片死黑，看不出结构
+const underLight = new THREE.DirectionalLight(0xbcd4ff, 1.25);
+underLight.position.set(0.6, -4.2, 1.6);
+scene.add(underLight);
 
 const grid = new THREE.GridHelper(14, 56, 0x2b3a55, 0x151d2b);
 grid.material.transparent = true;
@@ -359,6 +365,41 @@ function applyExplode() {
   });
 }
 
+// ------------------------------------------------------------------ 视角预设
+// 世界坐标 = (x, z, -y)，即工程坐标的 Z 轴映射到世界的 Y 轴。
+const VIEWS = {
+  iso:     { pos: [2.60, 1.90, -2.60], tgt: [0.00, 0.42, 0.00] },
+  front:   { pos: [5.20, 0.75, 0.02],  tgt: [0.00, 0.55, 0.00] },
+  side:    { pos: [0.02, 0.75, -5.20], tgt: [0.02, 0.55, 0.00] },
+  top:     { pos: [0.02, 5.40, -0.45], tgt: [0.02, 0.40, 0.00] },
+  bottom:  { pos: [0.02, -3.40, -0.45], tgt: [0.02, 0.18, 0.00] },
+  chassis: { pos: [2.10, -1.90, -1.70], tgt: [0.15, 0.16, 0.00] },
+};
+
+function setView(name) {
+  const v = VIEWS[name];
+  if (!v) return;
+  camera.position.set(v.pos[0], v.pos[1], v.pos[2]);
+  controls.target.set(v.tgt[0], v.tgt[1], v.tgt[2]);
+  controls.update();
+  if (name === 'chassis') {
+    // 底盘气动视角：直接进风洞模式并打开压力云图，一步看到车底低压区
+    if (state.mode !== 'tunnel') setMode('tunnel');
+    if (!state.cpOn) {
+      state.cpOn = true;
+      document.getElementById('cp').checked = true;
+      applyCp();
+    }
+  }
+  document.querySelectorAll('.vb').forEach(function (b) {
+    b.classList.toggle('on', b.dataset.view === name);
+  });
+}
+
+document.querySelectorAll('.vb').forEach(function (b) {
+  b.addEventListener('click', function () { setView(b.dataset.view); });
+});
+
 // ------------------------------------------------------------------ 车壳
 let shellDirty = true;
 const shellBtn = document.getElementById('shellBtn');
@@ -435,7 +476,13 @@ function buildTunnel() {
   tun.flow = createFlow(wheels);
   tun.flow.setSpeed(state.vinf);
   tun.flow.setYaw(state.yaw);
-  const built = buildStreamlines(tun.flow, wheels);
+  // 近地面区域加密播种，否则车底那两条通道里几乎没有流线，看不到加速效果
+  const built = buildStreamlines(tun.flow, wheels, {
+    yValues: [-0.95, -0.80, -0.62, -0.46, -0.33, -0.22, -0.13, -0.05,
+              0.05, 0.13, 0.22, 0.33, 0.46, 0.62, 0.80, 0.95],
+    zValues: [0.030, 0.075, 0.130, 0.200, 0.290, 0.400, 0.540, 0.700, 0.880, 1.070, 1.250],
+    steps: 180,
+  });
   tun.lines = built.lines;
   tun.speeds = built.speeds;
   tun.group.add(tun.lines);
@@ -500,6 +547,8 @@ function loop(now) {
   if (state.mode === 'tunnel' && tun.built) {
     tun.particles.update(dt, state.vinf);
   }
+  // 相机低于地面时收起地面网格，否则网格线会糊在车底上
+  grid.visible = camera.position.y > -0.02;
   renderer.render(scene, camera);
 }
 requestAnimationFrame(loop);
@@ -507,19 +556,9 @@ requestAnimationFrame(loop);
 // ------------------------------------------------------------------ 诊断开关
 // 仅在网址末尾加 #debug 时生效：把关键状态写进页面标题，便于无人值守排查
 // （可用无头浏览器 --dump-dom 直接读到），正常访问时完全不影响页面。
-if (HASH.indexOf('view=side') >= 0) {
-  // 从车的左侧看：工程坐标 +Y 对应世界 -Z
-  camera.position.set(0.02, 0.62, -5.2);
-  controls.target.set(0.02, 0.55, 0);
-  controls.update();
-}
-if (HASH.indexOf('view=front') >= 0) {
-  camera.position.set(5.2, 0.62, 0.02);
-  controls.target.set(0, 0.55, 0);
-  controls.update();
-}
-
 function applyDeepLink() {
+  const viewMatch = HASH.match(/view=(iso|front|side|top|bottom|chassis)/);
+  if (viewMatch) setView(viewMatch[1]);
   const modeMatch = HASH.match(/mode=(whole|explode|tunnel|drive)/);
   if (modeMatch) setMode(modeMatch[1]);
   if (HASH.indexOf('shell=off') >= 0) {

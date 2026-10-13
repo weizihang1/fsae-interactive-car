@@ -112,6 +112,10 @@ export function buildStreamlines(flow, wheelCenters, opts) {
   const steps = opts.steps || 200;
   const h = opts.h || 0.032;
   const x0 = opts.x0 || 1.95;
+  const yValues = opts.yValues || null;
+  const zValues = opts.zValues || null;
+  const nyCount = yValues ? yValues.length : ny;
+  const nzCount = zValues ? zValues.length : nz;
 
   const positions = [];
   const colors = [];
@@ -144,10 +148,10 @@ export function buildStreamlines(flow, wheelCenters, opts) {
     return { pts: pts, spd: spd };
   }
 
-  for (let iy = 0; iy < ny; iy++) {
-    const y = -0.98 + (1.96 * iy) / (ny - 1);
-    for (let iz = 0; iz < nz; iz++) {
-      const z = 0.05 + (1.20 * iz) / (nz - 1);
+  for (let iy = 0; iy < nyCount; iy++) {
+    const y = yValues ? yValues[iy] : (-0.98 + (1.96 * iy) / (ny - 1));
+    for (let iz = 0; iz < nzCount; iz++) {
+      const z = zValues ? zValues[iz] : (0.05 + (1.20 * iz) / (nz - 1));
       const path = integrate(new THREE.Vector3(x0, y, z));
       const n = path.spd.length;
       if (n < 5) continue;
